@@ -1,7 +1,7 @@
 # XingTool 工具包
 
 #### Description
-星天制作的Java工具包，是基于springboot制作的。它是一个整合各工具类的整合starter。在基础包中，提供了很多工具类，整合了若依，ican等大佬的common工具包，是一个hutool的扩展（因为带了hutool工具）。在autoconfigue包中，提供了一些aop和自动装配的类，一些可以通过配置文件开启（方便注入），也可以手动注入bean。
+The Java toolkit produced by XingTian is based on Springboot. It is an integrated starter that integrates various tool classes. In the basic package, many tool classes are provided, integrating the common toolkits of giants such as Ruoyi and ican, which is an extension of hutool (because it comes with hutool tools). In the autoconfigure package, some AOP and auto assembled classes are provided, which can be enabled through configuration files (for easy injection) or manually injected into beans.
 
 #### Software Architecture
 Software architecture description
