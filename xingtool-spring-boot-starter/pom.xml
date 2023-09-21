@@ -3,9 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>xingtool</artifactId>
+        <groupId>top.cutexingluo.tools</groupId>
+        <version>1.0.1</version>
+        <!--        <relativePath/>-->
+    </parent>
+
     <artifactId>xingtool-spring-boot-starter</artifactId>
-    <groupId>top.cutexingluo</groupId>
-    <version>1.0.0</version>
     <name>xingtool-spring-boot-starter</name>
     <description>xingtool-spring-boot-starter</description>
     <properties>
@@ -17,9 +23,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>top.cutexingluo</groupId>
+            <groupId>top.cutexingluo.tools</groupId>
             <artifactId>xingtool-spring-boot</artifactId>
-            <version>1.0.0</version>
+            <version>${version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -61,9 +67,9 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>top.cutexingluo</groupId>
+            <groupId>top.cutexingluo.tools</groupId>
             <artifactId>xingtool-spring-boot-autoconfigure</artifactId>
-            <version>1.0.0</version>
+            <version>${version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.baomidou</groupId>

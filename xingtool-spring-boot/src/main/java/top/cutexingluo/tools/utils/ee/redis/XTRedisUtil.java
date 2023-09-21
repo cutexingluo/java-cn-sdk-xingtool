@@ -63,7 +63,7 @@ public class XTRedisUtil {
 
     /**
      * 已做key非空判断, 并且如果不存在该key 则不设置
-     * <br>timeout<0 永久设置
+     * <br>timeout小于0 永久设置
      */
     public static Object safeSet(String key, Object value, long timeout) {
         if (StrUtil.isBlank(key) || !redisUtil.hasKey(key)) return null;
@@ -90,7 +90,7 @@ public class XTRedisUtil {
     //外部已检测，排除安全
 
     /**
-     * 未做安全判断, timeout<0 永久设置
+     * 未做安全判断, timeout 小于 0 永久设置
      */
     public static boolean set(String key, Object value, long timeout) {
 //        if (StrUtil.isBlank(key) || value == null) return false;

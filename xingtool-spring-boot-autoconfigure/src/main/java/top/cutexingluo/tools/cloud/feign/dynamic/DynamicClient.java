@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * 动态 Feign 调用 <br>
  * 需要开启配置，否则自行配置Bean: DynamicFeignClientFactory 和 DynamicClient
  * <br>
- * 使用方法：dynamicClient.executePostApi("user", "/system/test", new HashMap<>());
+ * 使用方法：dynamicClient.executePostApi("user", "/system/test", new HashMap());
  *
  * @author XingTian
  * @version 1.0.0

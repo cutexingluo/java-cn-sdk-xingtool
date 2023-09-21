@@ -232,7 +232,7 @@ public class Result implements IResultSource<Integer, Object>, XTStrCode {
         if (result.getCode() == null) {
             this.code = Constants.CODE_200.intCode();
         } else if (result.getCode() instanceof Integer) {
-            this.code = (int) result.getCode();
+            this.code = (Integer) result.getCode();
         } else {
             try {
                 this.code = Integer.parseInt(result.getCode().toString());
