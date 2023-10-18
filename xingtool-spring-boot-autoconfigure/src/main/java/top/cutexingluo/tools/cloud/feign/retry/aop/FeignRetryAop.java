@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
@@ -24,13 +25,14 @@ import java.util.Map;
 /**
  * 需要导入spring-retry 包
  * <br>
- * 使用方法：<br> @FeignRetry(maxAttempt = 6, backoff = @Backoff(delay = 500L, maxDelay = 20000L, multiplier = 4))
+ * 使用方法：
+ * <code>@FeignRetry(maxAttempt = 6, backoff = @Backoff(delay = 500L, maxDelay = 20000L, multiplier = 4))</code>
  *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/5/6 15:49
  */
-
+@ConditionalOnProperty(prefix = "xingtool.cloud.enabled", name = "feign-retry", havingValue = "true", matchIfMissing = false)
 @ConditionalOnClass({RetryableException.class, RetryTemplate.class})
 @Aspect
 @Slf4j
@@ -51,8 +53,8 @@ public class FeignRetryAop {
         retryTemplate.setBackOffPolicy(prepareBackOffPolicy(feignRetry));
         retryTemplate.setRetryPolicy(prepareSimpleRetryPolicy(feignRetry));
 
-        return retryTemplate.execute(arg0 -> {
-                    int retryCount = arg0.getRetryCount();
+        return retryTemplate.execute(retryContext -> {
+                    int retryCount = retryContext.getRetryCount();
                     log.info("Sending request method: {}, max attempt: {}, delay: {}, retryCount: {}",
                             method.getName(),
                             feignRetry.maxAttempt(),

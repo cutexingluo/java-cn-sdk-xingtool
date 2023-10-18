@@ -17,7 +17,8 @@ import java.util.function.Consumer;
 
 
 /**
- * 反射设置属性值
+ * <p>反射工具类</p>
+ * <p>反射设置属性值</p>
  *
  * @author XingTian
  * @version 1.0.0
@@ -26,7 +27,7 @@ import java.util.function.Consumer;
 public class XTObjUtil {
 
     public static class Unsafe {
-        public static Unsafe getInstance() {
+        public static Unsafe newInstance() {
             return new Unsafe();
         }
 

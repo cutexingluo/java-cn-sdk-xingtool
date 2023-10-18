@@ -27,7 +27,7 @@ public class XTRWLock extends XTLock {
         this.rwLock = lock;
     }
 
-    public static XTRWLock getNew() {
+    public static XTRWLock newInstance() {
         return new XTRWLock();
     }
 

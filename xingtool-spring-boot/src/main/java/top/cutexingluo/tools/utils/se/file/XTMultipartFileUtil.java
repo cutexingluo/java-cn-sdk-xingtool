@@ -8,6 +8,8 @@ import top.cutexingluo.tools.utils.se.file.media.MimeTypeUtils;
 import java.util.Objects;
 
 /**
+ * MultipartFile 工具类
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/7/17 17:41

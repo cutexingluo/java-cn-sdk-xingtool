@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+/**
+ * 推荐使用 {@link  top.cutexingluo.tools.exception.XTResponseUtil}
+ */
 public class WebUtils {
     /**
      * 将字符串渲染到客户端

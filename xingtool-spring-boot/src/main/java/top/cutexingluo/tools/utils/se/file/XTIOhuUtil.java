@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * hutools IO 封装操作类
+ * <p>不建议使用，建议直接使用 new FileReader 等</p>
  *
  * @author XingTian
  * @version 1.0.0

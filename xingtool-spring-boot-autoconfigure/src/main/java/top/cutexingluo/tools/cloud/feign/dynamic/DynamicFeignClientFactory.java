@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import top.cutexingluo.tools.auto.cloud.XTSpringCloudAutoConfiguration;
 
 /**
+ * dynamic-feign 开启
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/5/6 15:23

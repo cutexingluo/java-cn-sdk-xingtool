@@ -2,6 +2,13 @@ package top.cutexingluo.tools.designtools.juc.lock;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+
+/**
+ * 自旋锁，不建议使用
+ *
+ * @author XingTian
+ * @date 2023/10/16
+ */
 public class XTSpinLock {
     private AtomicReference<Thread> spinLock;
 

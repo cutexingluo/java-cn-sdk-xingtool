@@ -12,8 +12,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 重载 HashMap <br>
- * 增加了一些方法
+ * XTHashMap
+ * <p>1. 继承HashMap</p>
+ * <p>2. 增加了一些方法</p>
  *
  * @author XingTian
  * @version 1.0.0
@@ -32,6 +33,7 @@ public class XTHashMap<K, V> extends HashMap<K, V> implements XTBaseMap<K, V>, S
 
     /**
      * 把 keyValueEntries 按K，V形式 成对放入
+     * <p>如果为奇数个，最后一个赋值为null</p>
      *
      * @param keyValueEntries key,value 对
      */
@@ -43,21 +45,33 @@ public class XTHashMap<K, V> extends HashMap<K, V> implements XTBaseMap<K, V>, S
 
     /**
      * 把values按K，V形式成对放入
+     * <p>如果为奇数个，最后一个赋值为null</p>
      *
      * @return 添加成功的对数
      */
     public static <K, V> int putMapEntriesFromDValues(@NotNull Map<K, V> map, Object... values) {
-        int tot = 0;
-        for (int i = 0; i < values.length - 1; i += 2) {
-            if (values[i] == null) continue;
-            map.put((K) values[i], (V) values[i + 1]);
-            tot++;
-        }
+        int tot = putMapEntriesNoResFromDValues(map, values);
         if ((values.length & 1) == 1) {
             if (values[values.length - 1] != null) {
                 map.put((K) values[values.length - 1], null);
                 tot++;
             }
+        }
+        return tot;
+    }
+
+    /**
+     * 把values按K，V形式成对放入
+     * <p>如果为奇数个，最后一个舍弃</p>
+     *
+     * @return 添加成功的对数
+     */
+    public static <K, V> int putMapEntriesNoResFromDValues(@NotNull Map<K, V> map, Object... values) {
+        int tot = 0;
+        for (int i = 0; i < values.length - 1; i += 2) {
+            if (values[i] == null) continue;
+            map.put((K) values[i], (V) values[i + 1]);
+            tot++;
         }
         return tot;
     }

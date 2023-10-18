@@ -26,15 +26,15 @@ public abstract class ProxyInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable { //运行
-        beforeTodo();
+        beforeTodo(proxy, method, args);
         Object result = method.invoke(target, args);
-        afterDone();
+        afterDone(result);
         return result;
     }
 
-    public abstract void beforeTodo();
+    public abstract void beforeTodo(Object proxy, Method method, Object[] args);
 
-    public abstract void afterDone();
+    public abstract void afterDone(Object result);
 
     public Object run(Object proxy, Method method, Object[] args) throws Throwable { // 运行
         return invoke(proxy, method, args);

@@ -14,7 +14,13 @@ package top.cutexingluo.tools.common.data;
 //}
 
 public enum XTDataType {
+    /**
+     * 四季
+     */
     QUARTER("QUARTER", "四季之一"),
+    /**
+     * 图片
+     */
     DICT_TYPE_ICON("icon", "图片类型");
 
     private String name;

@@ -4,6 +4,8 @@ package top.cutexingluo.tools.utils.se.time;
 import top.cutexingluo.tools.designtools.juc.utils.XTJUC;
 
 /**
+ * 简易Time工具类
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/2 21:55

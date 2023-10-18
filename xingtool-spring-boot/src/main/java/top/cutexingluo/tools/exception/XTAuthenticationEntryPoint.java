@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * XT 认证异常拦截默认封装为 Result
  * <br>
- * xtauthentication入口点
+ * <p>SpringSecurity 认证端点 </p>
  *
  * @author XingTian
  * @version 1.0.0

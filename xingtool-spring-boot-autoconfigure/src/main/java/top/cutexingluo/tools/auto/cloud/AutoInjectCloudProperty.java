@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 需要打开@EnableXingToolsCloud注解
+ * 需要打开@EnableXingToolsCloudServer 注解
  *
  * @author XingTian
  * @version 1.0.0

@@ -4,11 +4,11 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
+ * 表结构
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/4 23:00
- *
- * 表结构
  */
 @Data
 @Builder

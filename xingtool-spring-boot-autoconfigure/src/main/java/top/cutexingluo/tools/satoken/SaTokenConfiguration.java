@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * satoken - jwt
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/4 22:54

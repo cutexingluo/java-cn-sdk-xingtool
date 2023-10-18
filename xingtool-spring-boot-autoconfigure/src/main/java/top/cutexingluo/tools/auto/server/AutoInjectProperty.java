@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Primary;
 import top.cutexingluo.tools.utils.ee.redis.RedisSerializerEnum;
 
 /**
+ * xingtools.enabled 配置文件开启
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/2 18:52
@@ -68,6 +70,12 @@ public class AutoInjectProperty {
      * Add @XTSystemLog annotation.
      */
     private boolean xtSystemlogAnno = false;
+
+    /**
+     * <p> 异步线程（含事务，锁）综合注解是否开启</p>
+     * Add @MainThread  and  @SonThread
+     */
+    private boolean asyncThreadAopAnno = false;
 
     /**
      * redis默认配置 并注入RedisTemplate，默认关闭

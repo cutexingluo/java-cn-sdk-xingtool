@@ -1,6 +1,8 @@
 package top.cutexingluo.tools.utils.ee.redis;
 
 /**
+ * Redis 序列化方式
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/4/29 21:40

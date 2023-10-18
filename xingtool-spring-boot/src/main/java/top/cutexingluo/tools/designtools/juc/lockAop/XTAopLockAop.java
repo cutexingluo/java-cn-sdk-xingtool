@@ -34,14 +34,18 @@ public class XTAopLockAop {
         XTAopLock lockAnno = AnnotationUtils.getAnnotation(xtAopLock, XTAopLock.class);
         if (lockAnno == null) throw new RuntimeException("XTAopLock 注解发生错误");
         Object result = null;
-        result = new XTAopLockHandler(lockAnno, redissonClient).lock(() -> {
-            try {
-                return joinPoint.proceed();
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-            return null;
-        });
+        try {
+            result = new XTAopLockHandler(lockAnno, redissonClient).lock(() -> {
+                try {
+                    return joinPoint.proceed();
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+                return null;
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 }

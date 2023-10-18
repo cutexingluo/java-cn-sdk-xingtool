@@ -2,6 +2,7 @@ package top.cutexingluo.tools.designtools.juc.lock;
 
 
 import top.cutexingluo.tools.basepackage.baseimpl.XTRunCallUtil;
+import top.cutexingluo.tools.designtools.juc.lock.handler.XTLockHandler;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.locks.Lock;
@@ -9,10 +10,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 
 /**
- * <p>
- * XTLock 锁工具类 ，<br>
- * 主要用于 运行加锁后的可执行接口，获得加锁的可执行接口
- * <p>    被XTLock使用，推荐用XTLock加锁
+ * <p>XTLock 锁工具类 </p>
+ * <p>1. 主要用于 运行加锁后的可执行接口，获得加锁的可执行接口</p>
+ * <p>2. 此类为本地锁，推荐使用 new  {@link XTLockHandler}  拥有更多自动操作</p>
+ * <p>3. 被XTLock使用，可以用XTLock加锁 ( 手动加lock )  </p>
+ * <p>4. 可以开启AOP 使用注解 {@link  top.cutexingluo.tools.designtools.juc.lockAop.XTAopLock}</p>
  *
  * @author XingTian
  * @version 1.0

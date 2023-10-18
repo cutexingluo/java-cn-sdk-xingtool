@@ -2,10 +2,11 @@ package top.cutexingluo.tools.utils.deprecated.log;
 
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 老式Log类，历史遗产，不建议使用<br>
- * 推荐使用@Slf4j注解
+ * 推荐使用 {@link Slf4j}注解
  *
  * @author XingTian
  * @version 1.0.0

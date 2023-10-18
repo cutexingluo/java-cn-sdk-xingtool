@@ -1,11 +1,19 @@
 package top.cutexingluo.tools.designtools.juc.async;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.lang.Nullable;
+import top.cutexingluo.tools.basepackage.baseimpl.XTRunCallUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -50,8 +58,18 @@ public class XTAsync<T> extends CompletableFuture<T> {
         return CompletableFuture.supplyAsync(supplier, executor);
     }
 
-    public static <T> CompletableFuture<T> supplyAsync(Supplier<T> logic, Function<Throwable, T> exceptionHandle, Executor executor) {
-        return CompletableFuture.supplyAsync(logic, executor).exceptionally(exceptionHandle);
+    /**
+     * 常用异步调用方法
+     * <p>1.0.2 版本 添加可空</p>
+     *
+     * @since 1.0.2
+     */
+    public static <T> CompletableFuture<T> supplyAsync(Supplier<T> logic, @Nullable Function<Throwable, T> exceptionHandle, @Nullable Executor executor) {
+        CompletableFuture<T> future = null;
+        if (executor == null) future = supplyAsync(logic);
+        else future = supplyAsync(logic, executor);
+        if (exceptionHandle != null) return future.exceptionally(exceptionHandle);
+        return future;
     }
 
     /**
@@ -87,6 +105,13 @@ public class XTAsync<T> extends CompletableFuture<T> {
 
     //-------------
 
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FutureResult<T> {
+        private CompletableFuture<T> future;
+        private List<Object> resultList;
+    }
 
     /**
      * 创建并行任务并执行
@@ -107,6 +132,131 @@ public class XTAsync<T> extends CompletableFuture<T> {
                 .map(CompletableFuture::join)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * 创建并行任务并执行
+     *
+     * @param list            数据源
+     * @param exceptionHandle 异常处理逻辑
+     * @return 处理结果列表
+     */
+    public static <T> List<T> callParallelFutureJoin(Collection<Callable<T>> list, BiFunction<Throwable, Callable<T>, T> exceptionHandle, Executor executor) {
+        //规整所有任务
+        List<CompletableFuture<T>> collectFuture = list.stream()
+                .map(s -> createFuture(XTRunCallUtil.getTrySupplier(s),
+                        e -> exceptionHandle.apply(e, s), executor))
+                .collect(Collectors.toList());
+        //汇总所有任务，并执行join，全部执行完成后，统一返回
+        return collectFuture.stream()
+                .map(CompletableFuture::join)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 创建并行任务
+     *
+     * @param list            数据源
+     * @param exceptionHandle 异常处理逻辑
+     * @return 处理结果列表
+     */
+    public static <T> List<CompletableFuture<T>> getParallelFutureJoin(Collection<Callable<T>> list, BiFunction<Throwable, Callable<T>, T> exceptionHandle, Executor executor) {
+        //规整所有任务
+        List<CompletableFuture<T>> collectFuture = list.stream()
+                .map(s -> createFuture(XTRunCallUtil.getTrySupplier(s),
+                        e -> exceptionHandle.apply(e, s), executor))
+                .collect(Collectors.toList());
+        //汇总所有任务，并执行join，全部执行完成后，统一返回
+        return collectFuture;
+    }
+
+    /**
+     * 创建并行任务并执行
+     *
+     * @param list            数据源
+     * @param exceptionHandle 异常处理逻辑   第二个参数- 数据源类型，可能为 Callable, 也可能为最终 CompletableFuture
+     * @return 是否全部执行成功
+     */
+    public static <S, T> boolean callParallelFutureAllOf(Collection<Callable<T>> list, BiFunction<Throwable, S, T> exceptionHandle, Executor executor) {
+        //规整所有任务
+        CompletableFuture<Void> future = getParallelFutureAllOf(list, exceptionHandle, executor);
+        try {
+            future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            exceptionHandle.apply(e, (S) future);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 创建并行任务
+     *
+     * @param list            数据源
+     * @param exceptionHandle 异常处理逻辑   第二个参数- 数据源类型，可能为 Callable, 也可能为最终 CompletableFuture
+     * @return 是否全部执行成功
+     */
+    public static <S, T> CompletableFuture<Void> getParallelFutureAllOf(Collection<Callable<T>> list, BiFunction<Throwable, S, T> exceptionHandle, Executor executor) {
+        //规整所有任务
+        return CompletableFuture.allOf(list.stream()
+                .map(s -> createFuture(XTRunCallUtil.getTrySupplier(s),
+                        e -> exceptionHandle.apply(e, (S) s), executor)).toArray(CompletableFuture[]::new));
+    }
+
+    /**
+     * 创建串行任务
+     * <p>调用 get() 执行</p>
+     *
+     * @param list            数据源
+     * @param exceptionHandle 异常处理逻辑
+     * @return 处理结果列表
+     */
+    public static <T> CompletableFuture<T> getSerialFutureJoin(Collection<Callable<T>> list, Function<Throwable, T> exceptionHandle, Executor executor) {
+        CompletableFuture<T> future = CompletableFuture.completedFuture(null);
+        for (Callable<T> callable : list) {
+            future = future.thenComposeAsync(result -> CompletableFuture.supplyAsync(
+                    XTRunCallUtil.getTryCallable(callable, null).getCatchSupplier(exceptionHandle::apply)
+                    , executor));
+        }
+        return future;
+    }
+
+
+    /**
+     * 创建串行任务，获得所有结果
+     * <p>调用 get() 执行</p>
+     *
+     * @param list            数据源
+     * @param exceptionHandle 异常处理逻辑
+     * @return 处理结果列表
+     */
+    public static FutureResult<Object> serialFutureJoin(Collection<Callable<Object>> list, Function<Throwable, Object> exceptionHandle, Executor executor) {
+        CompletableFuture<Object> future = CompletableFuture.completedFuture(null);
+        List<Object> res = new ArrayList<>();
+        for (Callable<Object> callable : list) {
+            future = future.thenComposeAsync(result -> {
+                        res.add(result);
+                        return CompletableFuture.supplyAsync(
+                                XTRunCallUtil.getTryCallable(callable, null).getCatchSupplier(exceptionHandle::apply), executor);
+                    }
+            );
+        }
+        return new FutureResult<>(future, res);
+    }
+
+    /**
+     * 创建串行任务并执行，获得所有结果
+     *
+     * @param list            数据源
+     * @param exceptionHandle 异常处理逻辑
+     * @return 处理结果列表
+     */
+    public static List<Object> callSerialFutureJoin(Collection<Callable<Object>> list, Function<Throwable, Object> exceptionHandle, Executor executor) throws Exception {
+        FutureResult<Object> futureResult = serialFutureJoin(list, exceptionHandle, executor);
+        Object o = futureResult.getFuture().get();
+        futureResult.getResultList().add(o);
+        return futureResult.getResultList();
     }
 
 

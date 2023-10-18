@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
- * BeanUtil 复制属性类，可以进行不同类对象的属性复制<br>
- * 不能new，利用Builder进行使用<br>
- * 其他工具请使用hutool的BeanUtil
- * </p>
+ * Bean 对象复制类
+ * <p>BeanUtil 复制属性类，可以进行不同类对象的属性复制</p>
+ * <p>1. 不能new，利用Builder进行使用</p>
+ * <p>2. 添加或简化了一些操作</p>
+ * <p>3. 如果没想要的方法，请使用 {@link  BeanUtil}</p>
  *
  * @author XingTian
  * @version 1.0.0

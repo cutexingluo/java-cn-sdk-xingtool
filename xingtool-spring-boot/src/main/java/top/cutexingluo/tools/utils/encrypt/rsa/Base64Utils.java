@@ -3,6 +3,9 @@ package top.cutexingluo.tools.utils.encrypt.rsa;
 
 import java.io.*;
 
+/**
+ * base64传统编码
+ */
 public class Base64Utils {
     /** */
     /**

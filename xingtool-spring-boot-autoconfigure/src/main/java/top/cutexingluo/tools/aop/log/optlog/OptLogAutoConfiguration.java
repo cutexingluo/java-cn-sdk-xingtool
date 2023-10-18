@@ -11,6 +11,8 @@ import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
 
 /**
+ * OptLog 注解
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/1 22:59
@@ -18,7 +20,7 @@ import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 @ConditionalOnBean(XingToolsAutoConfiguration.class)
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(prefix = "xingtools.enabled", value = "optlog-anno", havingValue = "true",
-        matchIfMissing = true)
+        matchIfMissing = false)
 @Slf4j
 public class OptLogAutoConfiguration {
     @ConditionalOnMissingBean

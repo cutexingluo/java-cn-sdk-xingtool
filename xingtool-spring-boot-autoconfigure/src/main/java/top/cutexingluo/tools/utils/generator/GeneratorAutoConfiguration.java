@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import top.cutexingluo.tools.utils.generator.java.OldVmCodeGenerator;
 
 /**
+ * 代码生成器
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/5 14:23
@@ -28,11 +30,11 @@ public class GeneratorAutoConfiguration {
     @Bean
     public OldVmCodeGenerator oldVmCodeGenerator() {
         OldVmCodeGenerator oldVmCodeGenerator = new OldVmCodeGenerator();
-        oldVmCodeGenerator.setAuthor(oldVmCodeGenerator.getAuthor());
-        oldVmCodeGenerator.setBasePath(oldVmCodeGenerator.getBasePath());
-        oldVmCodeGenerator.setTableName(oldVmCodeGenerator.getTableName());
-        oldVmCodeGenerator.setPackageName(oldVmCodeGenerator.getPackageName());
-        oldVmCodeGenerator.setDbProp(oldVmCodeGenerator.getDbProp());
+        oldVmCodeGenerator.setAuthor(oldVmGeneratorProperty.getAuthor());
+        oldVmCodeGenerator.setBasePath(oldVmGeneratorProperty.getBasePath());
+        oldVmCodeGenerator.setTableName(oldVmGeneratorProperty.getTableName());
+        oldVmCodeGenerator.setPackageName(oldVmGeneratorProperty.getPackageName());
+        oldVmCodeGenerator.setDbProp(oldVmGeneratorProperty.getDbProp());
         return oldVmCodeGenerator;
     }
 }

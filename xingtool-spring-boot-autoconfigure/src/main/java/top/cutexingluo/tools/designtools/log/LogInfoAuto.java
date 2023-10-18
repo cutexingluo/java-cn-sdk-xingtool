@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
 /**
+ * xingtool 所有日志
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/4/26 16:59
@@ -20,11 +22,11 @@ import org.springframework.core.annotation.Order;
 public class LogInfoAuto {
     public static boolean enabled = true;
 
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(LogInfoDisable.class)
     @Bean
-    public LogInfo logInfo() {
+    public LogInfoDisable logInfo() {
         enabled = false;
         log.info("XingTool Log-info is disabled");
-        return new LogInfo();
+        return new LogInfoDisable();
     }
 }

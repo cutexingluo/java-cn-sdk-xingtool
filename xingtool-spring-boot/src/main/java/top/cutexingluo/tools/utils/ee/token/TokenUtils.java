@@ -30,6 +30,10 @@ import java.util.Date;
 
 public class TokenUtils {
 
+    /**
+     * 设置token过期时间
+     * <p>该属性公有静态可修改</p>
+     */
     //设置token过期时间,必须要公有了
     public static int offset = 5;                                        //************************
 

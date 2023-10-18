@@ -7,13 +7,14 @@
     <parent>
         <artifactId>xingtool</artifactId>
         <groupId>top.cutexingluo.tools</groupId>
-        <version>1.0.1</version>
+        <version>1.0.2-SNAPSHOT</version>
         <!--        <relativePath/>&lt;!&ndash; 指向父项目的根目录 &ndash;&gt;-->
     </parent>
 
     <artifactId>xingtool-spring-boot-autoconfigure</artifactId>
     <name>xingtool-spring-boot-autoconfigure</name>
-    <description>xingtool-spring-boot-autoconfigure you can get</description>
+    <description>xingtool-spring-boot-autoconfigure, please use xingtool-spring-boot-starter in your project.
+    </description>
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>8</maven.compiler.source>

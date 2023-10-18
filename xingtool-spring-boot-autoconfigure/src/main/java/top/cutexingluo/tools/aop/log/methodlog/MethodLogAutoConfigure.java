@@ -10,6 +10,8 @@ import top.cutexingluo.tools.auto.server.XingToolsAutoConfiguration;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
 /**
+ * MethodLog 注解
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/7/16 16:05

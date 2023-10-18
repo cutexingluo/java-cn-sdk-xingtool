@@ -2,11 +2,14 @@ package top.cutexingluo.tools.aop.log.methodlog;
 
 import org.springframework.core.annotation.AliasFor;
 import top.cutexingluo.tools.aop.log.LogType;
+import top.cutexingluo.tools.aop.systemlog.XTSystemLog;
 
 import java.lang.annotation.*;
 
 /**
  * 方法调用日志
+ * <p>网络接口层面使用 @XTSystemLog -> {@link XTSystemLog} </p>
+ * <p>方法调用层面使用 @MethodLog ->  {@link MethodLog}</p>
  *
  * @author XingTian
  * @version 1.0.0
@@ -30,14 +33,14 @@ public @interface MethodLog {
 
 
     /**
-     * Key 值, 可用作Adapter 扩展使用
+     * Key 值, String类型标识符，可用作 MethodLogAdapter 扩展使用
      *
      * @return {@link String}
      */
     String key() default "";
 
     /**
-     * num , int类型标识符，可用于Adapter 扩展
+     * num , int类型标识符，可用于 MethodLogAdapter 扩展使用
      *
      * @return int
      */

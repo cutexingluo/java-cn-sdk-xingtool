@@ -5,6 +5,9 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 开启springcache
+ * <p>不如自行@EnableCaching</p>
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/4 17:40

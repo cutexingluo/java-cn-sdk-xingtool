@@ -18,20 +18,19 @@ import java.util.List;
 import java.util.Map;
 
 
-
 /**
+ * Excel 简易工具类
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/2 22:01
  */
 public class ExcelUtil {
     /**
-     * @param alias    别名,输出的表格头,最好使用LinkedHashMap,按插入顺序排序
+     * @param alias    别名,输出的表格头,最好使用LinkedHashMap,按插入顺序排序 <br>
      *                 Map< entityString , excelString  >  entityString  =>  excelString
      * @param list     实体的列表数据
      * @param <Entity> 实体
-     * @return
-     * @Author XingTian
      */
     //需导入 hutool 依赖 必须与export连用
     public static <Entity> ExcelWriter getExcelWriter(@Nullable Map<String, String> alias, @Nullable List<Entity> list) {
@@ -59,8 +58,6 @@ public class ExcelUtil {
      * @param response       HttpServletResponse对象
      * @param getExcelWriter 需使用XTUtils.getExcelWriter 获取 ExcelWriter
      * @param fileName       文件名
-     * @throws IOException
-     * @author XingTian
      */
     //导出命令
     public static void export(@NonNull HttpServletResponse response,
@@ -81,10 +78,8 @@ public class ExcelUtil {
     /**
      * @param file MultipartFile类型，通过导入
      *             cotroller MultipartFile对象名必须与post请求名一致
-     * @return ExcelReader 返回reader对象 用法如下
-     * List < User> list = reader.readAll(User.class); //获取数据列表
-     * @throws IOException
-     * @author XingTian
+     * @return ExcelReader 返回reader对象 用法如下 <br>
+     * <code>List < User> list = reader.readAll(User.class); //获取数据列表</code>
      */
     public static ExcelReader getExcelReader(@Nullable Map<String, String> alias,
                                              @NonNull MultipartFile file) throws IOException {

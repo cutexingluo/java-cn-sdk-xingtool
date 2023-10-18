@@ -11,6 +11,8 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 /**
+ * Redis 连接工厂
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/4/28 16:26

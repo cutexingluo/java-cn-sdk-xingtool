@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * 分页工具类
+ * 分页数据
  *
  * @author Mark sunlightcs@gmail.com
  *

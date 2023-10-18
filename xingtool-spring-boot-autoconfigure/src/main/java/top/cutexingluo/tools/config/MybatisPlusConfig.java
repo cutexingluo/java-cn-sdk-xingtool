@@ -11,6 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
+
+/**
+ * MybatisPlus 分页插件
+ */
 @ConditionalOnClass({MybatisPlusInterceptor.class})
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(prefix = "xingtools.enabled", name = "mybatis-plus-config", havingValue = "true", matchIfMissing = false)

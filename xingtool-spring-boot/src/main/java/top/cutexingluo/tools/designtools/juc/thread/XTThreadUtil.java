@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 
 /**
  * 不推荐用Thread，推荐用线程池<br>
- * 不推荐用该类
+ * <p>不推荐用该类，推荐使用 {@link  top.cutexingluo.tools.designtools.juc.async.XTAsync}</p>
  * <br>
  * update from old XTThead at  2023-4-6
  *

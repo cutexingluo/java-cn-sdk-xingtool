@@ -14,9 +14,9 @@
 
     <groupId>top.cutexingluo.tools</groupId>
     <artifactId>xingtool</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>xingtool</name>
-    <description>The XingTian-Tool you can get !</description>
+    <description>The XingTian-Tool you can get ! please use xingtool-spring-boot-starter in your project.</description>
     <modules>
         <module>xingtool-spring-boot</module>
         <module>xingtool-spring-boot-autoconfigure</module>
@@ -25,7 +25,7 @@
 
     <!--    所有version 5 个地方 2+3 都要改-->
     <properties>
-        <version>1.0.1</version>
+        <version>1.0.2-SNAPSHOT</version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <java.version>1.8</java.version>
@@ -124,69 +124,71 @@
                 </executions>
             </plugin>
             <!-- Javadoc 文档生成插件-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.4.0</version>
-                <configuration>
-                    <!-- 忽略生成文档中的错误 -->
-                    <additionalOptions>-Xdoclint:none</additionalOptions>
-                    <!--                    <additionalparam>-Xdoclint:none</additionalparam>-->
-                    <!--                    <aggregate>true</aggregate>-->
-                    <charset>UTF-8</charset><!-- utf-8读取文件 -->
-                    <encoding>UTF-8</encoding><!-- utf-8进行编码代码 -->
-                    <docencoding>UTF-8</docencoding><!-- utf-8进行编码文档 -->
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--            上传时再开 -->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-javadoc-plugin</artifactId>-->
+            <!--                <version>3.4.0</version>-->
+            <!--                <configuration>-->
+            <!--                    &lt;!&ndash; 忽略生成文档中的错误 &ndash;&gt;-->
+            <!--                    <additionalOptions>-Xdoclint:none</additionalOptions>-->
+            <!--                    &lt;!&ndash;                    <additionalparam>-Xdoclint:none</additionalparam>&ndash;&gt;-->
+            <!--                    &lt;!&ndash;                    <aggregate>true</aggregate>&ndash;&gt;-->
+            <!--                    <charset>UTF-8</charset>&lt;!&ndash; utf-8读取文件 &ndash;&gt;-->
+            <!--                    <encoding>UTF-8</encoding>&lt;!&ndash; utf-8进行编码代码 &ndash;&gt;-->
+            <!--                    <docencoding>UTF-8</docencoding>&lt;!&ndash; utf-8进行编码文档 &ndash;&gt;-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>attach-javadocs</id>-->
+            <!--                        <goals>-->
+            <!--                            <goal>jar</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
             <!--公钥私钥插件，也就是上传需要进行验证用户名和密码过程中需要用到的插件-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--            上传时再开 -->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-gpg-plugin</artifactId>-->
+            <!--                <version>1.5</version>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>sign-artifacts</id>-->
+            <!--                        <phase>verify</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>sign</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
             <!--          下面两个选其一  -->
             <!--阶段性部署插件 -->
-            <!--            <plugin>-->
-            <!--                <groupId>org.sonatype.plugins</groupId>-->
-            <!--                <artifactId>nexus-staging-maven-plugin</artifactId>-->
-            <!--                <version>1.6.7</version>-->
-            <!--                <extensions>true</extensions>-->
-            <!--                <configuration>-->
-            <!--                    <serverId>${serverId}</serverId>-->
-            <!--                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>-->
-            <!--                    &lt;!&ndash;                    <autoReleaseAfterClose>true</autoReleaseAfterClose>&ndash;&gt;-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
-
-            <!--正式版部署插件 -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
                 <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <releaseProfiles>${releaseId}</releaseProfiles>
-                    <goals>deploy</goals>
+                    <serverId>${serverId}</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <!--                    <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
                 </configuration>
             </plugin>
+
+            <!--正式版部署插件 -->
+            <!--            <plugin>-->
+            <!--                <groupId>org.apache.maven.plugins</groupId>-->
+            <!--                <artifactId>maven-release-plugin</artifactId>-->
+            <!--                <version>2.5.3</version>-->
+            <!--                <configuration>-->
+            <!--                    <autoVersionSubmodules>true</autoVersionSubmodules>-->
+            <!--                    <useReleaseProfile>false</useReleaseProfile>-->
+            <!--                    <releaseProfiles>${releaseId}</releaseProfiles>-->
+            <!--                    <goals>deploy</goals>-->
+            <!--                </configuration>-->
+            <!--            </plugin>-->
         </plugins>
     </build>
 

@@ -9,11 +9,17 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 数据操作类
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/2 21:37
  */
 public class XTStatistics {
+
+    /**
+     * 获取每个季节数量
+     */
     public static List<Integer> getQuarterCount(List<Date> dates) {
         int q1 = 0, q2 = 0, q3 = 0, q4 = 0;
         for (Date date : dates) {
@@ -38,6 +44,9 @@ public class XTStatistics {
         return CollUtil.newArrayList(q1, q2, q3, q4);
     }
 
+    /**
+     * 获取每个季节数量
+     */
     public static List<Integer> getDateCount(XTDataType xtDataType, List<Date> objects) {
         if (xtDataType == null) return null;
         if (xtDataType.equals(XTDataType.QUARTER)) {

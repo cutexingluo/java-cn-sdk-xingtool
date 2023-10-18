@@ -36,6 +36,7 @@ public class XTSecurityImportSelector implements ImportSelector {
         Assert.notNull(attributes, () -> {
             return String.format("@%s is not present on importing class '%s' as expected", annoType.getSimpleName(), importingClassMetadata.getClassName());
         });
+        // 获取属性成功后
         List<String> classNames = new ArrayList<>(2);
         String sign_key = attributes.getString("sign_key");
         if (sign_key == null) log.error("sign_key is null");
@@ -45,7 +46,7 @@ public class XTSecurityImportSelector implements ImportSelector {
             // 将注解值设置为属性
             XTSecurityBeanProcessor.setSignKey(sign_key);
         }
-        classNames.add(XTSecurityBeanProcessor.class.getName());
+        classNames.add(XTSecurityBeanProcessor.class.getName()); //添加signKey处理器
 
         classNames.add(SecurityControllerConfig.class.getName()); // 是否覆盖接口
 

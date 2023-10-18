@@ -10,6 +10,9 @@ import top.cutexingluo.tools.auto.server.XingToolsAutoConfiguration;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
 /**
+ * XTException 注解  AOP
+ * <p> {@link XTException} 默认开启</p>
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/2 12:41

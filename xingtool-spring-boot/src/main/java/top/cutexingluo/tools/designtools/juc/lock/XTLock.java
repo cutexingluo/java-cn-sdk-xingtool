@@ -3,7 +3,6 @@ package top.cutexingluo.tools.designtools.juc.lock;
 import lombok.Data;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -26,11 +25,16 @@ public class XTLock {
     protected volatile int productNumber = 0;
 
     //没有用处
-    protected volatile AtomicInteger count = new AtomicInteger(1);
+//    protected volatile AtomicInteger count = new AtomicInteger(1);
 
     public XTLock() {
 //new ReentrantLock() 默认非公平
         this.lock = new ReentrantLock();
+    }
+
+    public XTLock(boolean isFair) {
+//new ReentrantLock() 默认非公平
+        this.lock = new ReentrantLock(isFair);
     }
 
     public <L extends Lock> XTLock(L lock) {//new ReentrantLock()

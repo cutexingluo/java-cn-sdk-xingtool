@@ -143,7 +143,6 @@ public class ResultUtil {
     @NotNull
     public static <T extends IResultSource<C, O>, C, O> T fillResult(T source, O data, Class<C> codeType) {
         R<O> r = selectR(data);
-        source.setData(r.getData());
         if (codeType == Integer.class) {
             source.setCode((C) r.getCode());
         } else if (codeType == String.class) {

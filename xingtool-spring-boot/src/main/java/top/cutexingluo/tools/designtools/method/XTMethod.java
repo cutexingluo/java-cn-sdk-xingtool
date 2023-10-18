@@ -16,15 +16,15 @@ import java.lang.reflect.Method;
  * <ul>
  *     <li>
  *      法1.使用对象<br>
- *      new XTMethod(obj,methodName,params)
+ *      <code> new XTMethod(obj,methodName,params);  </code>
  *      </li>
  * <li>
  * 法2.纯使用Builder<br>
- * new XTMethod.Builder().setMethodName().setMethodParams();
+ * <code> new XTMethod.Builder().setMethodName().setMethodParams().build();</code>
  * </li>
  * <li>
  * 法3.联合使用Builder<br>
- * new XTMethod().getBuilder().build().invoke(item)
+ * <code>new XTMethod().getBuilder().build().invoke(item)</code>
  * </li>
  * </ul>
  *

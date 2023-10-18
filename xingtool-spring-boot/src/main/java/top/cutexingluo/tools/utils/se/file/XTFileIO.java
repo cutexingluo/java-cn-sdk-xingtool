@@ -41,12 +41,12 @@ public class XTFileIO {
 //        RequestUrl = nowRequestUrl;
 //    }
 
-    public static String addNamePreSlash(String s) { //前面加下划线
+    public static String addNamePreSlash(String s) { //前面加斜线
         if (s.charAt(0) != '/') s = "/" + s;
         return s;
     }
 
-    public static String addUrlSlash(String s) {//后面加下划线
+    public static String addUrlSlash(String s) {//后面加斜线
         if (s.charAt(s.length() - 1) != '/') s += "/";
         return s;
     }
@@ -113,9 +113,9 @@ public class XTFileIO {
 
 
     //获得md5码反射备用版
-    public static <T, TM> T getFileByMd5(Class<T> fileType, TM fileMapper, String md5Name, String md5) throws InvocationTargetException, IllegalAccessException {
+    public static <T, TM> T getFileByMd5(Class<T> fileType, TM fileMapper, String md5ColName, String md5) throws InvocationTargetException, IllegalAccessException {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(md5Name, md5);
+        queryWrapper.eq(md5ColName, md5);
         Method method = ReflectUtil.getMethod(fileMapper.getClass(), "selectList", QueryWrapper.class);
         List<T> filesList = (List<T>) method.invoke(fileMapper, queryWrapper);
 //        List filesList = filesMapper.selectList(queryWrapper);

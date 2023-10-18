@@ -15,6 +15,8 @@ import top.cutexingluo.tools.common.Result;
 import javax.annotation.PostConstruct;
 
 /**
+ * Sa-token 异常拦截
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/4/26 17:54
@@ -25,6 +27,7 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @RestControllerAdvice
 public class XTGlobalExceptionHandlerExt {
+    public static final String TAG = " XTGlobalExceptionHandlerExt" + ":";
 
     @PostConstruct
     public void init() {
@@ -34,14 +37,14 @@ public class XTGlobalExceptionHandlerExt {
     @ConditionalOnClass(NotPermissionException.class)
     @ExceptionHandler(value = NotPermissionException.class)
     public Result notPermissionException(NotPermissionException e) {
-        log.error("权限验证错误", e);
+        log.error(TAG + "权限验证错误", e);
         return Result.error(Constants.CODE_401, "无权限");
     }
 
     @ConditionalOnClass(SaTokenException.class)
     @ExceptionHandler(value = SaTokenException.class)
     public Result notLoginException(SaTokenException e) {
-        log.error("权限验证错误", e);
+        log.error(TAG + "权限验证错误", e);
         return Result.error(Constants.CODE_401, "请登录");
     }
 }

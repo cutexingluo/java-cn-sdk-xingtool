@@ -1,8 +1,7 @@
 package top.cutexingluo.tools.designtools.proxy;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 
 /**
  * 代理接口<br>
@@ -10,18 +9,19 @@ import java.lang.reflect.InvocationHandler;
  * 可以 被继承或使用 的代理类
  *
  * @author XingTian
- * 版本v1.0.0
+ * @version v1.0.0
+ * @date 2023/10/16
  */
-@ConditionalOnClass(ProxyInvocationHandler.class)
 public class XTProxy extends ProxyInvocationHandler implements InvocationHandler {
 
+
     @Override
-    public void beforeTodo() {
+    public void beforeTodo(Object proxy, Method method, Object[] args) {
 
     }
 
     @Override
-    public void afterDone() {
+    public void afterDone(Object result) {
 
     }
 }

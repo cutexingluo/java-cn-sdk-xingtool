@@ -1,6 +1,8 @@
 package top.cutexingluo.tools.utils.se.file;
 
 /**
+ * 获取文件全名称
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/6/25 12:01

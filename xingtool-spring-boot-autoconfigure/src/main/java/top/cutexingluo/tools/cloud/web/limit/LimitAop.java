@@ -28,8 +28,10 @@ import java.util.Map;
  * 接口限流AOP <br>
  * 需要导入 guava 包
  * <p>
- * <groupId>com.google.guava</groupId>
- * <artifactId>guava</artifactId>
+ * <code>
+ * &lt;groupId&gt;com.google.guava &lt;/groupId&gt; <br>
+ * &lt;artifactId&gt;guava&lt;/artifactId&gt;
+ * </code>
  * </p>
  *
  * @author XingTian

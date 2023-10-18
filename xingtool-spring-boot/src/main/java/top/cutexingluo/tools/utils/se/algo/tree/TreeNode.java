@@ -6,8 +6,9 @@ import java.util.List;
 
 /**
  * 树节点，可以实现该接口
- * <p>为避免存在框架冲突，故不命名 get 前缀</p>
- * <p>实现 nodeId 不能返回 null</p>
+ * <p>1. 为避免存在框架冲突，故不命名 get 前缀</p>
+ * <p>2. 实现 nodeId 不能返回 null</p>
+ * <p>3. 对应工具类 {@link  TreeUtil}</p>
  *
  * @author XingTian
  * @version 1.0.0
@@ -39,4 +40,11 @@ public interface TreeNode<IdType> {
      * @param nodeChildren 节点孩子
      */
     <T extends TreeNode<IdType>> void setNodeChildren(List<T> nodeChildren);
+
+    /**
+     * 获取孩子节点
+     * <p>通过此方法设置  返回的孩子节点的值</p>
+     */
+    <T extends TreeNode<IdType>> List<T> nodeChildren();
+
 }

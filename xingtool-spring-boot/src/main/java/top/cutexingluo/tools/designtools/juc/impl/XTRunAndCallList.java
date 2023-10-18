@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
+ * Runnable 或者Callable 列表
+ * <p>只能装一个，已废弃，不建议使用</p>
+ *
  * @author XingTian
+ * @date 2022/10/2
  */
 @Data
 @AllArgsConstructor

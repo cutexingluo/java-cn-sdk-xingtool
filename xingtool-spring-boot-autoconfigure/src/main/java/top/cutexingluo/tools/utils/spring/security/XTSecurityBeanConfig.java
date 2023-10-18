@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * XTSign bean
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/5/12 20:09
@@ -13,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class XTSecurityBeanConfig {
 
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(XTSign.class)
 //    @Bean("xtSign")
     @Bean
     public XTSign xtSign() {

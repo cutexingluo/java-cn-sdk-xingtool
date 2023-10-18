@@ -11,7 +11,7 @@ import top.cutexingluo.tools.auto.server.XingToolsAutoConfiguration;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
 /**
- * XTSystemLog日志自动配置
+ * XTSystemLog 日志自动配置
  *
  * @author XingTian
  * @version 1.0.0

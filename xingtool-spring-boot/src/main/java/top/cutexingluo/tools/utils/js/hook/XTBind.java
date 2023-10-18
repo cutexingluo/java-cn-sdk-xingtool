@@ -14,7 +14,7 @@ import java.util.List;
  * </p>
  * <ul>
  *     <li>
- *         new XTBind("print", String.class).bind(target,"hello world“)    //绑定时调用
+ *         <code>new XTBind("print", String.class).bind(target,"hello world“)    //绑定时调用</code>
  *     </li>
  * </ul>
  *

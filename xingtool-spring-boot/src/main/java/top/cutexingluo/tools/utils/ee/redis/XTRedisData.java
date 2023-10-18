@@ -10,6 +10,8 @@ import org.springframework.lang.Nullable;
 import top.cutexingluo.tools.designtools.juc.thread.XTThreadPool;
 
 /**
+ * RedisData 元数据
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/4 16:12

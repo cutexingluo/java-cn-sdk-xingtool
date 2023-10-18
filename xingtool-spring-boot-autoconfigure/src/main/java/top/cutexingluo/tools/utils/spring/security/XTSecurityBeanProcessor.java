@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * signKey处理器
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/5/12 20:59

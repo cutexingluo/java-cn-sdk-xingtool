@@ -7,11 +7,11 @@ import java.lang.reflect.Method;
 
 /**
  * <p>
- * 仿js的Call类，反射调用方法
+ * 仿 js 的Call类，反射调用方法
  * </p>
  * <ul>
  *     <li>
- *         new XTCall(PrintClass, "print", String.class).call(target,"hello world");
+ *         <code>new XTCall(PrintClass, "print", String.class).call(target,"hello world");</code>
  *     </li>
  * </ul>
  *

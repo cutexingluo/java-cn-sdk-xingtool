@@ -27,6 +27,8 @@ import java.util.function.Function;
 
 /**
  * 认证转化工具类
+ * <p><b>建议使用 Builder 模式</b>, 得到执行链Builder：</p>
+ * <code>new XTAuthenticationUtil.AuthenticationBuilder(request) </code>
  *
  * @author XingTian
  * @version 1.0.0
@@ -40,7 +42,7 @@ public class XTAuthenticationUtil {
      * @param title          标题
      * @param authentication 身份验证
      */
-    private static void printAuthentication(String title, Authentication authentication) {
+    protected static void printAuthentication(String title, Authentication authentication) {
         System.out.println("");
         System.out.println("============== " + title + " ===============");
         System.out.println(authentication);
@@ -171,6 +173,15 @@ public class XTAuthenticationUtil {
      *     <li>4. authenticationManager  (非必需set，对Authentication进行认证)</li>
      *     <li>4. authenticationConsumer  (非必需set，最后对Authentication进行操作)</li>
      * </ul>
+     *  <p>使用样例</p>
+     * <code>
+     *  <p>Authentication authentication = new XTAuthenticationUtil.AuthenticationBuilder(request) </p>
+     *    <p> .setTokenExtractor(tokenExtractor)</p>
+     *     <p>  .setTokenStore(tokenStore) </p>
+     *     <p> .setAccessTokenConsumer ( accessToken -> {  // to do  }) </p>
+     *      <p>.setAccessTokenAdditionalConverter((map,auth) ->  {// to do})  </p>
+     *       <p> .repairCreate("").build();</p>
+     * </code>
      *
      * @author XingTian
      * @date 2023/06/29
@@ -224,7 +235,7 @@ public class XTAuthenticationUtil {
 
         /**
          * 令牌额外信息转化器<br>
-         * 例如 DefaultUserAuthenticationConverter::extractAuthentication
+         * 例如可以适配 DefaultUserAuthenticationConverter::extractAuthentication
          */
         private Function<Map<String, ?>, Authentication> accessTokenAdditionalConverter;
 
@@ -430,6 +441,7 @@ public class XTAuthenticationUtil {
         /**
          * 创建 , 得到 target 为认证后的 Authentication 对象
          * <p> 默认读取请求头的 "Authorization" 并且需要加Bearer</p>
+         * <p>等同于repairCreate(null)</p>
          *
          * @return {@link AuthenticationBuilder}
          * @throws AuthenticationServiceException 身份验证服务异常
@@ -444,8 +456,9 @@ public class XTAuthenticationUtil {
 
 
         /**
-         * 修复创造 , 得到 target 为认证后的 Authentication 对象
-         * <p>authorizationName 为null 默认读取请求头的 "Authorization"</p>
+         * 修复创建 , 得到 target 为认证后的 Authentication 对象
+         * <p>authorizationName 为 null  使用默认扩展器 读取请求头的 "Authorization" 并且需要加 "Bear" ,  等同于create()</p>
+         * <p>authorizationName 为 ""  使用工具扩展器 读取请求头的 "Authorization"  会自动识别添加 "Bear"</p>
          *
          * @param authorizationName 授权名字 (header  名称)
          * @return {@link AuthenticationBuilder}

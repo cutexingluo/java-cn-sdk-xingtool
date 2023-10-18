@@ -5,6 +5,8 @@ import java.lang.annotation.*;
 /**
  * 主线程
  *
+ * <p>事务版本(旧版)，建议用 @MainThread </p>
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/9/18 15:30

@@ -16,6 +16,8 @@ import top.cutexingluo.tools.auto.server.XingToolsAutoConfiguration;
 import java.io.IOException;
 
 /**
+ * RedissonClient 配置
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/3 22:31

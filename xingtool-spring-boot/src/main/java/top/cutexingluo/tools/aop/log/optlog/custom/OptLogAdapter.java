@@ -6,7 +6,8 @@ import top.cutexingluo.tools.aop.log.optlog.OptConfig;
 import top.cutexingluo.tools.aop.log.optlog.OptLog;
 
 /**
- * 操作日志适配器，通过实现该方法，自定义注解操作
+ * 操作日志适配器，自定义注解操作
+ * <p>可以通过实现该接口，并注册到容器，从而实现对aop的扩展</p>
  *
  * @author XingTian
  * @version 1.0.0

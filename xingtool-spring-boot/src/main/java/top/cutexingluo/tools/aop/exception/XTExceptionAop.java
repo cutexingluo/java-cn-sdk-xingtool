@@ -14,15 +14,16 @@ import org.springframework.core.annotation.AnnotationUtils;
 @Aspect
 //@Component
 public class XTExceptionAop {
-    @XTException(name = "内部错误", desc = "run方法内部错误")
-    public static void run(Runnable runnable) { //run带注释的接口
-        runnable.run();
-    }
 
-    @XTException(name = "内部错误", desc = "run方法内部错误", wrong = true)
-    public static void runTick(Runnable runnable) { //run带注释的接口输出系统错误
-        runnable.run();
-    }
+//    @XTException(name = "内部错误", desc = "run方法内部错误")
+//    public static void run(Runnable runnable) { //run带注释的接口
+//        runnable.run();
+//    }
+//
+//    @XTException(name = "内部错误", desc = "run方法内部错误", wrong = true)
+//    public static void runTick(Runnable runnable) { //run带注释的接口输出系统错误
+//        runnable.run();
+//    }
 
     /**
      * 这里定义了一个总的匹配规则，以后拦截的时候直接拦截log()方法即可，无须去重复写execution表达式

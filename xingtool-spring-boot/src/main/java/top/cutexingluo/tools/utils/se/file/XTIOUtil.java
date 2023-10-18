@@ -19,13 +19,11 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
- * 使用jdk原生的文件IO
+ * 使用jdk原生的文件IO 方式
  * <br>
- * 拥有7种以上IO方法
- * <br>
- * - IO方式由方法名获得
- * <br>
- * 如果有能使用的参数为File的方法，那么就不重载String了
+ * <p>1. 拥有7种以上IO调用方法</p>
+ * <p>2. IO方式可以通过方法名得到</p>
+ * <p>3. 如果有能使用的参数为File的方法，就不重载String</p>
  *
  * @author XingTian
  * @version 1.0.0

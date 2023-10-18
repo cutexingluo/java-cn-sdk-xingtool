@@ -14,13 +14,14 @@ import java.util.concurrent.TimeUnit;
  * spring redis 工具类
  *
  * 若依版本的工具类
+ * <p>推荐使用</p>
  *
  * <p>
  * 1.使用前需要注入 redisTemplate , 或者 开启 redisconfig 配置 <br>
  * 2.有 redisTemplate 后，可自行注入bean, 或者 开启 redisconfig-util 配置
  * </p>
  *
- * @author ruoyi
+ * @author ruoyi, XingTian
  **/
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 @ConditionalOnBean(RedisTemplate.class)

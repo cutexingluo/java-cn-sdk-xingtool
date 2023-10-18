@@ -7,7 +7,8 @@ import java.util.Comparator;
 import java.util.Map;
 
 /**
- * Comparator比较器
+ * Comparator 比较器 工具
+ * <p> 可以比较 null </p>
  *
  * @author XingTian
  * @version 1.0.0

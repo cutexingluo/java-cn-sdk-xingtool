@@ -13,10 +13,13 @@ import top.cutexingluo.tools.designtools.juc.lockAop.XTAopLockAop;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
 /**
+ * XTAopLock 注解
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/3 13:54
  */
+//@ConditionalOnBean(XingToolsAutoConfiguration.class)
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(prefix = "xingtools.enabled", name = "xt-aop-lock", havingValue = "true", matchIfMissing = true)
 //@EnableAspectJAutoProxy

@@ -27,6 +27,8 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @RestControllerAdvice
 public class XTGlobalExceptionHandler {
+    public static final String TAG = " XTGlobalExceptionHandler" + ":";
+
     @PostConstruct
     public void init() {
         log.info("XingTool GlobalExceptionHandler is enabled ---> {}", "全局异常拦截，已开启");
@@ -35,7 +37,7 @@ public class XTGlobalExceptionHandler {
 
     @ExceptionHandler(DuplicateKeyException.class)
     public Result duplicateKeyException(DuplicateKeyException e) {
-        log.error("数据添加错误", e);
+        log.error(TAG + "数据添加错误", e);
         return Result.error(Constants.CODE_500, "数据重复");
     }
 
@@ -47,7 +49,7 @@ public class XTGlobalExceptionHandler {
         } catch (Exception be) {
             msg = "";
         }
-        log.warn("参数校验错误 -> {}", msg);
+        log.warn(TAG + "参数校验错误 -> {}", msg);
         return Result.error("参数校验错误");
     }
 
@@ -57,7 +59,7 @@ public class XTGlobalExceptionHandler {
         if (StrUtil.isNotBlank(code)) {
             return Result.error(e.intCode(), e.getMessage());
         }
-        log.warn("服务错误: " + e.getMessage());
+        log.warn(TAG + "服务错误: " + e.getMessage());
 //        log.warn("服务错误", e); // 不用打印在控制台
         return Result.error(e.getMsg());
     }
@@ -65,7 +67,7 @@ public class XTGlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public Result exceptionError(Exception e) {
-        log.error("未知错误", e);
+        log.error(TAG + "未知错误 ", e);
         return Result.error("内部未知错误");
     }
     /**

@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 简单Map工具类
+ * <p>关于 map 工具类</p>
  *
  * @author XingTian
  * @version 1.0.0
@@ -42,11 +43,22 @@ public class XTMapUtil {
 
     /**
      * 把values按K，V形式放入
+     * <p>如果为奇数个，最后一个赋值为null</p>
      *
      * @return 添加成功的对数
      */
     public static <K, V> int putMapEntriesFromDValues(@NotNull Map<K, V> map, Object... values) {
         return XTHashMap.putMapEntriesFromDValues(map, values);
+    }
+
+    /**
+     * 把values按K，V形式放入
+     * <p>如果为奇数个，最后一个舍弃</p>
+     *
+     * @return 添加成功的对数
+     */
+    public static <K, V> int putMapEntriesNoResFromDValues(@NotNull Map<K, V> map, Object... values) {
+        return XTHashMap.putMapEntriesNoResFromDValues(map, values);
     }
 
     /**

@@ -7,13 +7,13 @@
     <parent>
         <artifactId>xingtool</artifactId>
         <groupId>top.cutexingluo.tools</groupId>
-        <version>1.0.1</version>
+        <version>1.0.2-SNAPSHOT</version>
         <!--        <relativePath/>-->
     </parent>
 
     <artifactId>xingtool-spring-boot-starter</artifactId>
     <name>xingtool-spring-boot-starter</name>
-    <description>xingtool-spring-boot-starter</description>
+    <description>xingtool-spring-boot-starter , please use it . It created by Chinese.</description>
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>8</maven.compiler.source>

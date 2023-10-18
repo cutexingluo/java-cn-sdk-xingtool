@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import top.cutexingluo.tools.auto.server.XingToolsAutoConfiguration;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
 /**
@@ -19,7 +20,7 @@ import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
 @ConditionalOnClass({TokenStore.class, JwtAccessTokenConverter.class})
 //@AutoConfigureAfter(XTSecurityBeanProcessor.class)
-@ConditionalOnBean({XTSign.class, XTSecurityBeanProcessor.class})
+@ConditionalOnBean({XingToolsAutoConfiguration.class, XTSign.class, XTSecurityBeanProcessor.class})
 @Configuration
 @Slf4j
 public class XTSpringSecurityConfig {

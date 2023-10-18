@@ -16,6 +16,10 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
+
+/**
+ * Swagger2 配置
+ */
 @ConditionalOnProperty(prefix = "xingtools.enabled", name = "swagger-config", havingValue = "true", matchIfMissing = false)
 @ConditionalOnClass({Docket.class, DocumentationType.class, ApiInfo.class})
 @Configuration

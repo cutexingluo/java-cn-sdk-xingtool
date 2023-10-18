@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * <p>最迟注入的，要晚于@Autowired, InitializingBean, @PostConstruct, @Bean</p>
  * 供参考，建议直接使用SpringUtil <br>
  * 该工具类也可以使用，开启Server服务后默认注入
  *

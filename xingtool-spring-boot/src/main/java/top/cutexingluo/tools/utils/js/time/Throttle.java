@@ -27,10 +27,18 @@ public class Throttle {
         this.timer = Executors.newSingleThreadScheduledExecutor();
     }
 
+    public Throttle(Long delay, ScheduledExecutorService timer) {
+        this.delay = delay;
+        this.timer = timer;
+    }
+
     public static Throttle create(Long delay) {
         return new Throttle(delay);
     }
 
+    /**
+     * 不稳定版
+     */
     public void run(Runnable runnable) {
         if (!needWait) {
             needWait = true;
@@ -44,6 +52,9 @@ public class Throttle {
         }
     }
 
+    /**
+     * 稳定版
+     */
     public void runFixedInterval(Runnable runnable) {
         if (!needWait) {
             needWait = true;

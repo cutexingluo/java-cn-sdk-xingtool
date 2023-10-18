@@ -10,7 +10,7 @@ import java.util.concurrent.*;
 /**
  * 常用，推荐用，<br>
  * JUC 线程池 ，主要用于 获取线程池，直接运行线程池
- * <p>
+ * <p>通过手动 @Bean 注入到容器</p>
  *
  * @author XingTian
  * @version 1.0

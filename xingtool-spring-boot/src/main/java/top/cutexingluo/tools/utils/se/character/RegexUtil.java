@@ -5,6 +5,7 @@ import cn.hutool.core.util.ReUtil;
 
 /**
  * regex 组合 工具类
+ * <p> 推荐使用 </p>
  *
  * @author XingTian
  * @version 1.0.0

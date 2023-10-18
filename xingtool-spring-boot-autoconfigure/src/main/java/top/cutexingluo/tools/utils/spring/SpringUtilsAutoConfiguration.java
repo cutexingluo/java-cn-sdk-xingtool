@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import top.cutexingluo.tools.utils.ruoyi.utils.spring.RYSpringUtils;
 
 /**
+ * SpringUtil注入
+ * <p> 默认开启 </p>
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/3 13:59

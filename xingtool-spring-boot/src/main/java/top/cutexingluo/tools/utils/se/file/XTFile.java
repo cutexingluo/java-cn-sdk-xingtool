@@ -25,13 +25,35 @@ import java.io.IOException;
 @NoArgsConstructor
 @AllArgsConstructor
 public class XTFile implements XTFileSource {
+    /**
+     * 原始名
+     */
     private String originalFilename; // 原始名
+    /**
+     * 唯一 id
+     */
     private String uuid; // 唯一 id
+    /**
+     * 扩展名
+     */
     private String type; // 扩展名
+    /**
+     * 大小, 默认Byte
+     */
     private Long size; // 大小
+    /**
+     * md5码
+     */
     private String md5; //md5码
 
+    /**
+     * 新文件全称
+     */
     private String fileUUID;//新文件全称
+
+    public XTFile(String originalFilename, String uuid, String type, Long size, String md5) {
+        this(originalFilename, uuid, type, size, md5, null);
+    }
 
     /**
      * 得到file文件

@@ -6,6 +6,8 @@ import top.cutexingluo.tools.utils.spring.security.XTSecurityImportSelector;
 import java.lang.annotation.*;
 
 /**
+ * <p>开启 oauth2</p>
+ * <p>开启系列配置</p>
  * 开启 oauth2 的 TokenStore Jwt 配置
  *
  * @author XingTian

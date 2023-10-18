@@ -4,6 +4,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
+ * 配置文件-线程池
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/3 16:04

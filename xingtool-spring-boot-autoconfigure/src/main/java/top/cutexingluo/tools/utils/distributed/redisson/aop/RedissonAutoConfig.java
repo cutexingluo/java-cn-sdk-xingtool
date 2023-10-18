@@ -18,6 +18,8 @@ import top.cutexingluo.tools.utils.ee.redisson.GrabLockFailureStrategy;
 import javax.annotation.PostConstruct;
 
 /**
+ * Redisson 自带注解
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/5/6 18:33

@@ -12,6 +12,8 @@ import top.cutexingluo.tools.utils.ee.redis.RedisUtil;
 import top.cutexingluo.tools.utils.ee.redis.XTRedisData;
 
 /**
+ * RedissonClient 配置-附加数据 XTRedisData
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/4/28 22:32

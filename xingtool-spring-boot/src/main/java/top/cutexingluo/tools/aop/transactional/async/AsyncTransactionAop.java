@@ -1,10 +1,5 @@
 package top.cutexingluo.tools.aop.transactional.async;
 
-/**
- * @author XingTian
- * @version 1.0.0
- * @date 2023/9/18 15:33
- */
 
 import cn.hutool.core.collection.CollUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -27,6 +22,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * <p>需自行注入该bean</p>
  *
  * SpringBoot 中的多线程事务处理太繁琐？一个自定义注解直接搞定！
+ *
+ * @author snail , XingTian
+ * @version 1.0.0
+ * @date 2023/9/18 15:33
  */
 @EnableAsync
 @Aspect
@@ -36,8 +35,13 @@ public class AsyncTransactionAop {
     //用来存储各线程计数器数据(每次执行后会从map中删除)
     private static final Map<String, Object> map = new ConcurrentHashMap<>();
 
-    @Autowired
+
     private PlatformTransactionManager transactionManager;
+
+    @Autowired
+    public AsyncTransactionAop(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
 
 
     @Around("@annotation(mainTransaction)")

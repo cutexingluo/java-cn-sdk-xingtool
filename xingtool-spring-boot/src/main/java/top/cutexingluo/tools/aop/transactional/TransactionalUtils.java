@@ -14,6 +14,7 @@ import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
  */
 //@Component
 public class TransactionalUtils {
+
     @Autowired
     private DataSourceTransactionManager dataSourceTransactionManager;
 
@@ -42,4 +43,6 @@ public class TransactionalUtils {
     public void rollback(TransactionStatus transaction) {
         dataSourceTransactionManager.rollback(transaction);
     }
+
+
 }

@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * SpringSecurity 配置
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/6/15 17:11

@@ -11,6 +11,9 @@ import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
 
 /**
+ * PrintLog 注解
+ * <p> {@link PrintLog} 默认开启</p>
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/1 22:59
@@ -22,7 +25,7 @@ import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 //@EnableAspectJAutoProxy
 @Slf4j
 public class PrintLogAutoConfiguration {
-    @ConditionalOnMissingBean
+    @ConditionalOnMissingBean(PrintLogAop.class)
     @Bean
     public PrintLogAop printLogAop() {
         if (LogInfoAuto.enabled) log.info("PrintLogAop ---->  {}", "打印输出AOP，自动注入成功");

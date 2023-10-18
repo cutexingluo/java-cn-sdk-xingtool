@@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
 import java.util.concurrent.Callable;
 import java.util.concurrent.RecursiveTask;
 
+/**
+ * ForkJoin 不建议使用
+ */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor

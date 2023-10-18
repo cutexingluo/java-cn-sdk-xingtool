@@ -3,6 +3,7 @@ package top.cutexingluo.tools.exception;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import top.cutexingluo.tools.common.Constants;
 import top.cutexingluo.tools.common.Result;
+import top.cutexingluo.tools.common.base.IResult;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.io.IOException;
 /**
  * 数据返回处理工具类 <br>
  * 类似 WebUtils
+ * <p>可以在拦截器里面使用</p>
  *
  * @author XingTian
  * @version 1.0.0
@@ -24,7 +26,7 @@ public class XTResponseUtil {
      * @param result        返回数据
      * @param rspStatusCode 返回码
      */
-    public static void response(HttpServletResponse rsp, Result result, int rspStatusCode) throws IOException {
+    public static <C, T> void response(HttpServletResponse rsp, IResult<C, T> result, int rspStatusCode) throws IOException {
         byte[] responseBytes = new ObjectMapper().writeValueAsBytes(result);
         rsp.addHeader("Content-Type", "application/json;charset=UTF-8");
         rsp.setStatus(rspStatusCode);
@@ -38,7 +40,7 @@ public class XTResponseUtil {
      * @param rsp    返回请求
      * @param result 返回数据
      */
-    public static void success(HttpServletResponse rsp, Result result) throws IOException {
+    public static <C, T> void success(HttpServletResponse rsp, IResult<C, T> result) throws IOException {
         response(rsp, result, HttpServletResponse.SC_OK);
     }
 
@@ -49,7 +51,7 @@ public class XTResponseUtil {
      * @param rsp    返回请求
      * @param result 返回数据
      */
-    public static void badRequest(HttpServletResponse rsp, Result result) throws IOException {
+    public static <C, T> void badRequest(HttpServletResponse rsp, IResult<C, T> result) throws IOException {
         response(rsp, result, HttpServletResponse.SC_BAD_REQUEST);
     }
 
@@ -60,7 +62,7 @@ public class XTResponseUtil {
      * @param rsp    返回请求
      * @param result 返回数据
      */
-    public static void serverError(HttpServletResponse rsp, Result result) throws IOException {
+    public static <C, T> void serverError(HttpServletResponse rsp, IResult<C, T> result) throws IOException {
         response(rsp, result, HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 
@@ -70,7 +72,7 @@ public class XTResponseUtil {
      * @param rsp    返回请求
      * @param result 返回数据
      */
-    public static void unauthorized(HttpServletResponse rsp, Result result) throws IOException {
+    public static <C, T> void unauthorized(HttpServletResponse rsp, IResult<C, T> result) throws IOException {
         response(rsp, result, HttpServletResponse.SC_UNAUTHORIZED);
     }
 

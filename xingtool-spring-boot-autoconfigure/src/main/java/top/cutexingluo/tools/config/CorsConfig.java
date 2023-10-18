@@ -14,6 +14,13 @@ import org.springframework.web.filter.CorsFilter;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 import top.cutexingluo.tools.server.ServerProperty;
 
+
+/**
+ * 跨域
+ *
+ * @author XingTian
+ * @date 2022-11-14
+ */
 @ConditionalOnProperty(prefix = "xingtools.enabled", name = "cors-config", havingValue = "true", matchIfMissing = false)
 @ConditionalOnClass({ServerProperty.class, CorsFilter.class, UrlBasedCorsConfigurationSource.class})
 @Configuration(proxyBeanMethods = false)

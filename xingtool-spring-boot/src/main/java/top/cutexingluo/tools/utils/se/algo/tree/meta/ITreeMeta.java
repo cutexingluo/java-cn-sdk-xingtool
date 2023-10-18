@@ -3,6 +3,8 @@ package top.cutexingluo.tools.utils.se.algo.tree.meta;
 import java.util.List;
 
 /**
+ * 元数据接口，是否存在孩子节点
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/8/11 19:41

@@ -10,6 +10,7 @@ import java.util.concurrent.*;
 
 /**
  * Thread扩展工具类 一些Thread常规方法
+ * <p>不推荐用该类，推荐使用 {@link  top.cutexingluo.tools.designtools.juc.async.XTAsync}</p>
  *
  * @author XingTian
  * @version 1.0.0

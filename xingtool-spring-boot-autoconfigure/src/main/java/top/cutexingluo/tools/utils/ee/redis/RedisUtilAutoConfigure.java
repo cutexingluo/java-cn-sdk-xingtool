@@ -17,6 +17,8 @@ import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 import javax.annotation.PostConstruct;
 
 /**
+ * RedisUtil 工具
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/4/28 16:34
@@ -31,6 +33,9 @@ public class RedisUtilAutoConfigure {
     public static RedisTemplate<String, Object> staticRedisTemplate;
 
     //    @Resource
+    /**
+     * 如果覆盖了RedisTemplate,需要把名称改为 xtRedisTemplate
+     */
     @Autowired
     @Qualifier("xtRedisTemplate")
     public RedisTemplate<String, Object> redisTemplate;
@@ -55,6 +60,9 @@ public class RedisUtilAutoConfigure {
         return new RedisUtil(redisTemplate);
     }
 
+    /**
+     * 推荐使用的工具
+     */
     @ConditionalOnMissingBean
     @Bean
     public RYRedisCache redisCache() {

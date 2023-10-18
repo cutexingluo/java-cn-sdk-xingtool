@@ -11,13 +11,13 @@ import java.util.List;
 /**
  * <p>
  * 仿 js 的Apply类，反射调用方法 <br>
- * XTApply拥有XTCall方法
+ * <p>XTApply 拥有 XTCall 方法</p>
  * </p>
  * <br>
  * <h3>使用方法</h3>
  * <ul>
  *     <li>
- *         new XTApply(PrintClass.class, "print", String.class).apply(target,"hello world");
+ *         <code>new XTApply(PrintClass.class, "print", String.class).apply(target,"hello world");</code>
  *     </li>
  * </ul>
  *

@@ -1,5 +1,6 @@
 package top.cutexingluo.tools.utils.encrypt.all;
 
+
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.StrUtil;
@@ -83,7 +84,7 @@ public class XTEncryptUtil {
     }
 
     public static class Md5 {
-        public static Md5 getInstance() {
+        public static Md5 newInstance() {
             return new Md5();
         }
 
@@ -241,8 +242,10 @@ public class XTEncryptUtil {
         }
     }
 
+    //----------------------------------------------------------------
+
     public static class SHA256 {
-        public static SHA256 getInstance() {
+        public static SHA256 newInstance() {
             return new SHA256();
         }
 
@@ -295,9 +298,10 @@ public class XTEncryptUtil {
             return stringBuilder.toString();
         }
     }
+    //----------------------------------------------------------------
 
     public static class X_DES {
-        public static X_DES getInstance() {
+        public static X_DES newInstance() {
             return new X_DES();
         }
 
@@ -401,9 +405,10 @@ public class XTEncryptUtil {
             return new String(decryptedData);
         }
     }
+    //----------------------------------------------------------------
 
     public static class X_AES {
-        public static X_AES getInstance() {
+        public static X_AES newInstance() {
             return new X_AES();
         }
 
@@ -522,8 +527,9 @@ public class XTEncryptUtil {
 
     }
 
+    //----------------------------------------------------------------
     public static class X_RSA {
-        public static X_RSA getInstance() {
+        public static X_RSA newInstance() {
             return new X_RSA();
         }
 
@@ -584,6 +590,7 @@ public class XTEncryptUtil {
             return generateKeyPair();
         }
 
+
         /**
          * 按Base64编码密钥
          *
@@ -632,6 +639,20 @@ public class XTEncryptUtil {
                 return (T) privateKey;
             }
             return null;
+        }
+
+        /**
+         * 获取PrivateKey
+         */
+        public PrivateKey getPrivateKeyByBase64(String base64String) {
+            return getDecodeKeyByBase64(base64String, KeyType.PrivateKey);
+        }
+
+        /**
+         * 获取PublicKey
+         */
+        public PublicKey getPublicKeyByBase64(String base64String) {
+            return getDecodeKeyByBase64(base64String, KeyType.PublicKey);
         }
 
 

@@ -25,13 +25,14 @@ import java.util.List;
  *     <li>执行控制台命令</li>
  *     <li>生成调用本地cpp的dll文件</li>
  *     <li>执行js代码</li>
+ *     <li>编程式python代码</li>
  * </ul>
  *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/9/15 16:49
  */
-public class XTCallOtherUtil {
+public class XTCodeInteropUtil {
 
     /**
      * 执行多条指令
@@ -238,6 +239,12 @@ public class XTCallOtherUtil {
             return nashorn;
         }
 
+        /**
+         * 执行js代码
+         *
+         * @param script   脚本
+         * @param bindings 加载进去的数据
+         */
         public static Object runScript(ScriptEngine engine, String script, SimpleBindings bindings) throws ScriptException {
             return engine.eval(script, bindings);
         }
@@ -272,6 +279,15 @@ public class XTCallOtherUtil {
      * 需要导入Jython依赖
      * <p>1. 通过 Py.newInteger得到 PyObject对象, Py为转化类</p>
      * <p>2. PythonInterpreter 中 get 获取, set 存入, exec 执行 , execfile 执行文件</p>
+     * <p>
+     * 导入依赖 <br>
+     * <code>
+     * <dependency>
+     * &lt;groupId>org.python&lt;/groupId> <br>
+     * &lt;artifactId>jython-standalone&lt;/artifactId>
+     * </dependency>
+     * </code>
+     * </p>
      */
     @ConditionalOnClass(PythonInterpreter.class)
     public static class Python {

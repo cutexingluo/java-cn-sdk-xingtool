@@ -5,6 +5,7 @@ import top.cutexingluo.tools.basepackage.baseimpl.XTRunnable;
 
 /**
  * 日志输出Handler
+ * <p>通过 new 得到新对象</p>
  *
  * @author XingTian
  * @version 1.0.0
@@ -18,6 +19,9 @@ public class LogHandler {
         this.type = type;
     }
 
+    /**
+     * 将字符串输出语句包装为Runnable
+     */
     public XTRunnable getTask(String msg) {
         return new XTRunnable(() -> {
             switch (type) {
@@ -40,6 +44,9 @@ public class LogHandler {
         });
     }
 
+    /**
+     * 输出语句
+     */
     public void send(String msg) {
         getTask(msg).run();
     }

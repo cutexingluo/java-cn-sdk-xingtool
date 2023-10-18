@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 
 /**
  * 原子类，获取原子引用
+ * <p>CAS -> AtomicReference 封装</p>
  *
  * @author XingTian
  * @version 1.0.0

@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * 树节点 元信息
+ * <p>该类实例用作 {@link TreeUtil} 里面的对象</p>
  *
  * @author XingTian
  * @version 1.0.0
@@ -16,7 +17,7 @@ import java.util.List;
 @Data
 public class TreeMeta<IdType, T extends TreeNode<IdType>> implements ITreeMeta<T> {
 
-    public TreeMeta(T currentNode, List<T> allNodes, TreeNodeHandler handler) {
+    public TreeMeta(T currentNode, List<T> allNodes, TreeNodeHandler<IdType, T> handler) {
         this.currentNode = currentNode;
         this.allNodes = allNodes;
         this.handler = handler;
@@ -40,12 +41,12 @@ public class TreeMeta<IdType, T extends TreeNode<IdType>> implements ITreeMeta<T
     /**
      * 节点处理器
      */
-    private TreeNodeHandler handler;
+    private TreeNodeHandler<IdType, T> handler;
 
     /**
      * 保护，防止使用
      */
-    protected TreeNodeHandler getHandler() {
+    protected TreeNodeHandler<IdType, T> getHandler() {
         return handler;
     }
 

@@ -2,6 +2,7 @@ package top.cutexingluo.tools.utils.ee.web.ip.util;
 
 
 import org.lionsoul.ip2region.xdb.Searcher;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
@@ -20,6 +21,7 @@ import java.util.Objects;
  * @author ican
  */
 @SuppressWarnings("all")
+@ConditionalOnClass(Searcher.class)
 public class IpUtils {
 
     private static Searcher searcher;

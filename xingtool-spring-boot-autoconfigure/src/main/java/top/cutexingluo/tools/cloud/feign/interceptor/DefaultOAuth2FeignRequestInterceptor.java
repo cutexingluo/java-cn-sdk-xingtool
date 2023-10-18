@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Feign的拦截器
  *
- * @author nagisa
+ * @author nagisa , XingTian
  */
 
 @ConditionalOnProperty(prefix = "xingtools.cloud.enabled", name = "retain-feign-request", havingValue = "true", matchIfMissing = false)

@@ -15,7 +15,6 @@ import java.lang.annotation.*;
  *         <li>方法上使用注解 @OptLog(key="")</li>
  *         <li>然后实现 OptLogAdapter 并注入容器，即可启动</li>
  *     </ul>
- *
  * </p>
  *
  * @author XingTian
@@ -47,14 +46,14 @@ public @interface OptLog {
 
 
     /**
-     * key , 标识符，可用于Adapter 扩展
+     * key , 标识符，可用于 OptLogAdapter 扩展
      *
      * @return {@link String}
      */
     String key() default "";
 
     /**
-     * num , int类型标识符，可用于Adapter 扩展
+     * num , int类型标识符，可用于 OptLogAdapter 扩展
      *
      * @return int
      */

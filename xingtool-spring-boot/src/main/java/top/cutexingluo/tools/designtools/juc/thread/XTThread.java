@@ -1,7 +1,5 @@
 package top.cutexingluo.tools.designtools.juc.thread;
 
-import org.springframework.stereotype.Component;
-
 /**
  * <p>
  * JUC 工具类 ，主要用于 获取线程，直接运行线程
@@ -14,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @date 2022-11-21
  */
 
-@Component
+//@Component
 public class XTThread {
 
     public static Thread getThread(Runnable runnable) {//获取实例化线程

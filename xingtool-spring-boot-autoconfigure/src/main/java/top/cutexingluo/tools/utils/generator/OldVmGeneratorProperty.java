@@ -9,6 +9,8 @@ import top.cutexingluo.tools.common.database.DBProp;
 import top.cutexingluo.tools.utils.se.file.XTPath;
 
 /**
+ * 代码生成器属性
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/5 14:20
@@ -18,7 +20,7 @@ import top.cutexingluo.tools.utils.se.file.XTPath;
 @ConfigurationProperties(prefix = "xingtools.generator")
 public class OldVmGeneratorProperty {
 
-    private String author ="";
+    private String author = "";
     //    // 数据库名字
 //    private static String dataBaseName = "xing";
     // 项目绝对路径地址  spring

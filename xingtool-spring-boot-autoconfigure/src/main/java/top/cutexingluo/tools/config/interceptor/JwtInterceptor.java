@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * JWT 拦截器
- * XingTian
  *
- * @Since 2022-11-14
- * 版本v1.0.0
+ * @author XingTian
+ * @version v1.0.0
+ * @date 2023/10/16 21:47
+ * @since 2022-11-14
  */
 
 @ConditionalOnClass(HandlerInterceptor.class)
