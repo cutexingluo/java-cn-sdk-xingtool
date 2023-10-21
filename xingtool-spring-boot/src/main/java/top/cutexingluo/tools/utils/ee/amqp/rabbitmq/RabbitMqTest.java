@@ -27,9 +27,12 @@ import java.util.concurrent.TimeoutException;
  * @version 1.0.0
  * @date 2023/10/17 18:07
  */
-public class RabbitMqTest {
+public final class RabbitMqTest {
 
-    public static void common() throws IOException, TimeoutException {
+    private RabbitMqTest() {
+    }
+
+    public void common() throws IOException, TimeoutException {
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.setHost("127.0.0.1");
         Connection connection = connectionFactory.newConnection();

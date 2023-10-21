@@ -16,7 +16,9 @@
     <artifactId>xingtool</artifactId>
     <version>1.0.2-SNAPSHOT</version>
     <name>xingtool</name>
-    <description>The XingTian-Tool you can get ! please use xingtool-spring-boot-starter in your project.</description>
+    <description>The XingTian-Tool you can get ! please use xingtool-spring-boot-starter in your project.
+        see repo：https://gitee.com/SangonomiyaKokomi/xingtool
+    </description>
     <modules>
         <module>xingtool-spring-boot</module>
         <module>xingtool-spring-boot-autoconfigure</module>
