@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xingtool</artifactId>
         <groupId>top.cutexingluo.tools</groupId>
-        <version>1.0.2-SNAPSHOT</version>
+        <version>1.0.2</version>
         <!--        <relativePath/>&lt;!&ndash; 指向父项目的根目录 &ndash;&gt;-->
     </parent>
     <artifactId>xingtool-spring-boot</artifactId>
