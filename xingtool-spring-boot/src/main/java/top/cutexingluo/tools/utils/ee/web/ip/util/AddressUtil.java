@@ -17,7 +17,7 @@ public class AddressUtil {
      */
     public static String getCityInfo(String ip) {
         try {
-            Searcher searcher = Searcher.newWithFileOnly("ip2region/ip2region.xdb");
+            Searcher searcher = Searcher.newWithFileOnly("ipdb/ip2region.xdb");
             //开始查询
             return searcher.searchByStr(ip);
         } catch (Exception e) {

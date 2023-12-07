@@ -1,14 +1,12 @@
 package top.cutexingluo.tools.utils.se.character;
 
 import cn.hutool.core.lang.RegexPool;
-import cn.hutool.core.util.StrUtil;
+import top.cutexingluo.tools.utils.se.algo.cpp.string.XTStringAlgo;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * 字符串工具类
@@ -176,6 +174,7 @@ public class XTStrUtil {
         Matcher m = p.matcher(content);
         return m.matches();
     }
+
     //---------------------find------------------------
 
     // 获取 next 数组
@@ -186,29 +185,7 @@ public class XTStrUtil {
      * @since 1.0.2
      */
     public static int[] getNext(String sub) {
-        int[] next = new int[sub.length() + 1];
-        int i = 0, j = -1;
-        next[0] = -1;
-        while (i < sub.length()) {
-            if (j == -1 || sub.charAt(i) == sub.charAt(j)) {
-                next[++i] = ++j;
-            } else {
-                j = next[j];
-            }
-        }
-        return next;
-    }
-
-    private static int checkBounds(String origin, int startIndex, String substring) {
-        if (StrUtil.isBlank(origin) || StrUtil.isBlank(substring)) {
-            return -2;
-        }
-        if (startIndex < 0 || startIndex >= origin.length()) {
-            throw new ArrayIndexOutOfBoundsException("startIndex must be  greater than  or equals 0 and less than origin string length");
-        } else if (startIndex + substring.length() > origin.length()) {
-            return -1;
-        }
-        return 0;
+        return XTStringAlgo.getNext(sub);
     }
 
     /**
@@ -218,22 +195,7 @@ public class XTStrUtil {
      * @since 1.0.2
      */
     public static int find(String origin, int startIndex, String substring) {
-        int ret = checkBounds(origin, startIndex, substring);
-        if (ret < 0) return ret;
-        int i = startIndex, j = 0;
-        int[] next = getNext(substring);
-        while (i < origin.length() && j < substring.length()) {
-            if (j == -1 || origin.charAt(i) == substring.charAt(j)) {
-                i++;
-                j++;
-            } else {
-                j = next[j];
-            }
-        }
-        if (j == substring.length())
-            return i - j;
-        else
-            return -1;
+        return XTStringAlgo.find(origin, startIndex, substring);
     }
 
     /**
@@ -256,19 +218,7 @@ public class XTStrUtil {
      * @since 1.0.2
      */
     public static int rFind(String origin, int startIndexToPre, String substring) {
-        if (StrUtil.isBlank(origin) || StrUtil.isBlank(substring)) {
-            return -2;
-        }
-        if (startIndexToPre < 0 || startIndexToPre >= origin.length()) {
-            throw new ArrayIndexOutOfBoundsException("startIndexToPre must be  greater than  or equals 0 and less than origin string length");
-        }
-        int rpLen = origin.length() - substring.length();  //反转变量
-        int startIndex = Math.max(rpLen - startIndexToPre, 0);
-        String s = new StringBuilder(origin).reverse().toString();
-        String ns = new StringBuilder(substring).reverse().toString();
-        int revPos = find(s, startIndex, ns);
-        if (revPos == -1) return -1;
-        return rpLen - revPos; //反转回来
+        return XTStringAlgo.rFind(origin, startIndexToPre, substring);
     }
 
     /**
@@ -283,34 +233,6 @@ public class XTStrUtil {
     }
 
 
-    private static int findFirstOfCollection(String origin, int startIndex, String characterCollection, boolean isInCollection, boolean ignoreCase) {
-        if (ignoreCase) origin = origin.toLowerCase();
-        // chars[]数组转为列表
-        HashSet<Character> characters = characterCollection
-                .chars()
-                .mapToObj(i -> {
-                    if (ignoreCase) {
-                        return Character.toLowerCase((char) i);
-                    } else {
-                        return (char) i;
-                    }
-                }).collect(Collectors.toCollection(HashSet::new));
-        if (!isInCollection) {
-            for (int i = startIndex; i < origin.length(); i++) {
-                if (!characters.contains(origin.charAt(i))) {
-                    return i;
-                }
-            }
-        } else {
-            for (int i = startIndex; i < origin.length(); i++) {
-                if (characters.contains(origin.charAt(i))) {
-                    return i;
-                }
-            }
-        }
-        return -1;
-    }
-
     /**
      * 找到字符串第一个出现指定字符的位置
      *
@@ -319,14 +241,7 @@ public class XTStrUtil {
      * @since 1.0.2
      */
     public static int findFirstOf(String origin, int startIndex, String characterCollection, boolean ignoreCase) {
-        if (origin == null) return -2;
-        if (startIndex < 0 || startIndex >= origin.length()) {
-            throw new ArrayIndexOutOfBoundsException("startIndex must be  greater than  or equals 0 and less than origin string length");
-        }
-        if (StrUtil.isBlank(characterCollection)) {
-            return -1;
-        }
-        return findFirstOfCollection(origin, startIndex, characterCollection, true, ignoreCase);
+        return findFirstOf(origin, startIndex, characterCollection, ignoreCase);
     }
 
     /**
@@ -337,14 +252,7 @@ public class XTStrUtil {
      * @since 1.0.2
      */
     public static int findFirstNotOf(String origin, int startIndex, String characterCollection, boolean ignoreCase) {
-        if (origin == null) return -2;
-        if (startIndex < 0 || startIndex >= origin.length()) {
-            throw new ArrayIndexOutOfBoundsException("startIndex must be  greater than  or equals 0 and less than origin string length");
-        }
-        if (StrUtil.isBlank(characterCollection)) {
-            return 0;
-        }
-        return findFirstOfCollection(origin, startIndex, characterCollection, false, ignoreCase);
+        return XTStringAlgo.findFirstNotOf(origin, startIndex, characterCollection, ignoreCase);
     }
 
     /**
@@ -356,17 +264,7 @@ public class XTStrUtil {
      * @since 1.0.2
      */
     public static int findLastOf(String origin, int startIndex, String characterCollection, boolean ignoreCase) {
-        if (origin == null) return -2;
-        if (startIndex < 0 || startIndex >= origin.length()) {
-            throw new ArrayIndexOutOfBoundsException("startIndex must be  greater than  or equals 0 and less than origin string length");
-        }
-        if (StrUtil.isBlank(characterCollection)) {
-            return -1;
-        }
-        String s = new StringBuilder(origin).reverse().toString();
-        int revPos = findFirstOfCollection(s, startIndex, characterCollection, true, ignoreCase);
-        if (revPos == -1) return -1;
-        return s.length() - 1 - revPos;
+        return XTStringAlgo.findLastOf(origin, startIndex, characterCollection, ignoreCase);
     }
 
     /**
@@ -377,16 +275,8 @@ public class XTStrUtil {
      * @since 1.0.2
      */
     public static int findLastNotOf(String origin, int startIndex, String characterCollection, boolean ignoreCase) {
-        if (origin == null) return -2;
-        if (startIndex < 0 || startIndex >= origin.length()) {
-            throw new ArrayIndexOutOfBoundsException("startIndex must be  greater than  or equals 0 and less than origin string length");
-        }
-        if (StrUtil.isBlank(characterCollection)) {
-            return origin.length() - 1;
-        }
-        String s = new StringBuilder(origin).reverse().toString();
-        int revPos = findFirstOfCollection(s, startIndex, characterCollection, false, ignoreCase);
-        if (revPos == -1) return -1;
-        return s.length() - 1 - revPos;
+        return XTStringAlgo.findLastNotOf(origin, startIndex, characterCollection, ignoreCase);
     }
+
+
 }

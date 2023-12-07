@@ -26,6 +26,7 @@ import java.util.function.Consumer;
  */
 public class XTObjUtil {
 
+
     public static class Unsafe {
         public static Unsafe newInstance() {
             return new Unsafe();
@@ -158,6 +159,7 @@ public class XTObjUtil {
             return result;
         }
     }
+
 
     /**
      * 利用反射获取对象属性值

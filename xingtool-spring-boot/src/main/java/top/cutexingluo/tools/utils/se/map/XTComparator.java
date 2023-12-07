@@ -49,7 +49,7 @@ public class XTComparator<T> implements Comparator<T> {
     /**
      * 比较空值，空的对象排在后面
      *
-     * @return 若返回2, 则都不为空
+     * @return 返回0则都为null，返回1则o1为null，返回-1则o2为null，若返回2则都不为空
      */
     public static <T> int tryCompareNull(@Nullable T o1, @Nullable T o2) {
         if (o1 == null && o2 == null) {
