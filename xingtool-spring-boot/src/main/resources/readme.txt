@@ -1,12 +1,21 @@
 
 @Author XingTian
-@Version v1.0.2
+@Version v1.0.3-SNAPSHOT
 @Since 2023-9-26
 @Update 2023-10-16
 
 
 
 更新公告
+2023-10-24 v1.0.3
+1.修改了XTCompletionService实现，以及ThreadLocalHelper文件位置
+2.新增top.cutexingluo.tools.utils.se.algo.cpp包，里面包含各种算法（有些未测试），例如数论，几何，数据结构，图论，字符串等
+3.新增BoolUtil用于适配c++性质。
+4.新增XTArrayUtil一些方法，用于移动数组元素。
+5.新增ClassMaker类，用于转化和反射，可以配合XTObjUtil。
+
+
+
 2023-10-1 ~ 10-16  v1.0.2
 1.添加了Supplier接口
 2.添加多线程注解AOP @MainThread @SonThread

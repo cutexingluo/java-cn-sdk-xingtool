@@ -1,4 +1,4 @@
-package top.cutexingluo.tools.designtools.juc.lock.local;
+package top.cutexingluo.tools.designtools.juc.thread.local;
 
 /**
  * @author XingTian

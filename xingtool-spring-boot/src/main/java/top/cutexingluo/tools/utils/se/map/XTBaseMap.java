@@ -41,13 +41,15 @@ public interface XTBaseMap<K, V> extends Map<K, V> {
      * IfPresent  -> put
      *
      * @return old value
+     * @update 1.0.3
+     * @since 1.0.3
      */
     default V putIfPresentReturnOld(K key, V value) {
         V v = get(key);
         if (v != null) {
             return put(key, value);
         }
-        return null;
+        return v;
     }
 
     /**

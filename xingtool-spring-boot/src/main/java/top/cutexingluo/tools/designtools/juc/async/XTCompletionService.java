@@ -13,6 +13,7 @@ import java.util.concurrent.*;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/5 15:27
+ * @update 1.0.3
  */
 //--------------CompletionService--------------
 public class XTCompletionService<V> extends ExecutorCompletionService<V> {
@@ -37,7 +38,7 @@ public class XTCompletionService<V> extends ExecutorCompletionService<V> {
      * 执行全部
      */
     public ArrayList<Future<V>> submitAll(@NonNull Collection<Callable<V>> tasks) {
-        ArrayList<Future<V>> futures = new ArrayList<>();
+        ArrayList<Future<V>> futures = new ArrayList<>(tasks.size());
         for (Callable<V> task : tasks) {
             if (task == null) continue;
             futures.add(submit(task));
@@ -49,7 +50,7 @@ public class XTCompletionService<V> extends ExecutorCompletionService<V> {
      * 执行全部
      */
     public ArrayList<Future<V>> submitAll(@NonNull List<Runnable> tasks, @NonNull List<V> results) {
-        ArrayList<Future<V>> futures = new ArrayList<>();
+        ArrayList<Future<V>> futures = new ArrayList<>(tasks.size());
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i) == null) continue;
             V result = i < results.size() ? results.get(i) : null;
