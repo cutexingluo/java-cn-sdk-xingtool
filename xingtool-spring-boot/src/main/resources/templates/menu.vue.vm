@@ -1,0 +1,198 @@
+<template>
+  <div>
+    <div style="margin: 5px 0; width: 280px;" class="flex">
+      <el-input style="width: 200px;" placeholder="请输入关键字" suffix-icon="el-icon-search"
+                v-model="name"></el-input>
+      <el-button style="margin-left: 5px;" type="primary" @click="load">搜索</el-button>
+      <el-button class="ml-5" type="warning" @click="reset">重置</el-button>
+    </div>
+    <div class="flex" style="margin: 10px 0;">
+      <el-button type="primary" @click="handleAdd">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
+      <el-popconfirm
+          class="ml-5 mr-5"
+          confirm-button-text='确定'
+          cancel-button-text='我在想想'
+          icon="el-icon-info"
+          icon-color="red"
+          title="你确定要批量删除吗？"
+          @confirm="delBatch"
+      >
+        <!--              @click="delBatch" -->
+        <el-button type="danger" slot="reference">批量删除 <i class="el-icon-remove-outline"></i></el-button>
+      </el-popconfirm>
+      <!--          class="upload-demo"-->
+      <!--          name="file" 对应名字可以不写-->
+
+    </div>
+
+    <el-table :data="tableData" border stripe @selection-change="handleSelectionChange"
+              :header-cell-style="{color:'#333333',fontWeight:'bold'}"
+    >
+      <!--            @selection-change="handleSelectionChange">-->
+      <el-table-column type="selection" width="40">
+      </el-table-column>
+      ${table}
+      <el-table-column label="操作" width="280px;">
+        <template v-slot="scope">
+          <el-button type="success" @click="handleEdit(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
+          <template>
+            <el-popconfirm
+                class="ml-5"
+                confirm-button-text='确定'
+                cancel-button-text='我在想想'
+                icon="el-icon-info"
+                icon-color="red"
+                title="你确定删除吗？"
+                @confirm="del(scope.row.id)"
+            >
+              <el-button type="danger" slot="reference">删除 <i class="el-icon-remove-outline"></i>
+              </el-button>
+            </el-popconfirm>
+          </template>
+
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="flex" style="padding: 5px 0; ">
+      <!--     @size-change="handleSizeChange"
+                      @current-change="handleCurrentChange"
+                      :current-page="currentPage"       -->
+      <el-pagination
+          style="width: 670px;"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pageNum"
+          :page-sizes="[2, 5, 10, 20]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+      </el-pagination>
+    </div>
+
+    <el-dialog title="${classDesc}" :visible.sync="dialogFormVisible" width="30%">
+      <!--            :model="form" -->
+      <el-form label-width="80px" size="small">
+        <!--        :label-width="formLabelWidth"      -->
+        ${dialog}
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="save">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+  export default { // 用户管理
+    name: "${className}",
+    data() {
+      return {
+        total: 0,
+        pageNum: 1,
+        pageSize: 5,
+        name: '',
+        form: {},
+        multipleSelection: {},
+        dialogFormVisible: false,
+        tableData: [],
+
+      }
+    },
+    created() {
+      this.load()
+    },
+    methods: {
+      reset() {
+        this.name = ""
+        this.load()
+      },
+      load() {
+        this.request.get('/${entity}/page', {
+          params: {
+            pageNum: this.pageNum, pageSize: this.pageSize, name: this.name
+          }
+        }).then(res => {
+          // console.log(res)
+          this.tableData = res.data.records
+          this.total = res.data.total
+          if (this.total === 0) {
+            this.pageNum = 1
+          }
+        })
+
+      },
+      save() { // 添加修改存储
+        this.request.post("/${entity}", this.form).then(res => {
+          if (res.code === "200") {
+            this.$message.success("保存成功")
+            this.load()
+          } else {
+            this.$message.error("保存失败")
+          }
+          this.dialogFormVisible = false
+        })
+      },
+      del(id) { //删除单个
+        this.request.delete("/${entity}/" + id).then(res => {
+          if (res.code === "200") {
+            this.$message.success("删除成功")
+            // 因为是异步，数据为空应当返回上一页
+            if (this.tableData.length === 1 && this.pageNum !== 1) {
+              this.pageNum = this.pageNum - 1
+            }
+            this.load()
+          } else {
+            this.$message.error("删除失败")
+          }
+        })
+      },
+      handleSelectionChange(val) { //多选
+        this.multipleSelection = val
+      },
+      delBatch() { //批量删除
+        let ids = this.multipleSelection.map(v => v.id)
+        this.request.post("/${entity}/del/batch", ids).then(res => {
+          if (res.code === "200") {
+            this.$message.success("批量删除成功")
+            // 因为是异步，数据为空应当返回上一页
+            if (this.tableData.length === ids.length && this.pageNum !== 1) {
+              this.pageNum = this.pageNum - 1
+            }
+            this.load()
+          } else {
+            this.$message.error("批量删除失败")
+          }
+        })
+      },
+      handleEdit(row) {
+        this.form = Object.assign({}, row) // 将row拷贝到空对象中 解决没点确定数据改变的问题
+        // 法一：深拷贝  法二：重新加载
+        this.dialogFormVisible = true
+      },
+      handleAdd() {
+        this.dialogFormVisible = true
+        this.form = {}
+      },
+      checkBlack() {
+        if (this.name != '') {//防止搜索栏不为空而造成的搜索
+          this.name = ''
+        }
+      },
+      handleSizeChange(pageSize) {
+        this.checkBlack()
+        this.pageSize = pageSize
+        this.load()
+      },
+      handleCurrentChange(pageNum) {
+        // this.checkBlack() //换页不用清除
+        this.pageNum = pageNum
+        this.load()
+      },
+    }
+  }
+</script>
+
+<style scoped>
+
+</style>
