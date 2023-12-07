@@ -1,0 +1,19 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+top.cutexingluo.tools.aop.log.printlog.PrintLogAutoConfiguration,\
+top.cutexingluo.tools.aop.log.methodlog.MethodLogAutoConfigure,\
+top.cutexingluo.tools.aop.log.systemlog.XTSystemLogAutoConfiguration,\
+top.cutexingluo.tools.aop.log.optlog.OptLogAutoConfiguration,\
+top.cutexingluo.tools.aop.exception.XTExceptionAutoConfiguration,\
+top.cutexingluo.tools.aop.transaction.ExtTransactionAutoConfiguration,\
+top.cutexingluo.tools.aop.thread.AsyncThreadAopAutoConfiguration,\
+top.cutexingluo.tools.exception.XTGlobalExceptionHandler,\
+top.cutexingluo.tools.exception.XTGlobalExceptionHandlerExt,\
+top.cutexingluo.tools.config.InterceptorConfig,\
+top.cutexingluo.tools.utils.ee.redis.RedisConfig,\
+top.cutexingluo.tools.utils.ee.redis.RedisUtilAutoConfigure,\
+top.cutexingluo.tools.utils.distributed.redisson.RedissonConfig,\
+top.cutexingluo.tools.utils.distributed.redisson.aop.RedissonAutoConfig,\
+top.cutexingluo.tools.cloud.feign.dynamic.DynamicFeignClientFactory,\
+top.cutexingluo.tools.utils.spring.security.XTSpringSecurityConfig,\
+top.cutexingluo.tools.utils.spring.security.controller.TokenController
