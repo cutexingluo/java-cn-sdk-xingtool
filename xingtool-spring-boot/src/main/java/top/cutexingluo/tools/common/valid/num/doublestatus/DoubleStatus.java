@@ -1,4 +1,4 @@
-package top.cutexingluo.tools.common.valid.num;
+package top.cutexingluo.tools.common.valid.num.doublestatus;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -15,14 +15,15 @@ import java.lang.annotation.*;
  *
  * @author XingTian
  * @version 1.0.0
- * @date 2023/7/19 17:21
+ * @date 2023/12/8 18:47
+ * @since 1.0.3
  */
 @Documented
 @Inherited
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
-@Constraint(validatedBy = {IntStatusValidator.class})
-public @interface IntStatus {
+@Constraint(validatedBy = {DoubleStatusValidator.class})
+public @interface DoubleStatus {
 
 
     /**
@@ -38,9 +39,9 @@ public @interface IntStatus {
     /**
      * 2.只要目标满足指定数字即可通过,无视大小限制
      *
-     * @return {@link int[]}
+     * @return {@link double[]}
      */
-    int[] matchNum() default {};
+    double[] matchNum() default {};
 
 
     /**
@@ -50,21 +51,27 @@ public @interface IntStatus {
      */
     boolean limit() default false;
 
-    /**
-     * lenLimit开启<br>
-     * 3.最小长度
-     *
-     * @return int
-     */
-    int min() default 0;
 
     /**
-     * lenLimit开启<br>
+     * 精确匹配和范围匹配时，允许的误差
+     */
+    double eps() default 1E-6;
+
+    /**
+     * <p>limit开启</p>
+     * 3.最小长度
+     *
+     * @return double
+     */
+    double min() default 0;
+
+    /**
+     * <p>limit开启</p>
      * 3.最大长度
      *
-     * @return int
+     * @return double
      */
-    int max() default Integer.MAX_VALUE;
+    double max() default Double.MAX_VALUE;
 
 
     /**
@@ -72,10 +79,10 @@ public @interface IntStatus {
      * <p>如果设置了range，则判定是否在此范围内, [ inclusive, inclusive] </p>
      * <p>可以设置多个</p>
      *
-     * @return {@link IntRange[]}
+     * @return {@link DoubleRange[]}
      * @since 1.0.3
      */
-    IntRange[] range() default {};
+    DoubleRange[] range() default {};
 
 
     /**

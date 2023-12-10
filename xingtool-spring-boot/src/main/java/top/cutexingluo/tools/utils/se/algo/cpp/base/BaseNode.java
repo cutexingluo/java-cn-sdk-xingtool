@@ -6,6 +6,7 @@ package top.cutexingluo.tools.utils.se.algo.cpp.base;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/27 15:03
+ * @since 1.0.3
  */
 public interface BaseNode<T> {
 
@@ -18,4 +19,5 @@ public interface BaseNode<T> {
      * 右节点
      */
     T rightNode();
+
 }

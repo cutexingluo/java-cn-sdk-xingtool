@@ -8,6 +8,7 @@ import top.cutexingluo.tools.utils.se.algo.tree.TreeNode;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/16 18:47
+ * @since 1.0.2
  */
 @FunctionalInterface
 public interface ListNodeHandler<IdType, T extends TreeNode<IdType>> {

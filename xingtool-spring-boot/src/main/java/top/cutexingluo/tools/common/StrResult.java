@@ -3,12 +3,13 @@ package top.cutexingluo.tools.common;
 import cn.hutool.core.bean.BeanUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import top.cutexingluo.tools.common.base.IResult;
 import top.cutexingluo.tools.common.base.IResultData;
-import top.cutexingluo.tools.common.base.IResultSource;
 import top.cutexingluo.tools.common.base.XTIntCode;
+import top.cutexingluo.tools.designtools.method.ClassMaker;
 
 import java.util.List;
 import java.util.Map;
@@ -17,32 +18,18 @@ import java.util.Map;
  * <p>兼容 String 类型的 code</p>
  *
  * @author XingTian
- * @version 1.1.0
+ * @version 1.1.1
  * @date 2023/7/13 23:13
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class StrResult implements IResultSource<String, Object>, XTIntCode {
+public class StrResult extends CommonResult<String, Object> implements XTIntCode {
     protected String code;
     protected String msg;
     protected Object data;
-
-    @Override
-    public String getMsg() {
-        return msg;
-    }
-
-    @Override
-    public Object getData() {
-        return data;
-    }
-
-    @Override
-    public String getCode() {
-        return code;
-    }
 
     @Override
     public int intCode() {
@@ -213,7 +200,7 @@ public class StrResult implements IResultSource<String, Object>, XTIntCode {
             try {
                 this.code = result.getCode().toString();
             } catch (NumberFormatException e) {
-                throw new NumberFormatException("code 转化错误 ==> " + e.getMessage());
+                throw new NumberFormatException("code transform eror ==> " + e.getMessage());
             }
         }
         this.msg = result.getMsg();
@@ -221,13 +208,15 @@ public class StrResult implements IResultSource<String, Object>, XTIntCode {
     }
 
     /**
-     * 强转到自定义类型
+     * 转到自定义类型
+     * <p>fix bug</p>
      *
      * @param clazz 自定义类型，需继承自IResult
      * @return {@link P}
+     * @updateFrom 1.0.3
      */
     public <P extends IResult<String, O>, O> P toCollect(Class<P> clazz) {
-        return (P) this;
+        return ClassMaker.castTarClass(this, clazz);
     }
 
     /**

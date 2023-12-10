@@ -40,7 +40,7 @@ public abstract class BaseQueueIterator<T> implements Iterator<T> {
 
     @Override
     public T next() {
-        if (length == -1 || current < length) {
+        if (hasNext()) {
             current++;
             return this.queue.poll();
         }

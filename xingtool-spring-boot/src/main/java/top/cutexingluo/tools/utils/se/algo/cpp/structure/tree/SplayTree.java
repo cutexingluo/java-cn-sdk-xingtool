@@ -2,9 +2,10 @@ package top.cutexingluo.tools.utils.se.algo.cpp.structure.tree;
 
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
+import top.cutexingluo.tools.common.base.IData;
 import top.cutexingluo.tools.designtools.method.ClassMaker;
-import top.cutexingluo.tools.utils.se.algo.cpp.base.BaseBiNode;
-import top.cutexingluo.tools.utils.se.algo.cpp.base.BaseListIterator;
+import top.cutexingluo.tools.utils.se.algo.cpp.base.BaseBiNodeSource;
+import top.cutexingluo.tools.utils.se.algo.cpp.base.BaseNodeIterator;
 
 import java.util.*;
 
@@ -15,6 +16,7 @@ import java.util.*;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/28 12:40
+ * @since 1.0.3
  */
 public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> {
 
@@ -30,7 +32,7 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> {
 
 
     @Data
-    public static class Node<T> implements BaseBiNode<Node<T>> {
+    public static class Node<T> implements BaseBiNodeSource<Node<T>>, IData<T> {
         private T data;
         private Node<T> parent;
         private Node<T> left;
@@ -78,6 +80,26 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> {
                     ", left=" + takeData(left) +
                     ", right=" + takeData(right) +
                     '}';
+        }
+
+        @Override
+        public void setLeftNode(Node<T> leftNode) {
+            this.left = leftNode;
+        }
+
+        @Override
+        public void setRightNode(Node<T> rightNode) {
+            this.right = rightNode;
+        }
+
+        @Override
+        public void setParentNode(Node<T> parentNode) {
+            this.parent = parentNode;
+        }
+
+        @Override
+        public T data() {
+            return data;
         }
     }
 
@@ -657,12 +679,20 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new SplayTreeIterator(bfsData());
+        return new SplayTreeIterator(size(), root);
     }
 
-    final class SplayTreeIterator extends BaseListIterator<T> {
-        public SplayTreeIterator(List<T> list) {
-            super(list);
+    final class SplayTreeIterator extends BaseNodeIterator<Node<T>, T> {
+
+        public SplayTreeIterator(int length, Node<T> root) {
+            super(length, root);
+        }
+
+        @Override
+        public void remove() {
+            if (currentNode != null) {
+                SplayTree.this.remove(currentNode.data);
+            }
         }
     }
 }

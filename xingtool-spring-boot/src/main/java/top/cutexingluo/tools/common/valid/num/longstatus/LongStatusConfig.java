@@ -1,4 +1,4 @@
-package top.cutexingluo.tools.common.valid.num;
+package top.cutexingluo.tools.common.valid.num.longstatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,24 +9,25 @@ import java.util.Set;
 /**
  * @author XingTian
  * @version 1.0.0
- * @date 2023/7/19 17:21
+ * @date 2023/12/8 16:12
+ * @since 1.0.3
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class IntStatusConfig {
+public class LongStatusConfig {
 
     boolean notNull = false;
 
-    Set<Integer> matchNum = null;
+    Set<Long> matchNum = null;
 
     boolean limit = false;
 
-    int min = 0;
+    long min = 0;
 
-    int max = Integer.MAX_VALUE;
+    long max = Long.MAX_VALUE;
 
-    IntRange[] range;
+    LongRange[] range;
 
 
 }

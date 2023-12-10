@@ -1,4 +1,4 @@
-package top.cutexingluo.tools.common.valid.num;
+package top.cutexingluo.tools.common.valid.num.longstatus;
 
 import top.cutexingluo.tools.common.valid.StatusValidator;
 import top.cutexingluo.tools.utils.se.map.XTSetUtil;
@@ -8,15 +8,16 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * @author XingTian
  * @version 1.0.0
- * @date 2023/7/19 16:12
+ * @date 2023/12/8 16:12
+ * @since 1.0.3
  */
-public class IntStatusValidator extends StatusValidator<IntStatus, Integer> {
+public class LongStatusValidator extends StatusValidator<LongStatus, Long> {
 
-    protected IntStatusConfig statusConfig;
+    protected LongStatusConfig statusConfig;
 
     @Override
-    public void initialize(IntStatus constraintAnnotation) {
-        statusConfig = new IntStatusConfig(
+    public void initialize(LongStatus constraintAnnotation) {
+        statusConfig = new LongStatusConfig(
                 constraintAnnotation.notNull(),
                 XTSetUtil.toSet(constraintAnnotation.matchNum()),
                 constraintAnnotation.limit(),
@@ -27,7 +28,7 @@ public class IntStatusValidator extends StatusValidator<IntStatus, Integer> {
     }
 
     @Override
-    public boolean isValid(Integer value, ConstraintValidatorContext constraintValidatorContext) {
+    public boolean isValid(Long value, ConstraintValidatorContext constraintValidatorContext) {
         if (!statusConfig.notNull && value == null) {
             return true;
         }

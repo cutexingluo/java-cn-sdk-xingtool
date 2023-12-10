@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.cutexingluo.tools.common.Result;
+import top.cutexingluo.tools.common.base.IResult;
+import top.cutexingluo.tools.common.utils.GlobalResultFactory;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
 import java.security.Principal;
@@ -37,14 +39,19 @@ public class TokenController implements InitializingBean {
     @Autowired
     TokenEndpoint tokenEndpoint;
 
+    @Autowired(required = false)
+    GlobalResultFactory globalResultFactory;
+
     /**
      * 重写/oauth/token 这个默认接口，返回的数据格式统一
      */
     @RequestMapping(value = "/oauth/token", method = RequestMethod.POST)
-    public Result postAccessToken(Principal principal, @RequestParam
+    public <C, T> IResult<C, T> postAccessToken(Principal principal, @RequestParam
             Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         OAuth2AccessToken accessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
-        return Result.success(accessToken);
+        Result error = Result.success(accessToken);
+        IResult<Object, Object> result = GlobalResultFactory.selectResult(globalResultFactory, error);
+        return (IResult<C, T>) result;
     }
 
     @Override

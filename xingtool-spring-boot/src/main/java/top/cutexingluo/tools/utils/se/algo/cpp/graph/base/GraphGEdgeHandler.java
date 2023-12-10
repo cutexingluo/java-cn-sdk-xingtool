@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
+ * 图-流处理器
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/27 17:25
+ * @since 1.0.3
  */
 public class GraphGEdgeHandler extends GraphData {
 
@@ -68,5 +71,5 @@ public class GraphGEdgeHandler extends GraphData {
         Id[u].add(m - 2);//0
         Id[v].add(m - 1);//1
     }
-    
+
 }

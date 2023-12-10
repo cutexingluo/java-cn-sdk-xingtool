@@ -2,18 +2,23 @@
 @Author XingTian
 @Version v1.0.3-SNAPSHOT
 @Since 2023-9-26
-@Update 2023-10-16
+@Update 2023-12-9
 
 
 
 更新公告
-2023-10-24 v1.0.3
+2023-10-24 ~ 12-9  v1.0.3
 1.修改了XTCompletionService实现，以及ThreadLocalHelper文件位置
 2.新增top.cutexingluo.tools.utils.se.algo.cpp包，里面包含各种算法（有些未测试），例如数论，几何，数据结构，图论，字符串等
-3.新增 BoolUtil  用于适配 c++性质。
-4.新增XTArrayUtil一些方法，用于移动数组元素。
+3.新增 BoolUtil  用于使 java 适配 c++性质。
+4.新增XTArrayUtil一些方法，用于移动数组元素，新增 XTSetUtil 的 Set 工具类。
 5.新增ClassMaker类，用于转化和反射，可以配合XTObjUtil。
 6.修复了 AccessLimitUtil.limitIP 加载 Ipdb 错误 的bug
+7.增加了 CommonResult 类，用于返回通用结果, 四大返回类重新继承了该类。
+8.所有web 拦截类 从 Result 改为返回 IResult 接口，并且添加 GlobalResultFactory 接口用于全局返回结果。
+9.新增红黑树 RBTree，迭代器默认中序遍历，即默认升序排序。
+10.新增各种迭代器用于适配多种情况。
+
 
 
 

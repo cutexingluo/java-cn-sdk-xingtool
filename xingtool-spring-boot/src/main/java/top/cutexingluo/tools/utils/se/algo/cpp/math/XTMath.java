@@ -71,7 +71,7 @@ public class XTMath {
     public static int lowerBound(int[] arr, int start, int end, int tar) {
         int l = start, r = end;
         while (l < r) {
-            int mid = l + r >> 1;
+            int mid = l + (r - l >> 1);
             if (arr[mid] >= tar) r = mid;
             else l = mid + 1;
         }
@@ -117,7 +117,7 @@ public class XTMath {
     public static <T extends Comparable<T>> int lowerBound(T[] arr, int start, int end, T tar, Comparator<T> c) {
         int l = start, r = end;
         while (l < r) {
-            int mid = l + r >> 1;
+            int mid = l + (r - l >> 1);
             if (c.compare(arr[mid], tar) >= 0) r = mid;
             else l = mid + 1;
         }
@@ -150,7 +150,7 @@ public class XTMath {
     public static int upperBound(int[] arr, int start, int end, int tar) {
         int l = start, r = end;
         while (l < r) {
-            int mid = l + r >> 1;
+            int mid = l + (r - l >> 1);
             if (arr[mid] > tar) r = mid;
             else l = mid + 1;
         }
@@ -196,7 +196,7 @@ public class XTMath {
     public static <T> int upperBound(T[] arr, int start, int end, T tar, Comparator<T> c) {
         int l = start, r = end;
         while (l < r) {
-            int mid = l + r >> 1;
+            int mid = l + (r - l >> 1);
             if (c.compare(arr[mid], tar) > 0) r = mid;
             else l = mid + 1;
         }
@@ -215,7 +215,7 @@ public class XTMath {
         int l = -1, r = arr.length;
         //l与r相邻时,l指向<=tar的最大值,r指向>tar的最小值
         while (l + 1 < r) {
-            int mid = (l + r) >> 1;
+            int mid = l + (r - l >> 1);
             //如果mid增大,f(mid)减小,需要交换l和r
             if (arr[mid] <= tar) l = mid;//如果f(mid)<=tar,则可能为<tar的最大值,或者=tar
             else r = mid;//如果f(mid)>tar,则可能为>tar的最小值
@@ -235,7 +235,7 @@ public class XTMath {
         int l = -1, r = arr.length;
         //l与r相邻时,l指向<tar的最大值,r指向>=tar的最小值
         while (l + 1 < r) {
-            int mid = (l + r) >> 1;
+            int mid = l + (r - l >> 1);
             if (arr[mid] < tar) l = mid;//如果f(mid)<tar,则可能为<tar的最大值
             else r = mid;//如果f(mid)>=tar,则可能为>tar的最小值,或者=tar
         }
