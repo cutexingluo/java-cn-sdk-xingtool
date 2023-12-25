@@ -51,13 +51,13 @@ Maven 依赖 (无版本号)
 </dependency>
 ```
 
-Maven 最优依赖 v1.0.2版本
+Maven 最优依赖 v1.0.3版本
 
 ```xml
 <dependency>
 	<groupId>top.cutexingluo.tools</groupId>
 	<artifactId>xingtool-spring-boot-starter</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 </dependency>
 ```
 
