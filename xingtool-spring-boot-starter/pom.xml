@@ -14,7 +14,8 @@
     <artifactId>xingtool-spring-boot-starter</artifactId>
     <name>xingtool-spring-boot-starter</name>
     <description>xingtool-spring-boot-starter , please use it . It created by Chinese.
-        see repo：https://gitee.com/SangonomiyaKokomi/xingtool
+        see repo: https://gitee.com/SangonomiyaKokomi/xingtool
+        or https://github.com/cutexingluo/java-cn-sdk-xingtool
     </description>
     <properties>
         <java.version>1.8</java.version>

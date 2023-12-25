@@ -17,7 +17,8 @@
     <version>1.0.3-SNAPSHOT</version>
     <name>xingtool</name>
     <description>The XingTian-Tool you can get ! please use xingtool-spring-boot-starter in your project.
-        see repo：https://gitee.com/SangonomiyaKokomi/xingtool
+        see repo: https://gitee.com/SangonomiyaKokomi/xingtool
+        or https://github.com/cutexingluo/java-cn-sdk-xingtool
     </description>
     <modules>
         <module>xingtool-spring-boot</module>
