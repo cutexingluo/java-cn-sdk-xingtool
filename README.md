@@ -1,8 +1,10 @@
 # XingTool 工具包
 
 ### 相关介绍
-XingTool工具包，v1.0.2正式版发布。( 依赖的版本不能低于 v1.0.1 )
+XingTool sdk 工具包，v1.0.3正式版发布。( 依赖的版本不能低于 1.0.1 )
 星天制作的 Java 工具包，是基于springboot 2 制作的 ,  基于JDK1.8，它是一个整合各工具类的整合starter。
+
+里面包含多种工具，补丁，base接口，aop自动装配，注解，以及 acm型的算法。
 
 **它有以下特性**：
 
@@ -49,13 +51,13 @@ Maven 依赖 (无版本号)
 </dependency>
 ```
 
-Maven 最优依赖 v1.0.2版本
+Maven 最优依赖 v1.0.3版本
 
 ```xml
 <dependency>
 	<groupId>top.cutexingluo.tools</groupId>
 	<artifactId>xingtool-spring-boot-starter</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 </dependency>
 ```
 
@@ -82,6 +84,28 @@ Maven 最低依赖 v1.0.1版本：
 
 ### 更新公告
 
+**2023-12-25 v1.0.3**
+
+bug修复
+
+1. 修复了 AccessLimitUtil.limitIP 加载 Ipdb 错误 的bug
+
+更改部分
+
+1. 修改了XTCompletionService实现，以及ThreadLocalHelper文件位置
+2. 所有web 拦截类 从 Result 改为返回 IResult 接口，并且添加 GlobalResultFactory 接口用于全局返回结果，使用时需要注册到容器。
+
+新增部分
+
+1. 新增top.cutexingluo.tools.utils.se.algo.cpp包，里面包含各种算法（有些未测试），例如数论，几何，数据结构，图论，字符串等
+2. 新增 BoolUtil  用于使 java 适配 c++性质。
+3. 新增XTArrayUtil一些方法，用于移动数组元素，新增 XTSetUtil 的 Set 工具类。
+4. 新增ClassMaker类，用于转化和反射，可以配合XTObjUtil。
+5. 增加了 CommonResult 类，用于返回通用结果, 四大返回类重新继承了该类。
+6. 新增红黑树 RBTree，迭代器默认中序遍历，即默认升序排序。属性全为protected，方便子类继承。常规推荐使用 TreeMap
+7. 新增各种迭代器用于适配多种情况。可自行继承使用。
+8. 新增启用 server 的 banner 和 cloud server 的 banner
+
 **2023-10-21 v1.0.2**
 
 1. 添加了 Supplier 接口,。与之对应各种适配类的调整。
@@ -103,7 +127,6 @@ Maven 最低依赖 v1.0.1版本：
 11.添加RabbitMQ系列初始工具类, 以及用法Test类, 可以不使用，没有太多优化的地方。
 ```
 **2023-9-26 v1.0.1**
-
 正式版发布，中央仓库 ,  依赖最低版本不能低于 v1.0.1
 
 1. 含有基础日志、事务、线程、异常等AOP，需要通过配置文件开启。

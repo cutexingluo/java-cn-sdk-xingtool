@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 /**
  * @author XingTian
  * @version 1.0.0
@@ -16,13 +18,15 @@ public class IntStatusConfig {
 
     boolean notNull = false;
 
-    int[] matchNum = {};
+    Set<Integer> matchNum = null;
 
     boolean limit = false;
 
     int min = 0;
 
     int max = Integer.MAX_VALUE;
+
+    IntRange[] range;
 
 
 }

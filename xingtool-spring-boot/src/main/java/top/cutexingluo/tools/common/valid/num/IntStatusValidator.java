@@ -1,10 +1,9 @@
 package top.cutexingluo.tools.common.valid.num;
 
 import top.cutexingluo.tools.common.valid.StatusValidator;
-import top.cutexingluo.tools.utils.se.array.XTArrayUtil;
+import top.cutexingluo.tools.utils.se.map.XTSetUtil;
 
 import javax.validation.ConstraintValidatorContext;
-import java.util.List;
 
 /**
  * @author XingTian
@@ -19,10 +18,11 @@ public class IntStatusValidator extends StatusValidator<IntStatus, Integer> {
     public void initialize(IntStatus constraintAnnotation) {
         statusConfig = new IntStatusConfig(
                 constraintAnnotation.notNull(),
-                constraintAnnotation.matchNum(),
+                XTSetUtil.toSet(constraintAnnotation.matchNum()),
                 constraintAnnotation.limit(),
                 constraintAnnotation.min(),
-                constraintAnnotation.max()
+                constraintAnnotation.max(),
+                constraintAnnotation.range()
         );
     }
 
@@ -32,15 +32,23 @@ public class IntStatusValidator extends StatusValidator<IntStatus, Integer> {
             return true;
         }
         if (value != null) {
-            List<Integer> nums = XTArrayUtil.toList(statusConfig.matchNum);
-            if (statusConfig.matchNum.length > 0 && nums.contains(value)) {
+            if (!statusConfig.matchNum.isEmpty() && statusConfig.matchNum.contains(value)) {
                 return true;
             }
             if (statusConfig.limit) {
                 if (value < statusConfig.min) {
                     return false;
+                } else if (value > statusConfig.max) {
+                    return false;
                 }
-                return value <= statusConfig.max;
+                if (statusConfig.range.length > 0) {
+                    for (int i = 0; i < statusConfig.range.length; i++) {
+                        if (value >= statusConfig.range[i].min() && value <= statusConfig.range[i].max()) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
             }
         }
         return false;

@@ -3,12 +3,13 @@ package top.cutexingluo.tools.common;
 import cn.hutool.core.bean.BeanUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import top.cutexingluo.tools.common.base.IResult;
 import top.cutexingluo.tools.common.base.IResultData;
-import top.cutexingluo.tools.common.base.IResultSource;
 import top.cutexingluo.tools.common.base.XTStrCode;
+import top.cutexingluo.tools.designtools.method.ClassMaker;
 
 import java.util.List;
 import java.util.Map;
@@ -18,14 +19,15 @@ import java.util.Map;
  * <p>支持泛型</p>
  *
  * @author XingTian
- * @version 1.1.0
+ * @version 1.1.1
  * @date 2023/7/13 20:40
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class MSResult<T> implements IResultSource<Integer, T>, XTStrCode {
+public class MSResult<T> extends CommonResult<Integer, T> implements XTStrCode {
 
     protected int code;
     protected String msg;
@@ -221,7 +223,7 @@ public class MSResult<T> implements IResultSource<Integer, T>, XTStrCode {
             try {
                 this.code = Integer.parseInt(result.getCode().toString());
             } catch (NumberFormatException e) {
-                throw new NumberFormatException("code 转化错误 ==> " + e.getMessage());
+                throw new NumberFormatException("code transform error ==> " + e.getMessage());
             }
         }
         this.msg = result.getMsg();
@@ -229,20 +231,25 @@ public class MSResult<T> implements IResultSource<Integer, T>, XTStrCode {
     }
 
     /**
-     * 强转到R扩展类型
+     * 转到R扩展类型
+     * <p>fix bug</p>
+     *
+     * @since 1.0.3
      */
     public R<T> toR() {
-        return (R<T>) this;
+        return new R<>(this);
     }
 
     /**
-     * 强转到自定义类型
+     * 转到自定义类型
+     * <p>fix bug</p>
      *
      * @param clazz 自定义类型，需继承自IResult
      * @return {@link P}
+     * @updateFrom 1.0.3
      */
     public <P extends IResult<Integer, O>, O> P toCollect(Class<P> clazz) {
-        return (P) this;
+        return ClassMaker.castTarClass(this, clazz);
     }
 
     /**

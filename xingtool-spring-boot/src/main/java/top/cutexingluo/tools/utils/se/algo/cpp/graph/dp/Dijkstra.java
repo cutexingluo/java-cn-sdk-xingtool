@@ -1,6 +1,6 @@
 package top.cutexingluo.tools.utils.se.algo.cpp.graph.dp;
 
-import top.cutexingluo.tools.utils.se.algo.cpp.base.Pair;
+import top.cutexingluo.tools.common.data.Pair;
 import top.cutexingluo.tools.utils.se.algo.cpp.common.AlgoUtil;
 import top.cutexingluo.tools.utils.se.algo.cpp.graph.base.GraphEdgeHandler;
 
@@ -15,6 +15,7 @@ import java.util.PriorityQueue;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/26 19:52
+ * @since 1.0.3
  */
 public class Dijkstra extends GraphEdgeHandler {
 

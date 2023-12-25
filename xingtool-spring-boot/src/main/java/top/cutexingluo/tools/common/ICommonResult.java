@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * IResult 公用方法
+ * <p>v1.0.3 : 推荐用作函数式接口</p>
  *
  * @author XingTian
  * @version 1.0.0
@@ -52,4 +53,5 @@ public interface ICommonResult<T> {
         list.add(items);
         return list;
     }
+
 }

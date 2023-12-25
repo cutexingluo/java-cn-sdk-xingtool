@@ -1,4 +1,4 @@
-package top.cutexingluo.tools.utils.se.algo.cpp.base;
+package top.cutexingluo.tools.common.data;
 
 import org.jetbrains.annotations.NotNull;
 import top.cutexingluo.tools.utils.se.map.XTComparator;

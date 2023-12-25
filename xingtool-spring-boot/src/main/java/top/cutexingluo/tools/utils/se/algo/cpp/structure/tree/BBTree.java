@@ -2,8 +2,9 @@ package top.cutexingluo.tools.utils.se.algo.cpp.structure.tree;
 
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import top.cutexingluo.tools.common.base.IData;
 import top.cutexingluo.tools.utils.se.algo.cpp.base.BaseNode;
-import top.cutexingluo.tools.utils.se.algo.cpp.base.BaseQueueIterator;
+import top.cutexingluo.tools.utils.se.algo.cpp.base.BaseNodeIterator;
 
 import java.util.*;
 
@@ -32,7 +33,7 @@ public class BBTree<K extends Comparable<K>, V> extends AbstractMap<K, V> {
      * 节点类
      */
     @AllArgsConstructor
-    protected class Node implements Map.Entry<K, V>, BaseNode<Node> {
+    protected class Node implements Map.Entry<K, V>, BaseNode<Node>, IData<Map.Entry<K, V>> {
         private K key;
         private V value;
         private Node left;
@@ -92,6 +93,19 @@ public class BBTree<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         @Override
         public Node rightNode() {
             return right;
+        }
+
+        @Override
+        public String toString() {
+            return "BBTNode{" +
+                    "key=" + key +
+                    ", value=" + value +
+                    '}';
+        }
+
+        @Override
+        public Map.Entry<K, V> data() {
+            return toEntry();
         }
     }
 
@@ -513,9 +527,16 @@ public class BBTree<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         return new EntrySet();
     }
 
-    final class BBTreeIterator extends BaseQueueIterator<Entry<K, V>> {
+    final class BBTreeIterator extends BaseNodeIterator<Node, Entry<K, V>> {
         public BBTreeIterator() {
-            super(preErgodicGetEntries());
+            super(BBTree.this.size(), BBTree.this.root);
+        }
+
+        @Override
+        public void remove() {
+            if (currentNode != null) {
+                BBTree.this.remove(currentNode, currentNode.key);
+            }
         }
     }
 
@@ -532,6 +553,8 @@ public class BBTree<K extends Comparable<K>, V> extends AbstractMap<K, V> {
         public int size() {
             return BBTree.this.size();
         }
+
+
     }
 
 }

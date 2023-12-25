@@ -11,7 +11,7 @@ import java.lang.annotation.*;
  *     <li>是否notNull，未设置则 null 会通过，等同@NotNull</li>
  *     <li>是否 notBlankIfPresent  未设置则 "" 会通过，<br>
  *     1.如果和上一条一起开启等同@NotBlank; <br>
- *     2.如果上一条不开启这条开启，则 null 通过 "" 不通过,  适用于框架的update</i>
+ *     2.如果上一条不开启这条开启，则 null 通过 "" 不通过,  适用于很多框架的update</i>
  *     <li>先进行长度范围匹配 lenLimit</li>
  *     <li>再进行字符串精确匹配 anyStr</li>
  *     <li>字符串精确匹配不匹配  则进行字符串正则匹配 anyReg</li>
@@ -34,7 +34,7 @@ public @interface StrStatus {
      * <p>也可以使用 @NotNull 注解</p>
      * <p>不设置这个，如果为null则会通过</p>
      *
-     * @return int
+     * @return boolean
      */
     boolean notNull() default false;
 
@@ -42,14 +42,14 @@ public @interface StrStatus {
      * 2.是否不为空字符串""
      * <p>不设置这个，如果为 ""  则会通过</p>
      *
-     * @return int
+     * @return boolean
      */
     boolean notBlankIfPresent() default false;
 
     /**
      * 3.是否限制长度
      *
-     * @return int
+     * @return boolean
      */
     boolean lenLimit() default false;
 

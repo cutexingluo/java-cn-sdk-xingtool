@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/24 17:27
+ * @since 1.0.3
  */
 public class XTStringAlgo {
     /**

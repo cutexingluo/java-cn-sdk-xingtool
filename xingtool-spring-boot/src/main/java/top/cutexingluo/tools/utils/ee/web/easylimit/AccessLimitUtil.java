@@ -7,10 +7,13 @@ import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.method.HandlerMethod;
 import top.cutexingluo.tools.common.Result;
+import top.cutexingluo.tools.common.base.IResult;
+import top.cutexingluo.tools.common.utils.GlobalResultFactory;
 import top.cutexingluo.tools.utils.ee.redis.RYRedisCache;
 import top.cutexingluo.tools.utils.ee.redis.RYRedisUtil;
 import top.cutexingluo.tools.utils.ee.web.front.WebUtils;
 import top.cutexingluo.tools.utils.ee.web.ip.util.IpUtils;
+import top.cutexingluo.tools.utils.spring.SpringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +34,8 @@ public class AccessLimitUtil {
     protected static boolean showLog = true;
     protected static boolean firstTime = true;
 
+    protected static GlobalResultFactory globalResultFactory = null;
+
 
     public static void setShowLog(boolean showLog) {
         AccessLimitUtil.showLog = showLog;
@@ -50,6 +55,9 @@ public class AccessLimitUtil {
     }
 
     public static boolean checkRedis() throws Exception {
+        if (applicationContext == null) {
+            applicationContext = SpringUtils.getApplicationContext();
+        }
         boolean b = RYRedisUtil.checkRedisSource(redisCache, redisTemplate, applicationContext);
         firstTime = false;
         if (!b) {
@@ -138,11 +146,21 @@ public class AccessLimitUtil {
      * @param outLimitMsg 超出限制消息
      * @return boolean
      * @throws Exception 异常
+     * @updateFrom 1.0.3
      */
-    public static boolean limit(HttpServletResponse response,
-                                String redisKey,
-                                int interval, int maxCount, String outLimitMsg) throws Exception {
-        return limit(response, redisKey, interval, maxCount, Result.error(outLimitMsg));
+    public static <C, T> boolean limit(HttpServletResponse response,
+                                       String redisKey,
+                                       int interval, int maxCount, String outLimitMsg) throws Exception {
+        if (globalResultFactory == null && applicationContext != null) {
+            globalResultFactory = applicationContext.getBean(GlobalResultFactory.class);
+        }
+        IResult<C, T> result = null;
+        if (globalResultFactory != null) {
+            result = (IResult<C, T>) GlobalResultFactory.selectResult(globalResultFactory, Result.error(outLimitMsg));
+        } else {
+            result = (IResult<C, T>) Result.error(outLimitMsg);
+        }
+        return limit(response, redisKey, interval, maxCount, result);
     }
 
     /**

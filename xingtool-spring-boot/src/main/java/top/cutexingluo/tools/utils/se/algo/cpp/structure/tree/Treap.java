@@ -3,9 +3,10 @@ package top.cutexingluo.tools.utils.se.algo.cpp.structure.tree;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
+import top.cutexingluo.tools.common.base.IData;
 import top.cutexingluo.tools.designtools.method.ClassMaker;
-import top.cutexingluo.tools.utils.se.algo.cpp.base.BaseBiNode;
-import top.cutexingluo.tools.utils.se.algo.cpp.base.BaseQueueIterator;
+import top.cutexingluo.tools.utils.se.algo.cpp.base.BaseBiNodeSource;
+import top.cutexingluo.tools.utils.se.algo.cpp.base.BaseNodeIterator;
 
 import java.util.*;
 
@@ -38,7 +39,7 @@ public class Treap<T extends Comparable<? super T>> extends AbstractSet<T> {
 
     @Data
     @AllArgsConstructor
-    public static class Node<T> implements BaseBiNode<Node<T>> {
+    public static class Node<T> implements BaseBiNodeSource<Node<T>>, IData<T> {
         /**
          * 数据值
          */
@@ -93,6 +94,16 @@ public class Treap<T extends Comparable<? super T>> extends AbstractSet<T> {
                     ", leftNode=" + takeData(leftNode) +
                     ", rightNode=" + takeData(rightNode) +
                     '}';
+        }
+
+        @Override
+        public void setParentNode(Node<T> parentNode) {
+            this.parent = parentNode;
+        }
+
+        @Override
+        public T data() {
+            return data;
         }
     }
 
@@ -491,13 +502,20 @@ public class Treap<T extends Comparable<? super T>> extends AbstractSet<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new BBTreeIterator(printTree(root, new LinkedList<>()));
+        return new BBTreeIterator(size(), root);
     }
 
 
-    final class BBTreeIterator extends BaseQueueIterator<T> {
-        public BBTreeIterator(Queue<T> queue) {
-            super(queue);
+    final class BBTreeIterator extends BaseNodeIterator<Node<T>, T> {
+        public BBTreeIterator(int length, Node<T> root) {
+            super(length, root);
+        }
+
+        @Override
+        public void remove() {
+            if (currentNode != null) {
+                removeTask(currentNode.data);
+            }
         }
     }
 }

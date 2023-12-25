@@ -8,6 +8,7 @@ import java.io.*;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/24 15:26
+ * @since 1.0.3
  */
 public class ExtremeIO extends BufferedWriter {
     private final BufferedReader br;

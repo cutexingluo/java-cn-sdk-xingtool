@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.util.Set;
+
 /**
  * @author XingTian
  * @version 1.0.0
@@ -26,7 +28,7 @@ public class StrStatusConfig {
 
     int maxLength = Integer.MAX_VALUE;
 
-    String[] anyStr = {};
+    Set<String> anyStr = null;
 
     String[] anyReg = {};
 }

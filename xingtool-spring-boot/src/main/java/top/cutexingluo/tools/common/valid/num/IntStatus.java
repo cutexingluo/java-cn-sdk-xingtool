@@ -30,7 +30,7 @@ public @interface IntStatus {
      * <p>也可以使用 @NotNull 注解</p>
      * <p>不设置这个，如果为null则会通过</p>
      *
-     * @return int
+     * @return boolean
      */
     boolean notNull() default false;
 
@@ -46,7 +46,7 @@ public @interface IntStatus {
     /**
      * 3.是否限制大小
      *
-     * @return int
+     * @return boolean
      */
     boolean limit() default false;
 
@@ -65,6 +65,17 @@ public @interface IntStatus {
      * @return int
      */
     int max() default Integer.MAX_VALUE;
+
+
+    /**
+     * 4.范围限制
+     * <p>如果设置了range，则判定是否在此范围内, [ inclusive, inclusive] </p>
+     * <p>可以设置多个</p>
+     *
+     * @return {@link IntRange[]}
+     * @since 1.0.3
+     */
+    IntRange[] range() default {};
 
 
     /**

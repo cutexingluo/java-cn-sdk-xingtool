@@ -8,6 +8,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,8 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import top.cutexingluo.tools.common.Constants;
 import top.cutexingluo.tools.common.Result;
+import top.cutexingluo.tools.common.base.IResult;
+import top.cutexingluo.tools.common.utils.GlobalResultFactory;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 import top.cutexingluo.tools.utils.ee.web.Limit;
 import top.cutexingluo.tools.utils.ee.web.front.WebUtils;
@@ -45,6 +48,9 @@ import java.util.Map;
 @Aspect
 @Component
 public class LimitAop {
+
+    @Autowired(required = false)
+    private GlobalResultFactory globalResultFactory;
 
     @PostConstruct
     public void init() {
@@ -93,9 +99,11 @@ public class LimitAop {
      *
      * @param msg 提示信息
      */
-    private void responseFail(String msg) {
+    private <C, T> void responseFail(String msg) {
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-        Result error = Result.error(Constants.CODE_201, msg);
-        WebUtils.renderString(response, JSONUtil.toJsonStr(error));
+        IResult<C, T> err = globalResultFactory == null ?
+                (IResult<C, T>) Result.error(Constants.CODE_403, msg) :
+                globalResultFactory.newResult(Constants.CODE_403.intCode(), msg, null);
+        WebUtils.renderString(response, JSONUtil.toJsonStr(err));
     }
 }

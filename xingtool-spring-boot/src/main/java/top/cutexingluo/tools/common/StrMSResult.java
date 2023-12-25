@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import top.cutexingluo.tools.common.base.IResult;
 import top.cutexingluo.tools.common.base.IResultData;
-import top.cutexingluo.tools.common.base.IResultSource;
 import top.cutexingluo.tools.common.base.XTIntCode;
+import top.cutexingluo.tools.designtools.method.ClassMaker;
 
 import java.util.List;
 import java.util.Map;
@@ -18,33 +18,18 @@ import java.util.Map;
  * <p>支持泛型</p>
  *
  * @author XingTian
- * @version 1.1.0
+ * @version 1.1.1
  * @date 2023/7/13 23:14
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class StrMSResult<T> implements IResultSource<String, T>, XTIntCode {
+public class StrMSResult<T> extends CommonResult<String, T> implements XTIntCode {
 
     protected String code;
     protected String msg;
     protected T data;
-
-    @Override
-    public String getMsg() {
-        return msg;
-    }
-
-    @Override
-    public T getData() {
-        return data;
-    }
-
-    @Override
-    public String getCode() {
-        return code;
-    }
 
     @Override
     public int intCode() {
@@ -216,7 +201,7 @@ public class StrMSResult<T> implements IResultSource<String, T>, XTIntCode {
             try {
                 this.code = result.getCode().toString();
             } catch (NumberFormatException e) {
-                throw new NumberFormatException("code 转化错误 ==> " + e.getMessage());
+                throw new NumberFormatException("code transform error ==> " + e.getMessage());
             }
         }
         this.msg = result.getMsg();
@@ -224,13 +209,15 @@ public class StrMSResult<T> implements IResultSource<String, T>, XTIntCode {
     }
 
     /**
-     * 强转到自定义类型
+     * 转到自定义类型
+     * <p>fix bug</p>
      *
      * @param clazz 自定义类型，需继承自IResult
      * @return {@link P}
+     * @updateFrom 1.0.3
      */
     public <P extends IResult<String, O>, O> P toCollect(Class<P> clazz) {
-        return (P) this;
+        return ClassMaker.castTarClass(this, clazz);
     }
 
     /**

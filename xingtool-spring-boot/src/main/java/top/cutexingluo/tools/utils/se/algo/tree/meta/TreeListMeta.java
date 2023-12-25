@@ -9,6 +9,7 @@ import java.util.List;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/16 18:43
+ * @since 1.0.2
  */
 @Data
 public class TreeListMeta<IdType, T extends TreeNode<IdType>> implements ITreeMeta<T> {

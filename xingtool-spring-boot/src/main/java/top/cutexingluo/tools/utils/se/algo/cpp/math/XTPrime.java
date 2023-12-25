@@ -11,6 +11,7 @@ import java.util.Map;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/24 14:18
+ * @since 1.0.3
  */
 public class XTPrime {
 
