@@ -54,7 +54,7 @@ public @interface MainThread {
     /**
      * 线程执行时机策略，默认最后一个子线程加载
      */
-    ThreadTimePolicy startTime() default ThreadTimePolicy.AsyncAfterLastSon;
+    ThreadTimePolicy startTime() default ThreadTimePolicy.GetResultAfterLastSon;
 
     /**
      * 线程事务回滚策略，默认单独回滚

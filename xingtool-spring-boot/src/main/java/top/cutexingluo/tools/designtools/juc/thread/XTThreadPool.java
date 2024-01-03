@@ -2,6 +2,10 @@ package top.cutexingluo.tools.designtools.juc.thread;
 
 
 import lombok.Data;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import top.cutexingluo.tools.designtools.juc.thread.data.IThreadData;
+import top.cutexingluo.tools.designtools.juc.thread.data.ThreadData;
 import top.cutexingluo.tools.designtools.juc.utils.XTJUC;
 
 import java.util.List;
@@ -19,6 +23,7 @@ import java.util.concurrent.*;
 @Data
 public class XTThreadPool {
     private static volatile XTThreadPool instance;
+    @NotNull
     // 核心是这个ThreadPoolExecutor，封装了一层是避免冲突
     private ThreadPoolExecutor threadPool;
 
@@ -81,6 +86,19 @@ public class XTThreadPool {
         this.threadPool = threadPoolExecutor;
     }
 
+    /**
+     * 通过 IThreadData 构建线程池
+     *
+     * @param threadData 线程数据
+     * @since 1.0.4
+     */
+    public XTThreadPool(@NotNull IThreadData threadData) {
+        this(threadData.getCorePoolSize(), threadData.getMaxPoolSize(),
+                threadData.getKeepAliveTime(), threadData.getUnit(),
+                threadData.getWorkQueue(), threadData.getThreadFactory(),
+                threadData.getHandler());
+    }
+
     //如果 12 核，默认核心线程 3 核，最大 9 核，阻塞 4 个 ，拒绝策略 主线程备用
     public XTThreadPool() {
         this(XTJUC.getCoresNumber() / 4, XTJUC.getCoresNumber() / 4 * 3,
@@ -121,16 +139,19 @@ public class XTThreadPool {
                 getPolicy(rejectPolicy));
     }
 
+    @NotNull
+    @Contract("_ -> new")
     public static RejectedExecutionHandler getPolicy(RejectPolicy rejectPolicy) {
-        switch (rejectPolicy) {
-            case Abort:
-                return new ThreadPoolExecutor.AbortPolicy();
-            case Discard:
-                return new ThreadPoolExecutor.DiscardPolicy();
-            case DiscardOldest:
-                return new ThreadPoolExecutor.DiscardOldestPolicy();
-            default:
-                return new ThreadPoolExecutor.CallerRunsPolicy();
-        }
+        return ThreadData.policy(rejectPolicy);
+    }
+
+    /**
+     * 打印当前线程池的状态
+     */
+    public String printThreadPoolStatus() {
+        return String.format("core_size:%s,thread_current_size:%s;" +
+                        "thread_max_size:%s;queue_current_size:%s,total_task_count:%s", threadPool.getCorePoolSize(),
+                threadPool.getActiveCount(), threadPool.getMaximumPoolSize(), threadPool.getQueue().size(),
+                threadPool.getTaskCount());
     }
 }

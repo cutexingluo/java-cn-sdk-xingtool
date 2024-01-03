@@ -2,6 +2,7 @@ package top.cutexingluo.tools.aop.thread;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.lang.Nullable;
 import top.cutexingluo.tools.aop.thread.policy.ThreadAopFactory;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class ThreadResults {
      * 获取子线程的执行结果
      * <p>按策略排序</p>
      */
+    @Nullable
     public List<Object> getResults() {
         String name = ThreadAopFactory.getMainThreadNameInMain();
         return (List<Object>) map.get(name + ":results");

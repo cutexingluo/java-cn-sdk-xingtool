@@ -7,6 +7,18 @@
 
 
 更新公告
+
+2023-12-29 v1.0.4-SNAPSHOT
+
+bug修复
+1.紧急修复XTCallable 的 getSupplier 和 canRunTask 问题，并修复逻辑。
+
+更改部分
+1.修改 @MainThread 默认时间策略为  GetResultAfterLastSon, 和原来没有什么差别。
+
+
+
+
 2023-10-24 ~ 12-25  v1.0.3
 
 bug修复

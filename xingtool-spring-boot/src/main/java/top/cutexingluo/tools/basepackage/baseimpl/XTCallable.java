@@ -22,6 +22,7 @@ import java.util.function.Supplier;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/3 23:08
+ * @updateFrom 1.0.4
  */
 @Data
 @NoArgsConstructor
@@ -36,11 +37,13 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
     }
 
 
+    //---------------------static------------------------
+
     /**
      * try-catch 包围 执行方法
      */
     public static <O> Callable<O> getTryCallable(Callable<O> task, Supplier<Boolean> canRunTask, Consumer<Exception> inCatch) {
-        return () -> getTrySupplier(task, null, inCatch).get();
+        return () -> getTrySupplier(task, canRunTask, inCatch).get();
     }
 
     /**
@@ -52,14 +55,21 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
 
     /**
      * try-catch 包围 执行方法
+     * <p>fix bug</p>
+     *
+     * @since 1.0.4
      */
     public static <O> Supplier<O> getTrySupplier(Supplier<O> task, Supplier<Boolean> canRunTask, Consumer<Exception> inCatch) {
         return () -> {
+            if (canRunTask != null && !canRunTask.get()) {
+                return null;
+            }
             O res = null;
             try {
                 if (task != null) res = task.get();
             } catch (Exception e) {
-                e.printStackTrace();
+                if (inCatch != null) inCatch.accept(e);
+                else e.printStackTrace();
             }
             return res;
         };
@@ -101,6 +111,8 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
     }
 
 
+    //---------------------inner------------------------
+
     public Supplier<T> getSupplier() {
         return () -> {
             T res = null;
@@ -108,7 +120,7 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
             try {
                 if (now != null) res = now.call();
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(); // 直接输出
             } finally {
                 if (after != null) after.run();
             }
@@ -116,8 +128,24 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
         };
     }
 
+    /**
+     * 组装
+     *
+     * @since 1.0.4
+     */
     public Callable<T> getCallable() {
-        return () -> getSupplier().get();
+        return () -> {
+            T res = null;
+            if (before != null) before.run();
+            try {
+                if (now != null) res = now.call();
+            } catch (Exception e) { //重新抛出
+                throw e;
+            } finally {
+                if (after != null) after.run();
+            }
+            return res;
+        };
     }
 
     public Supplier<T> getCatchSupplier(Consumer<Exception> catchError) {
@@ -137,6 +165,30 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
         return () -> getCatchSupplier(catchError).get();
     }
 
+    /**
+     * try-catch 包围 执行方法
+     *
+     * @param canRunTask 是否可以运行任务
+     * @param inCatch    捕获异常
+     * @since 1.0.4
+     */
+    public Supplier<T> getTrySupplier(Supplier<Boolean> canRunTask, Consumer<Exception> inCatch) {
+        return getTrySupplier(getCallable(), canRunTask, inCatch);
+    }
+
+    /**
+     * try-catch 包围 执行方法
+     *
+     * @param canRunTask 是否可以运行任务
+     * @param inCatch    捕获异常
+     * @since 1.0.4
+     */
+    public Callable<T> getTryCallable(Supplier<Boolean> canRunTask, Consumer<Exception> inCatch) {
+        return getTryCallable(getCallable(), canRunTask, inCatch);
+    }
+
+
+    //----------------override---------------
 
     @Override
     public Callable<T> getCallable(Callable<T> now, Runnable before, Runnable after) {
@@ -146,9 +198,16 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
         return getCallable();
     }
 
+    /**
+     * 组装成supplier
+     *
+     * <p>fix bug</p>
+     *
+     * @since 1.0.4
+     */
     @Override
     public Supplier<T> getSupplier(Supplier<T> now, Runnable before, Runnable after) {
-        this.now = () -> getSupplier().get();
+        this.now = now == null ? null : now::get;
         this.before = before;
         this.after = after;
         return getSupplier();
