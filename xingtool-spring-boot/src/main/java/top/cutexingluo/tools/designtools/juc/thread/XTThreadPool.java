@@ -2,6 +2,10 @@ package top.cutexingluo.tools.designtools.juc.thread;
 
 
 import lombok.Data;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import top.cutexingluo.tools.designtools.juc.thread.data.IThreadData;
+import top.cutexingluo.tools.designtools.juc.thread.data.ThreadData;
 import top.cutexingluo.tools.designtools.juc.utils.XTJUC;
 
 import java.util.List;
@@ -10,15 +14,32 @@ import java.util.concurrent.*;
 /**
  * 常用，推荐用，<br>
  * JUC 线程池 ，主要用于 获取线程池，直接运行线程池
- * <p>通过手动 @Bean 注入到容器</p>
+ * <p>通过手动 @Bean 将 getThreadPool 注入到容器</p>
+ * <p>于 1.0.4 更新默认为 n+1 核心数, 2 分钟 keepAlive</p>
  *
  * @author XingTian
- * @version 1.0
+ * @version 1.0.2
  * @date 2022-11-21
  */
 @Data
 public class XTThreadPool {
     private static volatile XTThreadPool instance;
+
+    /**
+     * 如果 12 核，默认核心线程 3 核，最大 9 核，阻塞 4 个 ，拒绝策略 主线程备用
+     *
+     * <p>1.0.4 以前的线程配置</p>
+     * <p>于 1.0.4 更新默认为 n+1 核心数, 2 分钟 keepAlive</p>
+     */
+    public static final ThreadData FastThreadPoolData = new ThreadData(
+            XTJUC.getCoresNumber() / 4, XTJUC.getCoresNumber() / 4 * 3,
+            2, TimeUnit.SECONDS,
+            new LinkedBlockingDeque<>(4), Executors.defaultThreadFactory(),
+            new ThreadPoolExecutor.CallerRunsPolicy()
+    );
+
+
+    @NotNull
     // 核心是这个ThreadPoolExecutor，封装了一层是避免冲突
     private ThreadPoolExecutor threadPool;
 
@@ -81,11 +102,24 @@ public class XTThreadPool {
         this.threadPool = threadPoolExecutor;
     }
 
-    //如果 12 核，默认核心线程 3 核，最大 9 核，阻塞 4 个 ，拒绝策略 主线程备用
+    /**
+     * 通过 IThreadData 构建线程池
+     *
+     * @param threadData 线程数据
+     * @since 1.0.4
+     */
+    public XTThreadPool(@NotNull IThreadData threadData) {
+        this(threadData.getCorePoolSize(), threadData.getMaxPoolSize(),
+                threadData.getKeepAliveTime(), threadData.getUnit(),
+                threadData.getWorkQueue(), threadData.getThreadFactory(),
+                threadData.getHandler());
+    }
+
+
     public XTThreadPool() {
-        this(XTJUC.getCoresNumber() / 4, XTJUC.getCoresNumber() / 4 * 3,
-                2, TimeUnit.SECONDS,
-                new LinkedBlockingDeque<>(4), Executors.defaultThreadFactory(),
+        this(XTJUC.getCoresNumber() + 1, XTJUC.getCoresNumber() * 2 + 1,
+                2, TimeUnit.MINUTES,
+                new LinkedBlockingDeque<>(200), Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.CallerRunsPolicy());
     }
 
@@ -108,7 +142,7 @@ public class XTThreadPool {
     public XTThreadPool(int cores, int maxSize, int queueSize,
                         RejectedExecutionHandler rejectedExecutionHandler) {
         this(cores, maxSize,
-                2, TimeUnit.SECONDS,
+                2, TimeUnit.MINUTES,
                 new LinkedBlockingDeque<>(queueSize), Executors.defaultThreadFactory(),
                 rejectedExecutionHandler);
     }
@@ -116,21 +150,24 @@ public class XTThreadPool {
     public XTThreadPool(int cores, int maxSize, int queueSize,
                         RejectPolicy rejectPolicy) {
         this(cores, maxSize,
-                2, TimeUnit.SECONDS,
+                2, TimeUnit.MINUTES,
                 new LinkedBlockingDeque<>(queueSize), Executors.defaultThreadFactory(),
                 getPolicy(rejectPolicy));
     }
 
+    @NotNull
+    @Contract("_ -> new")
     public static RejectedExecutionHandler getPolicy(RejectPolicy rejectPolicy) {
-        switch (rejectPolicy) {
-            case Abort:
-                return new ThreadPoolExecutor.AbortPolicy();
-            case Discard:
-                return new ThreadPoolExecutor.DiscardPolicy();
-            case DiscardOldest:
-                return new ThreadPoolExecutor.DiscardOldestPolicy();
-            default:
-                return new ThreadPoolExecutor.CallerRunsPolicy();
-        }
+        return ThreadData.policy(rejectPolicy);
+    }
+
+    /**
+     * 打印当前线程池的状态
+     */
+    public String printThreadPoolStatus() {
+        return String.format("core_size:%s,thread_current_size:%s;" +
+                        "thread_max_size:%s;queue_current_size:%s,total_task_count:%s", threadPool.getCorePoolSize(),
+                threadPool.getActiveCount(), threadPool.getMaximumPoolSize(), threadPool.getQueue().size(),
+                threadPool.getTaskCount());
     }
 }

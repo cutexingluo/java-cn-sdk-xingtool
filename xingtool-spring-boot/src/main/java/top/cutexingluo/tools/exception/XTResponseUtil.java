@@ -77,12 +77,34 @@ public class XTResponseUtil {
     }
 
     /**
+     * 权限不足，访问拒绝 403
+     *
+     * @param rsp    返回请求
+     * @param result 返回数据
+     * @since 1.0.4
+     */
+    public static <C, T> void forbidden(HttpServletResponse rsp, IResult<C, T> result) throws IOException {
+        response(rsp, result, HttpServletResponse.SC_FORBIDDEN);
+    }
+
+
+    /**
      * 未验证请求 401
      *
      * @param rsp 返回请求
      */
     public static void unauthorized(HttpServletResponse rsp) throws IOException {
         response(rsp, Result.error(Constants.CODE_401, "Authentication failed, Insufficient permissions"), HttpServletResponse.SC_UNAUTHORIZED);
+    }
+
+    /**
+     * 权限不足，访问拒绝 403
+     *
+     * @param rsp 返回请求
+     * @since 1.0.4
+     */
+    public static void forbidden(HttpServletResponse rsp) throws IOException {
+        response(rsp, Result.error(Constants.CODE_403, "Insufficient permissions, Access denied"), HttpServletResponse.SC_UNAUTHORIZED);
     }
 
 
@@ -99,11 +121,33 @@ public class XTResponseUtil {
     }
 
     /**
+     * 权限不足, 访问拒绝
+     *
+     * @param httpServletResponse http servlet响应
+     * @param msg                 消息
+     * @throws IOException ioexception
+     */
+    public static void forbidden(HttpServletResponse httpServletResponse, String msg) throws IOException {
+        Result error = Result.error(Constants.CODE_403, msg);
+        forbidden(httpServletResponse, error);
+    }
+
+    /**
      * 未验证请求 401
      *
      * @param rsp 返回请求
      */
     public static void unauthorizedCN(HttpServletResponse rsp) throws IOException {
         response(rsp, Result.error(Constants.CODE_401, "认证失败, 权限不足"), HttpServletResponse.SC_UNAUTHORIZED);
+    }
+
+
+    /**
+     * 权限不足，访问拒绝 403
+     *
+     * @param rsp 返回请求
+     */
+    public static void forbiddenCN(HttpServletResponse rsp) throws IOException {
+        response(rsp, Result.error(Constants.CODE_403, "权限不足, 访问拒绝"), HttpServletResponse.SC_FORBIDDEN);
     }
 }

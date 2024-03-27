@@ -10,6 +10,9 @@ import java.util.concurrent.*;
 /**
  * ExecutorCompletionService 的 工具
  *
+ * <p>也可以使用工具类 {@link XTAsync}</p>
+ * <p>或者直接实现接口 {@link top.cutexingluo.tools.designtools.helper.ThreadHelper}</p>
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/5 15:27

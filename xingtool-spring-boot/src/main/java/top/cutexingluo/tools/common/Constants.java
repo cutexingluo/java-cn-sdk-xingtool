@@ -84,7 +84,7 @@ public enum Constants implements IResultData<String>, XTIntCode {
     CODE_530("530", "SITE_IS_FROZEN", "网站被冻结"),
     CODE_531("531", "NETWORK_READ_TIMEOUT_ERROR", "网络读超时"),
     CODE_532("532", "NETWORK_CONNECT_TIMEOUT_ERROR", "网络连接超时"),
-    CODE_533("533", "NETWORK_READ_TIMEOUT_ERROR", "网络读超时"),
+    CODE_533("533", "NETWORK_IO_ERROR", "网络IO错误"),
 
 
     CODE_601("601", "WARN", "系统警告消息");

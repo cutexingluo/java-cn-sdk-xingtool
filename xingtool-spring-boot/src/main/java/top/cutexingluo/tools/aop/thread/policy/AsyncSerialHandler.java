@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.util.Assert;
 import top.cutexingluo.tools.aop.thread.MainThread;
 import top.cutexingluo.tools.aop.thread.SonThread;
 import top.cutexingluo.tools.aop.thread.run.RollbackPolicy;
@@ -26,9 +27,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 自动异步 + 串行策略
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/2 16:38
+ * @since 1.0.2
  */
 @Data
 @AllArgsConstructor
@@ -75,9 +79,9 @@ public class AsyncSerialHandler implements ThreadAopHandler {
                     List<TransactionMeta> transactionMetas = (List<TransactionMeta>) map.get(name + ":transactions");
                     if (transactionMetas != null) {
                         if (rollBackFlag.get()) { //全部回滚
-                            transactionMetas.stream().peek(TransactionMeta::rollback);
+                            transactionMetas.forEach(TransactionMeta::rollback);
                         } else {
-                            transactionMetas.stream().peek(TransactionMeta::commit);
+                            transactionMetas.forEach(TransactionMeta::commit);
                         }
                     }
                 }
@@ -125,9 +129,7 @@ public class AsyncSerialHandler implements ThreadAopHandler {
 
         // 开启事务,包裹
         if (sonThread.transaction()) {
-            if (transactionManager == null) {
-                throw new Exception("transactionManager is null ! 需要自行注入事务管理器");
-            }
+            Assert.notNull(transactionManager, "transactionManager is null ! 需要自行注入事务管理器");
             task = addTransaction(task, (r, meta) -> {
                 if (isGroup) {
                     transactionMetas.add(meta); //添加事务
@@ -168,7 +170,7 @@ public class AsyncSerialHandler implements ThreadAopHandler {
                     Object o = allOfTask.get();//直接执行
                     addResult(name, o);
                     if (isGroup && rollBackFlag.get()) { //全部回滚
-                        transactionMetas.stream().peek(TransactionMeta::rollback);
+                        transactionMetas.forEach(TransactionMeta::rollback);
                     }
                 }
                 taskList.clear();

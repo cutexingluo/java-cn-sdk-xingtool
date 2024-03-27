@@ -41,13 +41,16 @@ public class XTContextUtil {
      *
      * @param clazz 转化的类型
      * @return {@link T}  类型
+     * @updateFrom 1.0.4
      */
     @Nullable
     public static <T> T getPrincipal(@NonNull Class<T> clazz) {
         Authentication authentication = getAuthentication();
-        Object principal = authentication.getPrincipal();
-        if (clazz == principal.getClass()) {
-            return (T) principal;
+        if (authentication != null) { // 1.0.4 增加非空判断
+            Object principal = authentication.getPrincipal();
+            if (clazz == principal.getClass()) {
+                return (T) principal;
+            }
         }
         return null;
     }

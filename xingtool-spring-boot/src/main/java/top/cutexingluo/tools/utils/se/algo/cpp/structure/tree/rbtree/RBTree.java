@@ -112,6 +112,21 @@ public class RBTree<K extends Comparable<K>, V> extends AbstractMap<K, V> implem
             this(entry.getKey(), entry.getValue());
         }
 
+        /**
+         * @since 1.0.4
+         */
+        @Override
+        public boolean flag() {
+            return color;
+        }
+
+        /**
+         * @since 1.0.4
+         */
+        @Override
+        public void setFlag(boolean flag) {
+            this.color = flag;
+        }
 
         @Override
         public RBNode<K, V> parentNode() {

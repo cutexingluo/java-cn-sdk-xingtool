@@ -21,7 +21,7 @@ import top.cutexingluo.tools.cloud.web.limit.RateLimitAuto;
 public class XTCloudImportSelector implements ImportSelector {
     @Override
     public String[] selectImports(@NotNull AnnotationMetadata importingClassMetadata) {
-        log.info("XingToolsCloudServer 启动成功 - - -");
+        log.info("XingToolsCloudServer 启动成功 !  请享受你的日常的乐趣 !");
         return new String[]{
                 DefaultOAuth2FeignRequestInterceptor.class.getName(),
                 FeignRetryAop.class.getName(),

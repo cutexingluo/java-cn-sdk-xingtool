@@ -2,6 +2,7 @@ package top.cutexingluo.tools.designtools.builder;
 
 /**
  * 建造者Builder接口
+ * <p>builder interface</p>
  *
  * @author XingTian
  * @version 1.0.0
@@ -9,9 +10,16 @@ package top.cutexingluo.tools.designtools.builder;
  */
 @FunctionalInterface
 public interface Builder<T> {
+
+    /**
+     * get the builder
+     */
     default Builder<T> getBuilder() {
         return this;
     }
 
+    /**
+     * build the target
+     */
     T build();
 }

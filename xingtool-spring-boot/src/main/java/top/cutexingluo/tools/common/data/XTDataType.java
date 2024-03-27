@@ -2,6 +2,7 @@ package top.cutexingluo.tools.common.data;
 
 /**
  * 数据类型
+ * <p>遗留类，不建议使用</p>
  *
  * @author XingTian
  * @version 1.0.0

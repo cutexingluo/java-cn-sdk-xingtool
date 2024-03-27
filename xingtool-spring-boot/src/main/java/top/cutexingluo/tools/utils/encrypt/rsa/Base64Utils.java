@@ -5,25 +5,21 @@ import java.io.*;
 
 /**
  * base64传统编码
+ * <p>除了该类，这里提供其他三种方式</p>
+ * <p>1.可以使用 {@link sun.misc.BASE64Encoder}</p>
+ * <p>2.可以使用 {@link org.springframework.util.Base64Utils}</p>
+ * <p>3.可以使用 {@link cn.hutool.core.codec.Base64Encoder}</p>
+ *
+ * @updateFrom 1.0.4
  */
 public class Base64Utils {
-    /** */
     /**
-     * 28.     * 文件读取缓冲区大小
-     * 29.
+     * 文件读取缓冲区大小
      */
     private static final int CACHE_SIZE = 1024;
 
-    /** */
     /**
-     * 33.     * <p>
-     * 34.     * BASE64字符串解码为二进制数据
-     * 35.     * </p>
-     * 36.     *
-     * 37.     * @param base64
-     * 38.     * @return
-     * 39.     * @throws Exception
-     * 40.
+     * BASE64字符串解码为二进制数据
      */
     public static byte[] decode(String base64) throws Exception {
         return mBase64.decode(base64.getBytes());
@@ -31,55 +27,39 @@ public class Base64Utils {
 
     /** */
     /**
-     * 46.     * <p>
-     * 47.     * 二进制数据编码为BASE64字符串
-     * 48.     * </p>
-     * 49.     *
-     * 50.     * @param bytes
-     * 51.     * @return
-     * 52.     * @throws Exception
-     * 53.
+     * 二进制数据编码为BASE64字符串
      */
     public static String encode(byte[] bytes) throws Exception {
         return new String(mBase64.encode(bytes));
     }
 
-    /** */
     /**
-     * 59.     * <p>
-     * 60.     * 将文件编码为BASE64字符串
-     * 61.     * </p>
-     * 62.     * <p>
-     * 63.     * 大文件慎用，可能会导致内存溢出
-     * 64.     * </p>
-     * 65.     *
-     * 66.     * @param filePath 文件绝对路径
-     * 67.     * @return
-     * 68.     * @throws Exception
-     * 69.
+     * <p>
+     * 将文件编码为BASE64字符串
+     * </p>
+     * <p>
+     * 大文件慎用，可能会导致内存溢出
+     * </p>
+     *
+     * @param filePath 文件绝对路径
+     * @return 编码后的字符串
      */
     public static String encodeFile(String filePath) throws Exception {
         byte[] bytes = fileToByte(filePath);
         return encode(bytes);
     }
 
-    /** */
     /**
-     * 76.     * <p>
-     * 77.     * BASE64字符串转回文件
-     * 78.     * </p>
-     * 79.     *
-     * 80.     * @param filePath 文件绝对路径
-     * 81.     * @param base64 编码字符串
-     * 82.     * @throws Exception
-     * 83.
+     * BASE64字符串转回文件
+     *
+     * @param filePath 文件绝对路径
+     * @param base64   编码字符串
      */
     public static void decodeToFile(String filePath, String base64) throws Exception {
         byte[] bytes = decode(base64);
         byteArrayToFile(bytes, filePath);
     }
 
-    /** */
     /**
      * <p>
      * 文件转换为二进制数组
@@ -106,15 +86,11 @@ public class Base64Utils {
         return data;
     }
 
-    /** */
     /**
-     * 118.     * <p>
-     * 119.     * 二进制数据写文件
-     * 120.     * </p>
-     * 121.     *
-     * 122.     * @param bytes 二进制数据
-     * 123.     * @param filePath 文件生成目录
-     * 124.
+     * 二进制数据写文件
+     *
+     * @param bytes    二进制数据
+     * @param filePath 文件生成目录
      */
     public static void byteArrayToFile(byte[] bytes, String filePath) throws Exception {
         InputStream in = new ByteArrayInputStream(bytes);

@@ -21,6 +21,7 @@ import java.util.function.Function;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/17 16:05
+ * @updateFrom 1.0.4
  * @since 1.0.2
  */
 @FunctionalInterface
@@ -28,14 +29,31 @@ public interface ThreadHelper {
     /**
      * 配置线程池
      *
-     * @return 线程池
+     * <p>1.0.4  为避免冲突 改名为 executor </p>
+     *
+     * @return 需要返回线程池
      */
-    Executor threadPoolExecutor();
+    Executor executor();
 
     //---------------------XTCompletionService------------------------
 
     default XTCompletionService<Object> newCompletionService() {
-        return new XTCompletionService<>(threadPoolExecutor());
+        return new XTCompletionService<>(executor());
+    }
+
+
+    /**
+     * 提交任务
+     */
+    default <V> Future<V> submit(XTCompletionService<V> completionService, Runnable task, V result) {
+        return completionService.submit(task, result);
+    }
+
+    /**
+     * 提交任务
+     */
+    default <V> ArrayList<Future<V>> submit(XTCompletionService<V> completionService, List<Runnable> tasks, List<V> results) {
+        return completionService.submitAll(tasks, results);
     }
 
     /**
@@ -54,18 +72,26 @@ public interface ThreadHelper {
 
     //---------------------XTAsync------------------------
 
+
+    /**
+     * 执行任务
+     */
+    default CompletableFuture<Void> runAsync(Runnable task) {
+        return XTAsync.runAsync(task, executor());
+    }
+
     /**
      * 执行任务
      */
     default <V> CompletableFuture<V> supplyAsync(Callable<V> task) {
-        return XTAsync.supplyAsync(XTRunCallUtil.getTrySupplier(task), threadPoolExecutor());
+        return XTAsync.supplyAsync(XTRunCallUtil.getTrySupplier(task), executor());
     }
 
     /**
      * 执行任务
      */
     default <V> CompletableFuture<V> supplyAsync(Callable<V> task, Function<Throwable, V> exceptionHandle) {
-        return XTAsync.supplyAsync(XTRunCallUtil.getTrySupplier(task), exceptionHandle, threadPoolExecutor());
+        return XTAsync.supplyAsync(XTRunCallUtil.getTrySupplier(task), exceptionHandle, executor());
     }
 
     /**
@@ -74,6 +100,6 @@ public interface ThreadHelper {
      * @return CompletableFuture 列表
      */
     default <V> List<CompletableFuture<V>> getParallelFutureJoin(List<Callable<V>> tasks, BiFunction<Throwable, Callable<V>, V> exceptionHandle) {
-        return XTAsync.getParallelFutureJoin(tasks, exceptionHandle, threadPoolExecutor());
+        return XTAsync.getParallelFutureJoin(tasks, exceptionHandle, executor());
     }
 }

@@ -86,6 +86,18 @@ public class XTAuthenticationUtil {
      * 使用XTBearerTokenExtractor提取token，可以不加Bearer
      *
      * @param httpServletRequest http servlet请求
+     * @param cookieName         标题名称
+     * @return {@link Authentication}
+     */
+    public static Authentication extractCookies(HttpServletRequest httpServletRequest, String cookieName) {
+        return new XTBearerTokenExtractor(true).extract(httpServletRequest, cookieName);
+    }
+
+
+    /**
+     * 使用XTBearerTokenExtractor提取token，可以不加Bearer
+     *
+     * @param httpServletRequest http servlet请求
      * @param headerName         标题名称
      * @return {@link Authentication}
      */
@@ -94,7 +106,43 @@ public class XTAuthenticationUtil {
     }
 
 
+    /**
+     * 使用XTBearerTokenExtractor提取token，可以不加Bearer
+     * <p>并且支持多模式解析</p>
+     *
+     * @param httpServletRequest http servlet请求
+     * @param mode               模式          可以支持headers和cookies两种 , 优先读取 headers
+     * @param headerName         标题名称
+     * @return {@link Authentication}
+     */
+    public static Authentication extract(HttpServletRequest httpServletRequest, int mode, String headerName) {
+        XTBearerTokenExtractor extractor = new XTBearerTokenExtractor();
+        Authentication preAuthentication = null;
+        if ((mode & USE_HEADERS) != 0) {
+            preAuthentication = extractor.extract(httpServletRequest, headerName);
+        }
+        if (preAuthentication == null && (mode & USE_COOKIES) != 0) {
+            extractor.setUseCookies(true);
+            preAuthentication = extractor.extract(httpServletRequest, headerName);
+        }
+        return preAuthentication;
+    }
+
+
     //*******************PreAuthenticatedAuthenticationToken*****************
+
+    /**
+     * 非验证得到前验证身份验证标记
+     * 得到PreAuthenticatedAuthenticationToken
+     * <p> setAuthenticated(false) </p>
+     *
+     * @param token token 值
+     * @return {@link PreAuthenticatedAuthenticationToken}
+     */
+    public static PreAuthenticatedAuthenticationToken getPreAuthenticatedAuthenticationTokenNonAuthenticated(String token) {
+        return new PreAuthenticatedAuthenticationToken(token, "");
+    }
+
 
     /**
      * 非验证得到前验证身份验证标记
@@ -158,6 +206,18 @@ public class XTAuthenticationUtil {
         return authenticationManager.authenticate(authentication);
     }
 
+
+    /**
+     * 使用 request headers
+     */
+    public static final int USE_HEADERS = 1;
+
+    /**
+     * 使用 request cookies
+     */
+    public static final int USE_COOKIES = 2;
+
+
     //************************
 
     /**
@@ -197,15 +257,59 @@ public class XTAuthenticationUtil {
 
         private HttpServletRequest request; //请求
 
+        /**
+         * 使用模式
+         * <p>USE_HEADERS 和 USE_COOKIES 两种，默认只解析 headers </p>
+         */
+        private int mode = USE_HEADERS;
 
+
+        /**
+         * 从 headers 里面获取 Authorization  参数 获取 token
+         *
+         * @param request 请求头
+         */
         public AuthenticationBuilder(HttpServletRequest request) {
             this.request = request;
+        }
+
+        /**
+         * 从 headers 里面获取 Authorization  参数 获取 token
+         * <p>USE_HEADERS 解析 headers , USE_COOKIES 解析 cookies</p>
+         * <p>如需 mode 生效需使用 repairCreate 参数不为 null </p>
+         *
+         * @param request 请求头
+         */
+        public AuthenticationBuilder(HttpServletRequest request, int mode) {
+            this.request = request;
+            this.mode = mode;
         }
 
         /**
          * 令牌展开器
          */
         private TokenExtractor tokenExtractor; //展开
+
+        /**
+         * token 值
+         * <p>于 1.0.4 版本可以直接传 token 值 或获取 token 值</p>
+         *
+         * @since 1.0.4
+         */
+        private String token;
+
+
+        /**
+         * 于 1.0.4 版本可以直接传 token 值
+         *
+         * <p>设置此项会覆盖 request 解析和 tokenExtractor 解析器</p>
+         *
+         * @param token token 值
+         * @since 1.0.4
+         */
+        public AuthenticationBuilder(String token) {
+            this.token = token;
+        }
 
         /**
          * 前验证身份验证令牌
@@ -275,10 +379,14 @@ public class XTAuthenticationUtil {
          *
          * @return {@link String}
          * @throws AuthenticationServiceException 身份验证服务异常
+         * @updateFrom 1.0.4
          */
         public String getToken() throws AuthenticationServiceException {
+            if (token != null) { // 自己设置的 token
+                return token;
+            }
             if (!isAuthenticated) {
-                throw new AuthenticationServiceException("未解析到token, 请先执行create");
+                throw new AuthenticationServiceException("未解析到 token, 请先执行 create 或  preAuthenticatedAuthenticationWork");
             }
             if (isBuild) {
                 Object principal = preAuthenticatedAuthenticationToken.getPrincipal();
@@ -311,12 +419,13 @@ public class XTAuthenticationUtil {
             }
             // 如果为空，默认Authorization，然后后续无需加Bearer
             if (StrUtil.isBlank(headerName)) headerName = "Authorization";
-            return extract(request, headerName);
+            return extract(request, mode, headerName);// 多模式解析
         }
 
         /**
          * 令牌器展开工作
          * <p>TokenExtractor 展开 HttpServletRequest 请求 获取 token 封装 Authentication</p>
+         * <p>于 1.0.4 移除非空判断，保证 无token 也能通过执行链</p>
          *
          * @param authorizationName 授权名字
          * @return {@link AuthenticationBuilder}
@@ -324,9 +433,21 @@ public class XTAuthenticationUtil {
         public AuthenticationBuilder tokenExtractorWork(String authorizationName) throws AuthenticationServiceException {
             initTokenExtractor();
             this.target = extractRequest(authorizationName);
-            if (target == null) {
-                throw new AuthenticationServiceException("token 解析错误, 可能是格式错误");
-            }
+//            if (target == null) {   // 于 1.0.4 移除
+//                throw new AuthenticationServiceException("token 解析错误, 可能是格式错误");
+//            }
+            return this;
+        }
+
+        /**
+         * tokenWork
+         * <p>通过token 直接获取 Authentication</p>
+         *
+         * @return {@link AuthenticationBuilder}
+         */
+        public AuthenticationBuilder tokenWork() throws AuthenticationServiceException {
+            preAuthenticatedAuthenticationToken = new PreAuthenticatedAuthenticationToken(token, "");
+            target = preAuthenticatedAuthenticationToken;
             return this;
         }
 
@@ -440,35 +561,57 @@ public class XTAuthenticationUtil {
 
         /**
          * 创建 , 得到 target 为认证后的 Authentication 对象
-         * <p> 默认读取请求头的 "Authorization" 并且需要加Bearer</p>
+         * <p> 如果自己设置了 tokenExtractor ，则使用自己的tokenExtractor</p>
+         * <p>否则使用默认扩展器 {@link BearerTokenExtractor}  读取请求头的 "Authorization" 并且需要加 "Bearer" </p>
          * <p>等同于repairCreate(null)</p>
          *
          * @return {@link AuthenticationBuilder}
          * @throws AuthenticationServiceException 身份验证服务异常
          */
         public AuthenticationBuilder create() throws AuthenticationServiceException {
-            if (request != null) tokenExtractorWork(null);
-            preAuthenticatedAuthenticationWork();
-            tokenAdditionalInformationWork();
-            authenticationWork();
+            if (token != null) {
+                tokenWork();// 直接设置 token
+            } else if (request != null) {
+                tokenExtractorWork(null); // 获取 token
+            }
+            if (target != null) { // 解析到 token
+                preAuthenticatedAuthenticationWork(); // 预验证 token
+                tokenAdditionalInformationWork(); // 解析附加信息
+                authenticationWork();  // 消费认证
+            }
             return this;
         }
 
 
         /**
          * 修复创建 , 得到 target 为认证后的 Authentication 对象
-         * <p>authorizationName 为 null  使用默认扩展器 读取请求头的 "Authorization" 并且需要加 "Bear" ,  等同于create()</p>
-         * <p>authorizationName 为 ""  使用工具扩展器 读取请求头的 "Authorization"  会自动识别添加 "Bear"</p>
+         *
+         * <ul>
+         *     <li>authorizationName 为 null ,  等同于create()</li>
+         *     <p>如果自己设置了 tokenExtractor ，则使用自己的tokenExtractor</p>
+         *     <p>否则使用默认扩展器 {@link BearerTokenExtractor}  读取请求头的 "Authorization" 并且需要加 "Bearer" </p>
+         * </ul>
+         * <ul>
+         *     <li>authorizationName 不为 null , 使用作者提供的 工具扩展器  {@link XTBearerTokenExtractor} </li>
+         *     <p>authorizationName 为 ""  使用读取 mode 模式的 "Authorization"  会自动识别 "Bearer" (可加可不加) </p>
+         *     <p>authorizationName  不为 ""  使用读取 mode 模式的 authorizationName  会自动识别 "Bearer" (可加可不加) </p>
+         * </ul>
          *
          * @param authorizationName 授权名字 (header  名称)
          * @return {@link AuthenticationBuilder}
          * @throws AuthenticationServiceException 身份验证服务异常
          */
         public AuthenticationBuilder repairCreate(String authorizationName) throws AuthenticationServiceException {
-            if (request != null) tokenExtractorWork(authorizationName);
-            preAuthenticatedAuthenticationWork();
-            tokenAdditionalInformationWork();
-            authenticationWork();
+            if (token != null) {
+                tokenWork();// 直接设置 token
+            } else if (request != null) {
+                tokenExtractorWork(authorizationName); // 获取 token
+            }
+            if (target != null) { // 解析到 token
+                preAuthenticatedAuthenticationWork(); // 预验证 token
+                tokenAdditionalInformationWork(); // 解析附加信息
+                authenticationWork();  // 消费认证
+            }
             return this;
         }
     }

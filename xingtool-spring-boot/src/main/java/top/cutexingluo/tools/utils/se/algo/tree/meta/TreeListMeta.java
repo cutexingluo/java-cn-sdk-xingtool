@@ -3,7 +3,7 @@ package top.cutexingluo.tools.utils.se.algo.tree.meta;
 import lombok.Data;
 import top.cutexingluo.tools.utils.se.algo.tree.TreeNode;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * @author XingTian
@@ -13,13 +13,13 @@ import java.util.List;
  */
 @Data
 public class TreeListMeta<IdType, T extends TreeNode<IdType>> implements ITreeMeta<T> {
-    public TreeListMeta(T currentNode, List<T> newList) {
+    public TreeListMeta(T currentNode, Collection<T> newList) {
         this.currentNode = currentNode;
         this.newList = newList;
     }
 
     /**
-     * 自动清除孩子节点
+     * 自动清除孩子节点 为 null
      */
     private boolean autoSetChildrenToNull = true;
 
@@ -36,7 +36,7 @@ public class TreeListMeta<IdType, T extends TreeNode<IdType>> implements ITreeMe
     /**
      * 所有节点
      */
-    private List<T> newList;
+    private Collection<T> newList;
 
 
     /**
@@ -48,7 +48,7 @@ public class TreeListMeta<IdType, T extends TreeNode<IdType>> implements ITreeMe
 
 
     @Override
-    public List<T> getChildren() {
+    public Collection<T> getChildren() {
         return currentNode.nodeChildren();
     }
 

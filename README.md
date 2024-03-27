@@ -1,10 +1,10 @@
 # XingTool 工具包
 
 ### 相关介绍
-XingTool sdk 工具包，v1.0.3正式版发布。( 依赖的版本不能低于 1.0.1 )
+XingTool sdk 工具包，v1.0.4正式版发布。( 依赖的版本不能低于 1.0.1 )
 星天制作的 Java 工具包，是基于springboot 2 制作的 ,  基于JDK1.8，它是一个整合各工具类的整合starter。
 
-里面包含多种工具，补丁，base接口，aop自动装配，注解，以及 acm型的算法。
+里面包含多种工具，补丁，base接口，aop自动装配，注解，以及 acm型的一些基础算法。
 
 **它有以下特性**：
 
@@ -15,7 +15,7 @@ XingTool sdk 工具包，v1.0.3正式版发布。( 依赖的版本不能低于 1
 - 3.有几个使用方式。
   1). 可以通过Util.静态类的方式调出静态方法，一般由XT开头的类，例如XTObjUtil等，以便直接调出类名、方法，根据类名意思了解该功能，好处是暂时不用查文档（我暂时没写（滑稽）），并且和hutool互补，能够加快开发效率。
   2). 可以通过new的方式获得非单例对象，也是常用的方式。
-  3). 在启动类上加上@EnableXingToolsServer，开启自动注入，比如默认开启的四个注解aop(例如@Printlog注解，以及各种日志异常拦截aop等),其他的配置或者aop需要在配置文件中开启，以xingtools开头即可点出，例如
+  3). 在启动类上加上@EnableXingToolsServer，开启自动注入，比如默认开启的两个注解aop(例如@Printlog注解，以及其他现版本默认未开启的各种日志异常拦截aop等),其他的配置或者aop需要在配置文件中开启，以xingtools开头即可点出，例如
 
 ```properties
 # 开启跨域
@@ -26,6 +26,10 @@ xingtools.enabled.redisconfig=true
 xingtools.enabled.redisconfig-util=true
 # 使用jackson2序列化(默认，可以不用配置)
 xingtools.enabled.redisconfig-setting=jackson
+# 默认全局异常拦截
+xingtools.enabled.global-exception=true
+# mybatis-plus 分页插件 这个还是推荐自己注册Bean
+xingtools.enabled.mybatis-plus-config=true
 ```
 > 注意这些只是进行了简单的配置，也就是大多数人的需求，也暂时不用每次自行创建配置类等。
 
@@ -34,6 +38,8 @@ xingtools.enabled.redisconfig-setting=jackson
 - 4).也就是SpringSecurity,SpringCould的相关配置,可以通过配置@EnableXTCloudSecurity，@EnableXingToolsCloudServer，开启相关Security和Could的简化配置，精简你的项目。
 
 综上不管是简单作为工具包，或者简化你的SpringBoot,SpringCloud等项目，该Starter放到你的依赖里也是一种不错的选择。
+
+
 
 
 
@@ -51,13 +57,13 @@ Maven 依赖 (无版本号)
 </dependency>
 ```
 
-Maven 最优依赖 v1.0.3版本
+Maven 最优依赖 v1.0.4版本
 
 ```xml
 <dependency>
 	<groupId>top.cutexingluo.tools</groupId>
 	<artifactId>xingtool-spring-boot-starter</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 </dependency>
 ```
 
@@ -82,7 +88,281 @@ Maven 最低依赖 v1.0.1版本：
 
 
 
+#### 使用样例
+
+以下是1.0.4版本的使用样例，可以加快你的开发
+
+##### 1. 数据封装类，Controller 层
+
+```java
+@RestController
+@RequestMapping("/admin")
+public class AdminController {
+    
+    @RequestLimit // 限流注解
+    @WebLog(match = "ip:uri:method+s+tab+ip", level = "info", reference = "log1") // 打印日志注解
+    @GetMapping("/user/getAll")
+    public Result getAll() { // Result 对象 推荐使用
+        //ResultUtil.selectResult 动态解析返回值 (false和null得到获取失败) 也可以直接使用 Result.success()
+        return ResultUtil.selectResult(adminService.getAll(),"获取成功","获取失败"); 
+    }
+    
+    // 这个注解是打印日志，其中一个策略是可以使用spEL表达式执行任意方法
+    @WebLog(spEL = " @testService.hello ( #msgMap, #bundle ,'hello world') ") 
+    @GetMapping("/user/getOne")
+    public R<UserInfo> getOne() { // R对象 alias MSResult 支持泛型
+        //ResultUtil.selectResult 动态解析返回值 (false和null得到获取失败) 也可以直接使用 Result.success()
+        return ResultUtil.selectR(adminService.getOne(),"获取成功","获取失败"); 
+    }
+}
+```
+
+有人会说：我不想使用你的 Result 这个封装返回类，能不能自己定义。这是可以的，在1.0.3版本，统一了4个返回类，全部继承于CommonResult类，该类的基本属性如下：
+
+```java
+public class CommonResult<C, T> implements IResultSource<C, T> {
+    protected C code;
+    protected String msg;
+    protected T data;
+}
+```
+
+它实现 IResultSource 接口，而我们可以直接实现IResultSource或者再往上仅实现 IResult 接口就行了。基本上工具包的很多方法参数都是IResult 接口。我们可以直接实现该接口像这样：
+
+```java
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class MyResult implements IResult<String,Object> {
+    protected String retCode; // 不想使用 code，想使用 retCode
+    protected String message; // 不想使用 msg，想使用 message
+    protected Object data;
+    
+    @Override
+    public Object getData() {
+        return data;
+    }
+    @JsonIgnore
+    @Override
+    public String getCode() {
+        return retCode;
+    }
+    @JsonIgnore
+    @Override
+    public String getMsg() {
+        return message;
+    }
+}
+```
+
+对于不需要json转化的字段进行@JsonIgnore忽略掉就行。
+
+同理如果不需要data字段，再往上实现 IResultData 接口(包含code和msg) 就可以，工具包里面的很多异常或者枚举都是实现了该接口。
+
+
+
+##### 2.工具类使用，拦截器 以 OAuth2 为例
+
+```java
+@Component
+public class MyTokenFilter extends OncePerRequestFilter {
+
+
+    @Autowired
+    private TokenStore tokenStore;
+
+    // jwt解析类
+    @Autowired
+    private MyUserAuthenticationConverter myUserAuthenticationConverter;
+
+    RYRedisCache redisCache;
+
+    // 构造注入
+    @Autowired
+    public MyTokenFilter(RYRedisCache redisCache, ApplicationContext applicationContext) {
+        this.redisCache = redisCache;
+        AccessLimitUtil.setRedisCache(redisCache);
+        AccessLimitUtil.setApplicationContext(applicationContext);
+    }
+
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        try {
+            // AccessLimitUtil 工具类 ， 可以利用 Redis 进行限流
+            // limitFilter 解析方法上的注解
+            boolean check1 = AccessLimitUtil.limitFilter(request, response, filterChain);
+            if (!check1) return;
+            // limitFilter IP 拦截
+            boolean check2 = AccessLimitUtil.limitIP(request, response, 1, 20,
+                    "访问过于频繁，请稍后访问");
+            if (!check2) return;
+        } catch (Exception e) {
+            XTResponseUtil.forbidden(response, e.getMessage()); // 返回 403
+            return;
+        }
+
+        Authentication authentication;
+        try {
+            // XTAuthenticationUtil 执行链操作，对token进行解析
+            authentication = new XTAuthenticationUtil 
+                    .AuthenticationBuilder(request, XTAuthenticationUtil.USE_HEADERS | XTAuthenticationUtil.USE_COOKIES) // headers 和 cookies 都要解析
+                    .setTokenExtractor(tokenExtractor)
+                    .setTokenStore(tokenStore)
+                    .setAccessTokenConsumer(accessToken -> {
+                        //XTAccessTokenUtil 对Oauth2 包的 AccessToken类进行解析
+                        if (XTAccessTokenUtil.isExpired(accessToken)) { 
+                            throw new AuthenticationServiceException("Token String 已经过期！");
+                        }
+}).setAccessTokenAdditionalConverter(myUserAuthenticationConverter::extractAuthentication)
+                    .repairCreate("").build(); // 对 Authorization 头 进行解析
+        } catch (AuthenticationServiceException e) {
+            XTResponseUtil.unauthorized(response, e.getMessage());// 401 返回
+            return;
+        }
+        if (authentication != null) { // 解析到token，设置上下文
+            SecurityContext context = SecurityContextHolder.getContext();
+            context.setAuthentication(authentication);
+        }
+        // 如果没有解析到，authentication会为空，然后交给资源服务判定
+
+        filterChain.doFilter(request, response); 
+    }
+}
+
+```
+
+
+
+##### 3.系列注解使用，例如参数校验和异步线程
+
+###### **参数校验** （必须导入 javax.validation 包 并且参数添上@Valid或@Validated ）
+
+```java
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class MyUserQuery {
+
+    // 1.首先如果非空字符串和 null 均会进入下一步
+    // 2.必须匹配下面指定字符串
+    @StrStatus(anyStr = { // 必须匹配的字符串
+            "1", "0"
+    }, message = "类型格式错误",notBlankIfPresent = true) 
+    private String type;
+
+    @StrStatus(anyReg = { // 正则匹配
+            RegexPool.MOBILE
+    }, message = "手机格式错误") // 验证
+    @StrJson(value = SensitiveSerializer.class, name = "PHONE") //脱敏
+    private String phone;
+
+    @NotBlank(message = "邮箱不能为空")
+    @Email(message = "邮箱格式错误") //validation包的校验
+    private String email;
+
+    @StrJson(value = SensitiveSerializer.class, name = "") // 返回值脱敏
+    private String password;
+}
+
+```
+
+###### 异步线程 
+
+1.可以使用**编程式**，例如 XTAsync, 或者你的类实现 ThreadHelper接口
+
+2.使用**声明式**，但不一定会得到预期结果
+
+TestThread 主线程类
+
+```java
+@Component
+public class TestThread {
+    @Autowired
+    private ThreadResults threadResults; // 线程结果对象
+    @Autowired
+    private TestService testService;
+
+    // value 建议和调用的子线程方法数量一致 , 默认策略 GetResultAfterLastSon 
+    @MainThread(value = 2, startTime = ThreadTimePolicy.GetResultAfterLastSon)
+    public void mainThread2() {
+        testService.sonThread1(); // 子线程1 ,需要被代理，注解才能生效
+        testService.sonThread2(); // 子线程2
+
+        List<Object> results = threadResults.getResults();
+        if (results != null) {// GetResultAfterLastSon 策略会阻塞等待 value数量的子线程执行完 , 所以该策略 results 始终会存在
+            XTArrayUtil.printlnList(results); // 数组
+        }
+
+        List<Future<Object>> futures = threadResults.getFutures(); // GetFuture 策略会阻塞在当前主方法执行完，所以这时候results会为空，所以需要调用 future 的 get方法 阻塞 等待完成。如果没有调用，则会在当前方法结束时阻塞。
+        XTArrayUtil.printlnList(futures);
+
+        futures.forEach(future -> {
+            try {
+                System.out.println(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+}
+```
+
+TestService 子线程类
+
+```java
+@Service
+public class TestService {
+    @SonThread(threadPoolName = "threadPoolExecutor") // 指定 Spring容器 里面线程池名称
+    public String sonThread1() {
+        System.out.println("进入sonThread1");
+        XTTime.sleepBySecond(3); 
+        System.out.println("sonThread1 已经睡了3秒");
+        return "hello --> sonThread1";
+    }
+    @SonThread(threadPoolName = "threadPoolExecutor")
+    public void sonThread2() { // 无返回值
+        System.out.println("进入sonThread2");
+        XTTime.sleepBySecond(1);
+        System.out.println("sonThread2 已经睡了1秒");
+    }
+
+}
+```
+
+
+
+未完待续...
+
+
+
 ### 更新公告
+
+**2024-3-27  v1.0.4**
+
+```
+bug修复
+1.紧急修复XTCallable 的 getSupplier 和 canRunTask 问题，并修复逻辑。
+2.紧急修复 XTStrUtil findFirstOf错误调用自身的问题。 1.0.2-1.0.3 两个版本不要使用该方法。
+3.修复单 pick 问题, 解决并发注解 @MainThread @SonThread 事务问题, 修复 TreeUtil 树转列表的问题
+4.修复 ResultUtil 对 R类 的支持问题
+
+更改部分
+1.修改 @MainThread 默认时间策略为  GetResultAfterLastSon, 和原来没有什么差别。
+2.修改了 XTMethodUtil 类方法名称 isAnnotationPresent => isHandlerMethodAnnotationPresent。
+3.修改所有限流注解/工具的位置。
+4.修改 XTLog 实现, 以及新增一系列 web 的 key 接口 和日志接口。
+5.修改XTThreadPool、ThreadData默认核心线程，并修改ThreadHelper 命名防止冲突。
+
+新增部分
+1.新增 @StrJson 注解 返回数据时返回指定json字符串，并新增 StrJsonStrategy 接口的实现类 SensitiveSerializer 类用于敏感字符串脱敏，可自行实现StrJsonStrategy接口。
+2.新增 SocketServer 和 SocketClient 等类 和 XTCollUtil 集合工具类。
+3.新增 @RequestLimit 限流注解 和 RequestLimitHandler 工具类，可以取代 @Limit 和 @AccessLimit 注解,  提供了两个策略，可自定义策略，使用灵活。
+4.新增 @WebLog注解 和 WebHandler 工具类，用于自定义策略日志打印，可以取代 @MethodLog 和 @XTSystemLog , 匹配, 模式串用法更灵活。
+5.新增 OptBundle 类 用于执行链操作 , 和 OptionalResult 用于扩展 Optional 类。
+6.新增 kotlin 依赖 临时支持 kotlin 。
+```
 
 **2023-12-25 v1.0.3**
 

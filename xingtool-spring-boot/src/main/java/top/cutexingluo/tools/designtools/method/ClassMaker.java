@@ -11,6 +11,7 @@ import java.util.function.Function;
 
 /**
  * 简易的类生成器
+ * <p>对象生产器/转化器</p>
  *
  * @author XingTian
  * @version 1.0.0
@@ -115,6 +116,15 @@ public class ClassMaker<T> {
     public <O> T castSubclass(O obj) {
         if (clazz.isAssignableFrom(obj.getClass())) return (T) obj;
         return castSubclass(obj, clazz);
+    }
+
+    /**
+     * 生成并抛出异常
+     *
+     * @since 1.0.4
+     */
+    public T newInstanceThrows() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        return clazz.getConstructor().newInstance();
     }
 
 

@@ -9,10 +9,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
-import top.cutexingluo.tools.aop.log.LogHandler;
 import top.cutexingluo.tools.aop.log.methodlog.custom.MethodLogAdapter;
 import top.cutexingluo.tools.basepackage.basehandler.aop.BaseAspectAroundHandler;
 import top.cutexingluo.tools.basepackage.basehandler.aop.BaseAspectHandler;
+import top.cutexingluo.tools.utils.log.handler.LogHandler;
 import top.cutexingluo.tools.utils.se.character.XTStrUtil;
 
 
@@ -51,7 +51,7 @@ public class MethodLogAop implements BaseAspectAroundHandler<MethodLog>, BaseAsp
         result = null;
         if (methodLog != null) {
             currentJoinPoint = joinPoint;
-            log = new LogHandler(methodLog.type());
+            log = new LogHandler(methodLog.type().intCode());
             log.send("========== Start ==========");
             before(methodLog);
             result = joinPoint.proceed();

@@ -1,6 +1,8 @@
 package top.cutexingluo.tools.utils.ee.redis;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
@@ -22,12 +24,14 @@ import java.util.concurrent.TimeUnit;
  * </p>
  *
  * @author ruoyi, XingTian
+ * @updateFrom 1.0.4
  **/
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 @ConditionalOnBean(RedisTemplate.class)
 //@AutoConfigureAfter(RedisTemplate.class)
 //@Component
 @Slf4j
+@Data
 public class RYRedisCache {
     //    @Resource
 //    @Qualifier("redisTemplate")
@@ -61,7 +65,7 @@ public class RYRedisCache {
      * @param timeout  时间
      * @param timeUnit 时间颗粒度
      */
-    public <T> void setCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit) {
+    public <T> void setCacheObject(final String key, final T value, final long timeout, final TimeUnit timeUnit) {
         redisTemplate.opsForValue().set(key, value, timeout, timeUnit);
     }
 
@@ -89,7 +93,7 @@ public class RYRedisCache {
      * @param timeout  时间
      * @param timeUnit 时间颗粒度
      */
-    public <T> void setCacheObjectIfAbsent(final String key, final T value, final Integer timeout, final TimeUnit timeUnit) {
+    public <T> void setCacheObjectIfAbsent(final String key, final T value, final long timeout, final TimeUnit timeUnit) {
         redisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit);
     }
 
@@ -113,7 +117,7 @@ public class RYRedisCache {
      * @param timeout  时间
      * @param timeUnit 时间颗粒度
      */
-    public <T> void setCacheObjectIfPresent(final String key, final T value, final Integer timeout, final TimeUnit timeUnit) {
+    public <T> void setCacheObjectIfPresent(final String key, final T value, final long timeout, final TimeUnit timeUnit) {
         redisTemplate.opsForValue().setIfPresent(key, value, timeout, timeUnit);
     }
 
@@ -148,7 +152,7 @@ public class RYRedisCache {
      * @return true=设置成功；false=设置失败
      */
     public boolean expire(final String key, final long timeout, final TimeUnit unit) {
-        return redisTemplate.expire(key, timeout, unit);
+        return Boolean.TRUE.equals(redisTemplate.expire(key, timeout, unit));
     }
 
     /**
@@ -159,6 +163,18 @@ public class RYRedisCache {
      */
     public long getExpire(final String key) {
         return redisTemplate.getExpire(key);
+    }
+
+
+    /**
+     * 判断是否过期
+     *
+     * @param key Redis键
+     * @return 是否过期
+     * @since 1.0.4
+     */
+    public boolean isExpire(final String key) {
+        return redisTemplate.getExpire(key) <= 0;
     }
 
     /**
@@ -181,6 +197,77 @@ public class RYRedisCache {
         ValueOperations<String, T> operation = redisTemplate.opsForValue();
         return operation.get(key);
     }
+
+    /**
+     * 获得缓存的long 数值。
+     * <p>必须存的 int 值</p>
+     *
+     * @param key 缓存键值
+     * @return 缓存键值对应的数据
+     * @since 1.0.4
+     */
+    public long getCacheLong(final String key) {
+        if (hasKey(key)) {
+            Object valueObj = redisTemplate.opsForValue().get(key);
+            if (valueObj instanceof Integer) {
+                Integer obj = (Integer) valueObj;
+                return obj.longValue();
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 获得缓存的基本对象。
+     *
+     * @param key   缓存键值
+     * @param clazz 限定类型 更加安全
+     * @return 缓存键值对应的数据
+     * @since 1.0.4
+     */
+    @Nullable
+    public <T> T getCacheObject(final String key, final Class<T> clazz) {
+        if (hasKey(key)) {
+            Object valueObj = redisTemplate.opsForValue().get(key);
+            if (clazz.isInstance(valueObj)) {
+                return (T) valueObj;
+            } else if (clazz == Long.class && valueObj instanceof Integer) {
+                Integer obj = (Integer) valueObj;
+                return (T) Long.valueOf(obj.longValue());
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 获得缓存的基本对象。
+     * <p>并且更新缓存有效期</p>
+     *
+     * @param key        缓存键值
+     * @param clazz      限定类型 更加安全
+     * @param updateLive 是否更新缓存有效期
+     * @param timeout    有效期时长
+     * @param unit       时间单位
+     * @return 缓存键值对应的数据
+     * @since 1.0.4
+     */
+    @Nullable
+    public <T> T getCacheObject(final String key, final Class<T> clazz, boolean updateLive, long timeout, TimeUnit unit) {
+        if (hasKey(key)) {
+            Object valueObj = redisTemplate.opsForValue().get(key);
+            if (updateLive) {
+                redisTemplate.expire(key, timeout, unit);
+            }
+            if (clazz.isInstance(valueObj)) {
+                return (T) valueObj;
+            } else if (clazz == Long.class && valueObj instanceof Integer) {
+                Integer obj = (Integer) valueObj;
+                return (T) Long.valueOf(obj.longValue());
+            }
+        }
+        return null;
+    }
+
 
     /**
      * 删除单个对象

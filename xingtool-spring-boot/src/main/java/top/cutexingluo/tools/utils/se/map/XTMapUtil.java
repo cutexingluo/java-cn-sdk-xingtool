@@ -1,13 +1,19 @@
 package top.cutexingluo.tools.utils.se.map;
 
 import org.jetbrains.annotations.NotNull;
+import top.cutexingluo.tools.utils.se.collection.XTCollUtil;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
+import java.util.stream.Collectors;
+
 
 /**
  * 简单Map工具类
@@ -18,6 +24,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @date 2023/5/6 17:47
  */
 public class XTMapUtil {
+
+    /**
+     * 判断 map 是否为空
+     *
+     * @since 1.0.4
+     */
+    public static <K, V> boolean isNullOrEmpty(Map<K, V> map) {
+        return map == null || map.isEmpty();
+    }
 
     /**
      * 输出map，一行一个 entry
@@ -152,6 +167,45 @@ public class XTMapUtil {
             }
         });
         return tot.get();
+    }
+
+    /**
+     * map转化方法
+     * <p>key为原来的key</p>
+     * <p>value 为valueMapper的返回值</p>
+     *
+     * @param map           原 map
+     * @param valueMapper   通过key,value 转化value
+     * @param mergeFunction 合并函数
+     * @return new Map
+     * @since 1.0.4
+     */
+    public static <K, V, C> Map<K, C> convertMapValue(Map<K, V> map,
+                                                      BiFunction<K, V, C> valueMapper,
+                                                      BinaryOperator<C> mergeFunction) {
+        if (isNullOrEmpty(map)) {
+            return new HashMap<>();
+        }
+        return map.entrySet().stream().collect(Collectors.toMap(
+                Map.Entry::getKey,
+                e -> valueMapper.apply(e.getKey(), e.getValue()),
+                mergeFunction
+        ));
+    }
+
+    /**
+     * map转化方法
+     * <p>key为原来的key</p>
+     * <p>value 为valueMapper的返回值</p>
+     * <p>合并方法采用 {@link XTCollUtil} XTCollUtil.pickSecond()</p>
+     *
+     * @param originMap   原 map
+     * @param valueMapper 通过key,value 转化value
+     * @return new Map
+     * @since 1.0.4
+     */
+    public static <K, V, C> Map<K, C> convertMapValue(Map<K, V> originMap, BiFunction<K, V, C> valueMapper) {
+        return convertMapValue(originMap, valueMapper, XTCollUtil.pickSecond());
     }
 
 

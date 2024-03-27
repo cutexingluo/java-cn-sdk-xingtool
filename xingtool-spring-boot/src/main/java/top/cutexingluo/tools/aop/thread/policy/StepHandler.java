@@ -22,9 +22,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 
 /**
+ * <p>CountDownLatch 放行 异步转同步策略</p>
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/2 14:02
+ * @since 1.0.2
  */
 @Data
 @AllArgsConstructor
