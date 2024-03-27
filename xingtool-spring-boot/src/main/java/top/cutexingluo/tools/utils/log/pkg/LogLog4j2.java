@@ -16,7 +16,7 @@ import top.cutexingluo.tools.utils.log.LogLevel;
 @Log4j2
 public class LogLog4j2 implements ILogProvider<Logger> {
     public static final int TAG = 2;
-    public static final Logger LOG = log;
+    public static final Logger LOG = org.apache.logging.log4j.LogManager.getLogger(LogLog4j2.class); // pass javadoc
 
     @Override
     public Logger getLog() {
