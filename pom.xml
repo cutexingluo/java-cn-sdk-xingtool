@@ -104,6 +104,27 @@
             <!--                    </execution>-->
             <!--                </executions>-->
             <!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                &lt;!&ndash;lombok还原插件&ndash;&gt;-->
+            <!--                <groupId>org.projectlombok</groupId>-->
+            <!--                <artifactId>lombok-maven-plugin</artifactId>-->
+            <!--                <version>1.18.20.0</version>-->
+            <!--                <configuration>-->
+            <!--                    <encoding>UTF-8</encoding>-->
+            <!--                    <sourceDirectory>src/main/java</sourceDirectory>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <phase>process-sources</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>delombok</goal>-->
+            <!--                        </goals>-->
+            <!--                        <configuration>-->
+            <!--                            <addOutputDirectory>false</addOutputDirectory>-->
+            <!--                        </configuration>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
             <!-- 编译插件，设置源码以及编译的jdk版本 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

@@ -16,7 +16,7 @@ import top.cutexingluo.tools.utils.log.LogLevel;
 @Slf4j
 public class LogSlf4j implements ILogProvider<Logger> {
     public static final int TAG = 4;
-    public static final Logger LOG = log;
+    public static final Logger LOG = org.slf4j.LoggerFactory.getLogger(LogSlf4j.class); // pass javadoc
 
     @Override
     public Logger getLog() {
