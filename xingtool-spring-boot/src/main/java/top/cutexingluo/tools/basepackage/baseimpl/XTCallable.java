@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import top.cutexingluo.tools.basepackage.base.ComCallable;
 import top.cutexingluo.tools.basepackage.base.ComSupplier;
 import top.cutexingluo.tools.basepackage.basehandler.CallableHandler;
@@ -42,6 +44,8 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
     /**
      * try-catch 包围 执行方法
      */
+    @NotNull
+    @Contract(pure = true)
     public static <O> Callable<O> getTryCallable(Callable<O> task, Supplier<Boolean> canRunTask, Consumer<Exception> inCatch) {
         return () -> getTrySupplier(task, canRunTask, inCatch).get();
     }
@@ -49,6 +53,8 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
     /**
      * try-catch 包围 执行方法
      */
+    @NotNull
+    @Contract(pure = true)
     public static <O> Callable<O> getTryCallable(Callable<O> task) {
         return getTryCallable(task, null, null);
     }
@@ -59,6 +65,8 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
      *
      * @since 1.0.4
      */
+    @NotNull
+    @Contract(pure = true)
     public static <O> Supplier<O> getTrySupplier(Supplier<O> task, Supplier<Boolean> canRunTask, Consumer<Exception> inCatch) {
         return () -> {
             if (canRunTask != null && !canRunTask.get()) {
@@ -69,7 +77,7 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
                 if (task != null) res = task.get();
             } catch (Exception e) {
                 if (inCatch != null) inCatch.accept(e);
-                else e.printStackTrace();
+                else throw e;
             }
             return res;
         };
@@ -78,6 +86,8 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
     /**
      * try-catch 包围 执行方法
      */
+    @NotNull
+    @Contract(pure = true)
     public static <O> Supplier<O> getTrySupplier(Supplier<O> task) {
         return getTrySupplier(task, null, null);
     }
@@ -90,6 +100,8 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
      * @param inCatch    捕获异常
      * @return {@link Supplier}<{@link O}>
      */
+    @NotNull
+    @Contract(pure = true)
     public static <O> Supplier<O> getTrySupplier(Callable<O> task, Supplier<Boolean> canRunTask, Consumer<Exception> inCatch) {
         return () -> {
             if (canRunTask != null && !canRunTask.get()) {
@@ -106,6 +118,8 @@ public class XTCallable<T> implements Callable<T>, Supplier<T>, ComCallable<T>, 
         };
     }
 
+    @NotNull
+    @Contract(pure = true)
     public static <O> Supplier<O> getTrySupplier(Callable<O> task) {
         return getTrySupplier(task, null, null);
     }

@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/1 16:16
+ * @since 1.0.2
  */
 @EnableAsync
 @Aspect

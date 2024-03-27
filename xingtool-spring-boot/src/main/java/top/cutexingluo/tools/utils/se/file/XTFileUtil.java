@@ -2,6 +2,7 @@ package top.cutexingluo.tools.utils.se.file;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileNameUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -17,6 +18,12 @@ import java.util.function.Function;
  * @date 2023/2/3 15:06
  */
 public class XTFileUtil {
+
+    /**
+     * 点
+     */
+    public static final String DOT = ".";
+
     /**
      * 路径得到文件
      *
@@ -45,10 +52,32 @@ public class XTFileUtil {
         return clazz.getSimpleName();
     }
 
+    /**
+     * 获取扩展名, 带点(.)
+     */
+    @NotNull
+    public static String getDotExtName(File file) {
+        return DOT + FileNameUtil.extName(file);
+    }
+
+    /**
+     * 获取扩展名, 带点(.)
+     */
+    @NotNull
+    public static String getDotExtName(String filename) {
+        return DOT + FileNameUtil.extName(filename);
+    }
+
+    /**
+     * 获取扩展名, 不带点(.)
+     */
     public static String getExtName(File file) {
         return FileNameUtil.extName(file);
     }
 
+    /**
+     * 获取扩展名, 不带点(.)
+     */
     public static String getExtName(String filename) {
         return FileNameUtil.extName(filename);
     }

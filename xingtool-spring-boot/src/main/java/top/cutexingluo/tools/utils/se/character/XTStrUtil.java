@@ -17,7 +17,13 @@ import java.util.regex.Pattern;
  */
 public class XTStrUtil {
 
-    public static final RegexPool regexPool = null;
+    /**
+     * 常用正则表达式字符串池
+     * <p>1.0.4 改为大写</p>
+     *
+     * @updateFrom 1.0.4
+     */
+    public static final RegexPool REGEX_POOL = null;
 
     /**
      * 得到所有字符串最小长度
@@ -241,7 +247,7 @@ public class XTStrUtil {
      * @since 1.0.2
      */
     public static int findFirstOf(String origin, int startIndex, String characterCollection, boolean ignoreCase) {
-        return findFirstOf(origin, startIndex, characterCollection, ignoreCase);
+        return XTStringAlgo.findFirstOf(origin, startIndex, characterCollection, ignoreCase);
     }
 
     /**

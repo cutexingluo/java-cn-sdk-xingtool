@@ -11,9 +11,14 @@ import top.cutexingluo.tools.designtools.juc.utils.XTJUC;
 import java.util.concurrent.*;
 
 /**
+ * 线程池数据
+ *
+ * <p>于 1.0.4 更新默认为 n+1 核心数, 2 分钟 keepAlive</p>
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/12/31 20:17
+ * @updateFrom 1.0.4
  */
 @Data
 @AllArgsConstructor
@@ -80,7 +85,7 @@ public class ThreadData implements IThreadData {
     public ThreadData(int cores, int maxSize, int queueSize,
                       RejectedExecutionHandler rejectedExecutionHandler) {
         this(cores, maxSize,
-                2, TimeUnit.SECONDS,
+                2, TimeUnit.MINUTES,
                 new LinkedBlockingDeque<>(queueSize), Executors.defaultThreadFactory(),
                 rejectedExecutionHandler);
     }
@@ -88,15 +93,15 @@ public class ThreadData implements IThreadData {
     public ThreadData(int cores, int maxSize, int queueSize,
                       RejectPolicy rejectPolicy) {
         this(cores, maxSize,
-                2, TimeUnit.SECONDS,
+                2, TimeUnit.MINUTES,
                 new LinkedBlockingDeque<>(queueSize), Executors.defaultThreadFactory(),
                 policy(rejectPolicy));
     }
 
     public ThreadData() {
-        this(XTJUC.getCoresNumber() / 4, XTJUC.getCoresNumber() / 4 * 3,
-                2, TimeUnit.SECONDS,
-                new LinkedBlockingDeque<>(4), Executors.defaultThreadFactory(),
+        this(XTJUC.getCoresNumber() + 1, XTJUC.getCoresNumber() * 2 + 1,
+                2, TimeUnit.MINUTES,
+                new LinkedBlockingDeque<>(200), Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.CallerRunsPolicy());
     }
 

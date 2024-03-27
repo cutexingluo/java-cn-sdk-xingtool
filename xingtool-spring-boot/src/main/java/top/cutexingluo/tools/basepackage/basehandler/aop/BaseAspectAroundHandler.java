@@ -2,10 +2,11 @@ package top.cutexingluo.tools.basepackage.basehandler.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.lang.Nullable;
+import top.cutexingluo.tools.designtools.method.ClassUtil;
 
-import java.util.concurrent.Callable;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 
 /**
  * Aop around接口
@@ -15,7 +16,7 @@ import java.util.function.Supplier;
  * @date 2023/7/16 15:01
  */
 @FunctionalInterface
-public interface BaseAspectAroundHandler<T> {
+public interface BaseAspectAroundHandler<T> extends BaseJoinPointTaskHandler {
 
 //    default Object around(@NotNull ProceedingJoinPoint joinPoint, T t) throws Throwable {
 //        return joinPoint.proceed();
@@ -25,55 +26,58 @@ public interface BaseAspectAroundHandler<T> {
 
 
     /**
-     * 获得任务，手动操作inCatch，否则直接输出异常
+     * 重载方法
+     * <p>适用其他情况</p>
+     *
+     * @since 1.0.4
      */
-    default <V> Callable<V> getTask(ProceedingJoinPoint joinPoint, Consumer<Exception> inCatch) {
-        return () -> {
-            V result = null;
-            try {
-                result = (V) getTask(joinPoint).call();
-            } catch (Exception e) {
-                if (inCatch != null) inCatch.accept(e);
-                else e.printStackTrace();
-            }
-            return result;
-        };
+    default Object around(@NotNull ProceedingJoinPoint joinPoint) throws Throwable {
+        return joinPoint.proceed();
     }
 
     /**
-     * 获得任务, 装饰重新抛出
+     * 获得方法
+     *
+     * @see ClassUtil
+     * @since 1.0.4
      */
-    default <V> Callable<V> getTask(ProceedingJoinPoint joinPoint) {
-        return () -> {
-            V result = null;
-            try {
-                if (joinPoint != null) result = (V) joinPoint.proceed();
-            } catch (Exception e) {
-                throw e;
-            } catch (Throwable e) {
-                throw new RuntimeException(e);
-            }
-            return result;
-        };
+    default Method getMethod(@NotNull ProceedingJoinPoint joinPoint) {
+        return ClassUtil.getMethod(joinPoint);
     }
 
     /**
-     * 获得任务, 如果不允许执行就跳过
+     * 获得注解
+     *
+     * @see ClassUtil
+     * @since 1.0.4
      */
-    default <V> Callable<V> getTask(ProceedingJoinPoint joinPoint, Supplier<Boolean> canRunTask) {
-        return () -> {
-            if (canRunTask != null && !canRunTask.get()) {
-                return null;
-            }
-            V result = null;
-            try {
-                if (joinPoint != null) result = (V) joinPoint.proceed();
-            } catch (Exception e) {
-                throw e;
-            } catch (Throwable e) {
-                throw new RuntimeException(e);
-            }
-            return result;
-        };
+    default <A extends Annotation> A getAnnotation(Annotation annotation, Class<A> annotationType) {
+        return ClassUtil.getAnnotation(annotation, annotationType);
     }
+
+    /**
+     * 获取方法上注解
+     *
+     * @see ClassUtil
+     * @since 1.0.4
+     */
+    default <A extends Annotation> A getMethodAnnotation(Method method, Class<A> annotationType) {
+        return ClassUtil.getAnnotation(method, annotationType);
+    }
+
+    /**
+     * 获取类上的注解
+     *
+     * @param targetClass    目标类型
+     * @param annotationType 注解类型
+     * @return 注解对象
+     * @see ClassUtil
+     * @since 1.0.4
+     */
+    @Nullable
+    default <A extends Annotation> A getClassAnnotation(@NotNull Class<?> targetClass, Class<A> annotationType) {
+        return ClassUtil.getClassAnnotation(targetClass, annotationType);
+    }
+
+
 }

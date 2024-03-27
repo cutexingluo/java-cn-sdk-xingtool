@@ -8,10 +8,10 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
-import top.cutexingluo.tools.aop.log.LogHandler;
 import top.cutexingluo.tools.aop.log.optlog.custom.OptLogAdapter;
 import top.cutexingluo.tools.basepackage.basehandler.aop.BaseAspectAroundHandler;
 import top.cutexingluo.tools.basepackage.basehandler.aop.BaseAspectHandler;
+import top.cutexingluo.tools.utils.log.handler.LogHandler;
 
 /**
  * 操作日志aop
@@ -58,7 +58,7 @@ public class OptLogAop implements BaseAspectHandler<OptLog>, BaseAspectAroundHan
         result = null;
         if (optLog != null) {
             currentJoinPoint = joinPoint;
-            log = new LogHandler(optLog.type());
+            log = new LogHandler(optLog.type().intCode());
             optConfig = new OptConfig();
             before(optLog);
             if (optLogAdapter != null) { //执行自定义方法

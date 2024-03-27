@@ -5,7 +5,10 @@ package top.cutexingluo.tools.designtools.builder;
  * @version 1.0.0
  * @date 2023/2/2 18:39
  */
-public abstract class XTBuilder<T> implements  Builder<T>{
+public abstract class XTBuilder<T> implements Builder<T> {
+    /**
+     * the target
+     */
     protected T target;
 
     @Override
@@ -13,6 +16,9 @@ public abstract class XTBuilder<T> implements  Builder<T>{
         return this;
     }
 
+    /**
+     * set the target
+     */
     public Builder<T> setTarget(T target) {
         this.target = target;
         return this;

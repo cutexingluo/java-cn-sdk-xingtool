@@ -172,4 +172,33 @@ public class AutoInjectProperty {
      * 默认swagger配置，默认关闭
      */
     private boolean swaggerConfig = false;
+
+    /**
+     * 是否开启 @RequestLimit 防重复提交注解，默认关闭
+     *
+     * <p>如果需要默认的Redis策略，则需要把 request-limit-redis 配置打开</p>
+     *
+     * @since 1.0.4
+     */
+    private boolean requestLimit = false;
+
+
+    /**
+     * 提供自带的 Redis 策略 防重复提交注解，默认关闭
+     * <p>1.需要导入 RedisTemplate 相关的包</p>
+     * <p>2.需要开启request-limit配置，使注解 @RequestLimit  配置生效</p>
+     *
+     * @since 1.0.4
+     */
+    private boolean requestLimitRedis = false;
+
+
+    /**
+     * 是否启用 @WebLog 注解 AOP
+     * <p>极力推荐，根据策略自定义打印字符串</p>
+     * <p>默认关闭</p>
+     *
+     * @since 1.0.4
+     */
+    private boolean webLogAop = false;
 }

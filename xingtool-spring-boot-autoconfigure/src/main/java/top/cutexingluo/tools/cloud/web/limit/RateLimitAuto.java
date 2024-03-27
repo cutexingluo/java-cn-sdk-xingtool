@@ -2,12 +2,14 @@ package top.cutexingluo.tools.cloud.web.limit;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
+import top.cutexingluo.tools.auto.cloud.XTSpringCloudAutoConfiguration;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 import top.cutexingluo.tools.utils.ee.redis.RedisConfig;
 import top.cutexingluo.tools.utils.ruoyi.annotation.aop.RateLimiterAspect;
@@ -23,6 +25,7 @@ import javax.annotation.PostConstruct;
  * @date 2023/5/6 19:46
  */
 @Slf4j
+@ConditionalOnBean(XTSpringCloudAutoConfiguration.class)
 @AutoConfigureAfter({RedisConfig.class, RedisTemplate.class})
 @ConditionalOnProperty(prefix = "xingtools.cloud.enabled", name = "redis-limit", havingValue = "true", matchIfMissing = false)
 @Configuration(proxyBeanMethods = false)

@@ -18,6 +18,7 @@ import java.util.concurrent.Future;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/6 19:50
+ * @since 1.0.2
  */
 @Data
 @AllArgsConstructor

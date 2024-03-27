@@ -34,6 +34,13 @@ public class AutoInjectCloudProperty {
     private List<String> retainFeignRequestHeaders = Arrays.asList("Authorization", "token");
 
     /**
+     * 需要保留所有 Cookie，配置前需要把 retain-feign-request 开启
+     *
+     * @since 1.0.4
+     */
+    private boolean retainFeignRequestAllowAllCookies = false;
+
+    /**
      * 动态 feign 调用，使用编程式来调用 feign
      * <br>默认关闭
      * <ul>

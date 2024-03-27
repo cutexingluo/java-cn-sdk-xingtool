@@ -11,6 +11,7 @@ import top.cutexingluo.tools.aop.thread.SonThread;
 import top.cutexingluo.tools.aop.thread.policy.ThreadAopFactory;
 import top.cutexingluo.tools.aop.transactional.TransactionHandler;
 import top.cutexingluo.tools.aop.transactional.TransactionMeta;
+import top.cutexingluo.tools.basepackage.basehandler.aop.BaseJoinPointTaskHandler;
 import top.cutexingluo.tools.designtools.juc.lock.handler.XTLockHandler;
 import top.cutexingluo.tools.designtools.juc.lockAop.XTLockMeta;
 import top.cutexingluo.tools.designtools.juc.thread.XTThreadPool;
@@ -25,8 +26,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 /**
  * Thread Aop处理器
@@ -34,8 +33,9 @@ import java.util.function.Supplier;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/2 13:28
+ * @since 1.0.2
  */
-public interface ThreadAopHandler {
+public interface ThreadAopHandler extends BaseJoinPointTaskHandler {
 
     default Vector<Exception> newExceptionVector() {
         return new Vector<>();
@@ -191,59 +191,6 @@ public interface ThreadAopHandler {
         } else {
             return new ArrayList<>();
         }
-    }
-
-
-    /**
-     * 1.获得任务
-     */
-    default <V> Callable<V> getTask(ProceedingJoinPoint joinPoint, Consumer<Exception> inCatch) {
-        return () -> {
-            V result = null;
-            try {
-                result = (V) getTask(joinPoint).call();
-            } catch (Exception e) {
-                if (inCatch != null) inCatch.accept(e);
-            }
-            return result;
-        };
-    }
-
-    /**
-     * 1.获得任务
-     */
-    default <V> Callable<V> getTask(ProceedingJoinPoint joinPoint) {
-        return () -> {
-            V result = null;
-            try {
-                if (joinPoint != null) result = (V) joinPoint.proceed();
-            } catch (Exception e) {
-                throw e;
-            } catch (Throwable e) {
-                throw new RuntimeException(e);
-            }
-            return result;
-        };
-    }
-
-    /**
-     * 1.获得任务, 如果不允许执行就跳过
-     */
-    default <V> Callable<V> getTask(ProceedingJoinPoint joinPoint, Supplier<Boolean> canRunTask) {
-        return () -> {
-            if (canRunTask != null && !canRunTask.get()) {
-                return null;
-            }
-            V result = null;
-            try {
-                if (joinPoint != null) result = (V) joinPoint.proceed();
-            } catch (Exception e) {
-                throw e;
-            } catch (Throwable e) {
-                throw new RuntimeException(e);
-            }
-            return result;
-        };
     }
 
     /**

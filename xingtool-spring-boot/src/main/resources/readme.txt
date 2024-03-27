@@ -2,20 +2,34 @@
 @Author XingTian
 @Version v1.0.3-SNAPSHOT
 @Since 2023-9-26
-@Update 2023-12-9
+@Update 2024-3-27
 
 
 
 更新公告
 
-2023-12-29 v1.0.4-SNAPSHOT
+2023-12-29 ~ 2024-3-27  v1.0.4
 
 bug修复
 1.紧急修复XTCallable 的 getSupplier 和 canRunTask 问题，并修复逻辑。
+2.紧急修复 XTStrUtil findFirstOf错误调用自身的问题。 1.0.2-1.0.3 两个版本不要使用该方法。
+3.修复单 pick 问题, 解决并发注解 @MainThread @SonThread 事务问题, 修复 TreeUtil 树转列表的问题
+4.修复 ResultUtil 对 R类 的支持问题
 
 更改部分
 1.修改 @MainThread 默认时间策略为  GetResultAfterLastSon, 和原来没有什么差别。
+2.修改了 XTMethodUtil 类方法名称 isAnnotationPresent => isHandlerMethodAnnotationPresent。
+3.修改所有限流注解/工具的位置。
+4.修改 XTLog 实现, 以及新增一系列 web 的 key 接口 和日志接口。
+5.修改XTThreadPool、ThreadData默认核心线程，并修改ThreadHelper 命名防止冲突。
 
+新增部分
+1.新增 @StrJson 注解 返回数据时返回指定json字符串，并新增 StrJsonStrategy 接口的实现类 SensitiveSerializer 类用于敏感字符串脱敏，可自行实现StrJsonStrategy接口。
+2.新增 SocketServer 和 SocketClient 等类 和 XTCollUtil 集合工具类。
+3.新增 @RequestLimit 限流注解 和 RequestLimitHandler 工具类，可以取代 @Limit 和 @AccessLimit 注解,  提供了两个策略，可自定义策略，使用灵活。
+4.新增 @WebLog注解 和 WebHandler 工具类，用于自定义策略日志打印，可以取代 @MethodLog 和 @XTSystemLog , 匹配, 模式串用法更灵活。
+5.新增 OptBundle 类 用于执行链操作 , 和 OptionalResult 用于扩展 Optional 类。
+6.新增 kotlin 依赖 临时支持 kotlin 。
 
 
 

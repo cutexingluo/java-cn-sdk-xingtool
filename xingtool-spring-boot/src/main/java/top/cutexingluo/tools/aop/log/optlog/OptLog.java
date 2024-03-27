@@ -2,7 +2,7 @@ package top.cutexingluo.tools.aop.log.optlog;
 
 
 import org.springframework.core.annotation.AliasFor;
-import top.cutexingluo.tools.aop.log.LogType;
+import top.cutexingluo.tools.utils.log.LogType;
 
 import java.lang.annotation.*;
 

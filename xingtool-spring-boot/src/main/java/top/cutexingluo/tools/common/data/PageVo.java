@@ -9,7 +9,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 /**
- * Page简单封装
+ * Page 简单封装
+ *
+ * <p>提供常规版本 {@link PageDetailVo}</p>
  *
  * @author XingTian
  * @version 1.0.0

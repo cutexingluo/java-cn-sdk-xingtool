@@ -1,5 +1,8 @@
 package top.cutexingluo.tools.utils.se.obj;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * bool 工具类
  * <p>用于解析 boolean 和 Boolean 变量</p>
@@ -15,6 +18,8 @@ public class BoolUtil {
     /**
      * true to "true" , false to "false"
      */
+    @NotNull
+    @Contract(pure = true)
     public static String getString(boolean value) {
         return value ? "true" : "false";
     }
@@ -30,6 +35,8 @@ public class BoolUtil {
     /**
      * true to "true" , false to "false" , null to ""
      */
+    @NotNull
+    @Contract(pure = true)
     public static String getString(Boolean value) {
         if (value == null) return "";
         return value ? "true" : "false";

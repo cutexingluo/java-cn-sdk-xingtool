@@ -2,6 +2,7 @@ package top.cutexingluo.tools.common.utils;
 
 import org.jetbrains.annotations.NotNull;
 import top.cutexingluo.tools.common.Constants;
+import top.cutexingluo.tools.common.MSResult;
 import top.cutexingluo.tools.common.R;
 import top.cutexingluo.tools.common.Result;
 import top.cutexingluo.tools.common.base.IResult;
@@ -83,45 +84,82 @@ public class ResultUtil {
         return selectResult(data, successMsg, errorMsg, Constants.CODE_500.intCode());
     }
 
+
     /**
      * 根据结果返回对应数据
      *
      * @param data 数据
-     * @return {@link R}
+     * @return {@link MSResult}
+     * @since 1.0.4
      */
     @NotNull
-    public static <C, T> R<T> selectR(T data) {
+    public static <C, T> MSResult<T> selectMSResult(T data) {
         if (data == null) {
-            return (R<T>) R.error();
+            return (MSResult<T>) MSResult.error();
         } else if (data instanceof IResult) {
             IResult<C, T> result = (IResult<C, T>) data;
             if (result.getData() == null || Boolean.FALSE.equals(result.getData())) {
-                return (R<T>) R.error(result.getMsg());
+                return (MSResult<T>) MSResult.error(result.getMsg());
             } else {
-                return (R<T>) R.success(result.getMsg(), result.getData());
+                return MSResult.success(result.getMsg(), result.getData());
             }
         } else {
-            return (R<T>) R.success(data);
+            return MSResult.success(data);
         }
     }
 
+    /**
+     * 根据结果返回对应数据
+     *
+     * @param data 数据
+     * @return {@link MSResult}
+     * @since 1.0.4
+     */
     @NotNull
-    public static <C, T> R<T> selectR(T data, String successMsg, String errorMsg, int errorCode) {
+    public static <C, T> MSResult<T> selectMSResult(T data, String successMsg, String errorMsg, int errorCode) {
         if (data == null) {
-            return (R<T>) R.error(errorCode, errorMsg != null ? errorMsg : "获取失败");
+            return (MSResult<T>) MSResult.error(errorCode, errorMsg != null ? errorMsg : "获取失败");
         } else if (data instanceof IResult) {
             IResult<C, T> result = (IResult<C, T>) data;
             if (result.getData() == null || Boolean.FALSE.equals(result.getData())) {
-                return (R<T>) R.error(errorCode, errorMsg != null ? errorMsg : result.getMsg());
+                return (MSResult<T>) MSResult.error(errorCode, errorMsg != null ? errorMsg : result.getMsg());
             } else {
-                return (R<T>) R.success(successMsg != null ? successMsg : result.getMsg(), result.getData());
+                return MSResult.success(successMsg != null ? successMsg : result.getMsg(), result.getData());
             }
         } else {
             if (successMsg != null) {
-                return (R<T>) R.success(successMsg, data);
+                return MSResult.success(successMsg, data);
             }
-            return (R<T>) R.success(data);
+            return MSResult.success(data);
         }
+    }
+
+    /**
+     * 根据结果返回对应数据
+     *
+     * <p>1.0.4 版本修复bug</p>
+     *
+     * @param data 数据
+     * @return {@link R}
+     * @updateFrom 1.0.4
+     */
+    @NotNull
+    public static <C, T> R<T> selectR(T data) {
+        return selectMSResult(data).toR();
+    }
+
+    /**
+     * 根据结果返回对应数据
+     *
+     * <p>1.0.4 版本修复bug</p>
+     *
+     * @param data 数据
+     * @return {@link R}
+     * @updateFrom 1.0.4
+     */
+    @NotNull
+    public static <C, T> R<T> selectR(T data, String successMsg, String errorMsg, int errorCode) {
+        return selectMSResult(data, successMsg, errorMsg, errorCode).toR();
     }
 
     @NotNull

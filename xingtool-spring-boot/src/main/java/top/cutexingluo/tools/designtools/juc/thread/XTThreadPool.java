@@ -14,15 +14,31 @@ import java.util.concurrent.*;
 /**
  * 常用，推荐用，<br>
  * JUC 线程池 ，主要用于 获取线程池，直接运行线程池
- * <p>通过手动 @Bean 注入到容器</p>
+ * <p>通过手动 @Bean 将 getThreadPool 注入到容器</p>
+ * <p>于 1.0.4 更新默认为 n+1 核心数, 2 分钟 keepAlive</p>
  *
  * @author XingTian
- * @version 1.0
+ * @version 1.0.2
  * @date 2022-11-21
  */
 @Data
 public class XTThreadPool {
     private static volatile XTThreadPool instance;
+
+    /**
+     * 如果 12 核，默认核心线程 3 核，最大 9 核，阻塞 4 个 ，拒绝策略 主线程备用
+     *
+     * <p>1.0.4 以前的线程配置</p>
+     * <p>于 1.0.4 更新默认为 n+1 核心数, 2 分钟 keepAlive</p>
+     */
+    public static final ThreadData FastThreadPoolData = new ThreadData(
+            XTJUC.getCoresNumber() / 4, XTJUC.getCoresNumber() / 4 * 3,
+            2, TimeUnit.SECONDS,
+            new LinkedBlockingDeque<>(4), Executors.defaultThreadFactory(),
+            new ThreadPoolExecutor.CallerRunsPolicy()
+    );
+
+
     @NotNull
     // 核心是这个ThreadPoolExecutor，封装了一层是避免冲突
     private ThreadPoolExecutor threadPool;
@@ -99,11 +115,11 @@ public class XTThreadPool {
                 threadData.getHandler());
     }
 
-    //如果 12 核，默认核心线程 3 核，最大 9 核，阻塞 4 个 ，拒绝策略 主线程备用
+
     public XTThreadPool() {
-        this(XTJUC.getCoresNumber() / 4, XTJUC.getCoresNumber() / 4 * 3,
-                2, TimeUnit.SECONDS,
-                new LinkedBlockingDeque<>(4), Executors.defaultThreadFactory(),
+        this(XTJUC.getCoresNumber() + 1, XTJUC.getCoresNumber() * 2 + 1,
+                2, TimeUnit.MINUTES,
+                new LinkedBlockingDeque<>(200), Executors.defaultThreadFactory(),
                 new ThreadPoolExecutor.CallerRunsPolicy());
     }
 
@@ -126,7 +142,7 @@ public class XTThreadPool {
     public XTThreadPool(int cores, int maxSize, int queueSize,
                         RejectedExecutionHandler rejectedExecutionHandler) {
         this(cores, maxSize,
-                2, TimeUnit.SECONDS,
+                2, TimeUnit.MINUTES,
                 new LinkedBlockingDeque<>(queueSize), Executors.defaultThreadFactory(),
                 rejectedExecutionHandler);
     }
@@ -134,7 +150,7 @@ public class XTThreadPool {
     public XTThreadPool(int cores, int maxSize, int queueSize,
                         RejectPolicy rejectPolicy) {
         this(cores, maxSize,
-                2, TimeUnit.SECONDS,
+                2, TimeUnit.MINUTES,
                 new LinkedBlockingDeque<>(queueSize), Executors.defaultThreadFactory(),
                 getPolicy(rejectPolicy));
     }

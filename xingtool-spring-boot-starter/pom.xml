@@ -8,6 +8,7 @@
         <artifactId>xingtool</artifactId>
         <groupId>top.cutexingluo.tools</groupId>
         <version>1.0.4-SNAPSHOT</version>
+        
         <!--        <relativePath/>-->
     </parent>
 

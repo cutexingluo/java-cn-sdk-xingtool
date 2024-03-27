@@ -7,6 +7,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.retry.backoff.BackOffPolicy;
@@ -15,6 +16,7 @@ import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
+import top.cutexingluo.tools.auto.cloud.XTSpringCloudAutoConfiguration;
 import top.cutexingluo.tools.utils.distribute.feign.retry.FeignRetry;
 
 import javax.annotation.PostConstruct;
@@ -32,6 +34,7 @@ import java.util.Map;
  * @version 1.0.0
  * @date 2023/5/6 15:49
  */
+@ConditionalOnBean(XTSpringCloudAutoConfiguration.class)
 @ConditionalOnProperty(prefix = "xingtool.cloud.enabled", name = "feign-retry", havingValue = "true", matchIfMissing = false)
 @ConditionalOnClass({RetryableException.class, RetryTemplate.class})
 @Aspect

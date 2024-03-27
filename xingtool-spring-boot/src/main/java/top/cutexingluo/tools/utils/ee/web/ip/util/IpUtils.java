@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
+import top.cutexingluo.tools.common.Constants;
 import top.cutexingluo.tools.exception.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +35,7 @@ public class IpUtils {
             byte[] cBuff = FileCopyUtils.copyToByteArray(inputStream);
             searcher = Searcher.newWithBuffer(cBuff);
         } catch (IOException e) {
-            throw new ServiceException("ip2region.xdb加载失败");
+            throw new ServiceException(Constants.CODE_500, "ip2region.xdb加载失败");
         }
 
     }

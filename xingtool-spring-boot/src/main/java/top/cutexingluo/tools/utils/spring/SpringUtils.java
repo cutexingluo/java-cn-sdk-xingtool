@@ -1,6 +1,8 @@
 package top.cutexingluo.tools.utils.spring;
 
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -125,8 +127,37 @@ public class SpringUtils implements ApplicationContextAware {
     /**
      * 通过name获取 Bean.
      */
-    public static Object getBean(String name) {
+    @NotNull
+    public static Object getBean(String name) throws BeansException {
         return getApplicationContext().getBean(name);
+    }
+
+    /**
+     * 通过class获取Bean.
+     * <p>无异常，返回空</p>
+     */
+    @Nullable
+    public static Object getBeanNoExc(String name) {
+        try {
+            return getApplicationContext().getBean(name);
+        } catch (BeansException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 通过class获取Bean.
+     * <p>无异常，返回空</p>
+     *
+     * @since 1.0.4
+     */
+    @Nullable
+    public static Object getBeanNoExc(@NonNull ApplicationContext applicationContext, String name) {
+        try {
+            return applicationContext.getBean(name);
+        } catch (BeansException e) {
+            return null;
+        }
     }
 
     //通过class获取Bean.
@@ -134,17 +165,77 @@ public class SpringUtils implements ApplicationContextAware {
     /**
      * 通过class获取Bean.
      */
-    public static <T> T getBean(Class<T> clazz) {
+    @NotNull
+    public static <T> T getBean(Class<T> clazz) throws BeansException {
         return getApplicationContext().getBean(clazz);
     }
+
+    /**
+     * 通过class获取Bean.
+     * <p>无异常，返回空</p>
+     *
+     * @since 1.0.4
+     */
+    @Nullable
+    public static <T> T getBeanNoExc(@NonNull ApplicationContext applicationContext, Class<T> clazz) {
+        try {
+            return applicationContext.getBean(clazz);
+        } catch (BeansException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 通过class获取Bean.
+     * <p>无异常，返回空</p>
+     */
+    @Nullable
+    public static <T> T getBeanNoExc(Class<T> clazz) {
+        try {
+            return getApplicationContext().getBean(clazz);
+        } catch (BeansException e) {
+            return null;
+        }
+    }
+
 
     //通过name,以及Clazz返回指定的Bean
 
     /**
      * 通过name,以及Clazz返回指定的Bean
      */
-    public static <T> T getBean(String name, Class<T> clazz) {
+    @NotNull
+    public static <T> T getBean(String name, Class<T> clazz) throws BeansException {
         return getApplicationContext().getBean(name, clazz);
+    }
+
+    /**
+     * 通过name,以及Clazz返回指定的Bean
+     * <p>无异常，返回空</p>
+     *
+     * @since 1.0.4
+     */
+    @Nullable
+    public static <T> T getBeanNoExc(@NonNull ApplicationContext applicationContext, String name, Class<T> clazz) {
+        try {
+            return getApplicationContext().getBean(name, clazz);
+        } catch (BeansException e) {
+            return null;
+        }
+    }
+
+
+    /**
+     * 通过name,以及Clazz返回指定的Bean
+     * <p>无异常，返回空</p>
+     */
+    @Nullable
+    public static <T> T getBeanNoExc(String name, Class<T> clazz) {
+        try {
+            return getApplicationContext().getBean(name, clazz);
+        } catch (BeansException e) {
+            return null;
+        }
     }
 
     public static Class<?> getType(String name) throws NoSuchBeanDefinitionException {
