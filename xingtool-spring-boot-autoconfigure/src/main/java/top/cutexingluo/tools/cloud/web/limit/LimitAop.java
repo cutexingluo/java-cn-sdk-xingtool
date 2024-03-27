@@ -9,18 +9,22 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import top.cutexingluo.tools.auto.server.XingToolsAutoConfiguration;
 import top.cutexingluo.tools.common.Constants;
 import top.cutexingluo.tools.common.Result;
 import top.cutexingluo.tools.common.base.IResult;
 import top.cutexingluo.tools.common.utils.GlobalResultFactory;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
-import top.cutexingluo.tools.utils.ee.web.Limit;
 import top.cutexingluo.tools.utils.ee.web.front.WebUtils;
+import top.cutexingluo.tools.utils.ee.web.limit.guava.Limit;
+import top.cutexingluo.tools.utils.ee.web.limit.submit.base.RequestLimit;
+import top.cutexingluo.tools.utils.ee.web.limit.submit.pkg.RequestLimitHandler;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
@@ -36,12 +40,14 @@ import java.util.Map;
  * &lt;artifactId&gt;guava&lt;/artifactId&gt;
  * </code>
  * </p>
+ * <p>1.0.4 及以后版本推荐使用 {@link RequestLimit} 注解 或 {@link RequestLimitHandler} 编程式工具</p>
  *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/5/6 16:31
  */
 
+@ConditionalOnBean(XingToolsAutoConfiguration.class)
 @ConditionalOnProperty(prefix = "xingtools.cloud.enabled", name = "current-limit", havingValue = "true")
 @ConditionalOnClass({RateLimiter.class})
 @Slf4j
@@ -64,7 +70,7 @@ public class LimitAop {
      */
     private final Map<String, RateLimiter> limitMap = Maps.newConcurrentMap();
 
-    @Around("@annotation(top.cutexingluo.tools.utils.ee.web.Limit)")
+    @Around("@annotation(top.cutexingluo.tools.utils.ee.web.limit.guava.Limit)")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();

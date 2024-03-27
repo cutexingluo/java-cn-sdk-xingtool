@@ -22,7 +22,7 @@ import java.util.List;
  * 调用其他第三方的工具类
  * <p>例如:</p>
  * <ul>
- *     <li>执行控制台命令</li>
+ *     <li>执行控制台命令, 其他详见 {@link top.cutexingluo.tools.utils.se.thread.ProcessUtil}</li>
  *     <li>生成调用本地cpp的dll文件</li>
  *     <li>执行js代码</li>
  *     <li>编程式python代码</li>

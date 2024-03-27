@@ -2,8 +2,10 @@ package top.cutexingluo.tools.cloud.feign.dynamic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+import top.cutexingluo.tools.auto.cloud.XTSpringCloudAutoConfiguration;
 
 /**
  * 动态 Feign 调用 <br>
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
  * @version 1.0.0
  * @date 2023/5/6 15:26
  */
+@ConditionalOnBean(XTSpringCloudAutoConfiguration.class)
 @ConditionalOnProperty(prefix = "xingtool.cloud.enabled", name = "dynamic-feign", havingValue = "true", matchIfMissing = false)
 @AutoConfigureAfter(DynamicFeignClientFactory.class)
 @Component

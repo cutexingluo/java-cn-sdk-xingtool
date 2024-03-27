@@ -1,16 +1,14 @@
 package top.cutexingluo.tools.utils.se.array;
 
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
-import top.cutexingluo.tools.aop.log.LogHandler;
-import top.cutexingluo.tools.aop.log.LogType;
+import top.cutexingluo.tools.utils.log.LogType;
+import top.cutexingluo.tools.utils.log.handler.LogHandler;
 import top.cutexingluo.tools.utils.se.map.XTMapUtil;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
@@ -157,10 +155,32 @@ public class XTArrayUtil {
     }
 
     /**
+     * 逐行输出数据
+     *
+     * @since 1.0.4
+     */
+    public static <T> void println(Iterable<T> iterable) {
+        for (T item : iterable) {
+            System.out.println(item);
+        }
+    }
+
+    /**
+     * 逐行输出数据
+     *
+     * @since 1.0.4
+     */
+    public static <T> void println(Enumeration<T> enumeration) {
+        while (enumeration.hasMoreElements()) {
+            System.out.println(enumeration.nextElement());
+        }
+    }
+
+    /**
      * 输出列表的值到指定位置
      */
-    public static <T> void logList(List<T> list, LogType logType) {
-        LogHandler handler = new LogHandler(logType);
+    public static <T> void logList(@NotNull List<T> list, @NotNull LogType logType) {
+        LogHandler handler = new LogHandler(logType.intCode());
         for (T item : list) {
             handler.send(item.toString());
         }
@@ -169,8 +189,8 @@ public class XTArrayUtil {
     /**
      * 输出数组的值到指定位置
      */
-    public static <T> void logList(T[] array, LogType logType) {
-        LogHandler handler = new LogHandler(logType);
+    public static <T> void logList(@NotNull T[] array, @NotNull LogType logType) {
+        LogHandler handler = new LogHandler(logType.intCode());
         for (T item : array) {
             handler.send(item.toString());
         }

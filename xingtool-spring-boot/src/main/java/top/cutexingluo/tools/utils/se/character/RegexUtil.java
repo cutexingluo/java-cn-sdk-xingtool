@@ -2,6 +2,7 @@ package top.cutexingluo.tools.utils.se.character;
 
 import cn.hutool.core.lang.RegexPool;
 import cn.hutool.core.util.ReUtil;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * regex 组合 工具类
@@ -19,7 +20,7 @@ public class RegexUtil extends ReUtil implements RegexPool {
      * @param contents 内容
      * @return boolean
      */
-    public static boolean isAnyMatch(String regex, CharSequence... contents) {
+    public static boolean isAnyMatch(String regex, @NotNull CharSequence... contents) {
         for (CharSequence content : contents) {
             // 进行匹配
             if (isMatch(regex, content)) {

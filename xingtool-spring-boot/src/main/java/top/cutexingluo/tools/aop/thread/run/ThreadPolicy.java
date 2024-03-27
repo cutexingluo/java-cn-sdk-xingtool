@@ -6,6 +6,7 @@ package top.cutexingluo.tools.aop.thread.run;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/2 13:12
+ * @since 1.0.2
  */
 public enum ThreadPolicy {
 

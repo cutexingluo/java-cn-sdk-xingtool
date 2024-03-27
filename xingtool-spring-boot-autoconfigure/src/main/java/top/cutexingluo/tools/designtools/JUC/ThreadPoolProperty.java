@@ -3,6 +3,7 @@ package top.cutexingluo.tools.designtools.JUC;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Import;
+import top.cutexingluo.tools.designtools.juc.thread.data.IThreadData;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
@@ -16,11 +17,12 @@ import java.util.concurrent.TimeUnit;
  * @author XingTian
  * @version 1.0.0
  * @date 2023/2/3 16:03
+ * @updateFrom 1.0.4
  */
 @Data
 @ConfigurationProperties(prefix = "xingtools.xt-thread-pool")
 @Import(ThreadPoolConfiguration.class)
-public class ThreadPoolProperty {
+public class ThreadPoolProperty implements IThreadData {
     /**
      * 核心线程数
      */

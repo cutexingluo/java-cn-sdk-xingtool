@@ -26,6 +26,9 @@ import java.util.stream.Collectors;
  * 异步工具类
  * <br>继承自 CompletableFuture
  *
+ * <p>推荐使用对象 {@link XTCompletionService}</p>
+ * <p>或者直接实现接口 {@link top.cutexingluo.tools.designtools.helper.ThreadHelper}</p>
+ *
  * @author XingTian
  * @date 2023/2/2 18:39
  */

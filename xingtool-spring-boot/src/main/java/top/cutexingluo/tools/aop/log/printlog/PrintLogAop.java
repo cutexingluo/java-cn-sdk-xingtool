@@ -7,10 +7,10 @@ import org.aspectj.lang.annotation.Aspect;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
-import top.cutexingluo.tools.aop.log.LogHandler;
 import top.cutexingluo.tools.aop.log.printlog.custom.PrintLogAdapter;
 import top.cutexingluo.tools.basepackage.basehandler.aop.BaseAspectAroundHandler;
 import top.cutexingluo.tools.basepackage.basehandler.aop.BaseAspectHandler;
+import top.cutexingluo.tools.utils.log.handler.LogHandler;
 
 /**
  * PrintLog 的 Aop
@@ -59,7 +59,7 @@ public class PrintLogAop implements BaseAspectHandler<PrintLog>, BaseAspectAroun
         result = null;
         if (printLog != null) {
             currentJoinPoint = joinPoint;
-            log = new LogHandler(printLog.type());
+            log = new LogHandler(printLog.type().intCode());
             before(printLog);
             result = joinPoint.proceed();
             after(printLog);

@@ -24,9 +24,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
+ * 自动异步+并发+ 获得结果 策略
+ * <p>提交 / 获取结果是异步的</p>
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/5 16:43
+ * @since 1.0.2
  */
 @Data
 @AllArgsConstructor
@@ -85,8 +89,8 @@ public class FutureHandler implements ThreadAopHandler {
                 }).collect(Collectors.toList());
                 setResultList(name, results);
                 if (isGroup) {
-                    if (rollBackFlag.get()) transactionMetas.stream().peek(TransactionMeta::rollback);
-                    else transactionMetas.stream().peek(TransactionMeta::commit);
+                    if (rollBackFlag.get()) transactionMetas.forEach(TransactionMeta::rollback);
+                    else transactionMetas.forEach(TransactionMeta::commit);
                 }
             }
         } catch (Exception e) {
@@ -207,8 +211,8 @@ public class FutureHandler implements ThreadAopHandler {
                 setResultList(name, results);
             }
             if (isGroup) {
-                if (rollBackFlag.get()) transactionMetas.stream().peek(TransactionMeta::rollback);
-                else transactionMetas.stream().peek(TransactionMeta::commit);
+                if (rollBackFlag.get()) transactionMetas.forEach(TransactionMeta::rollback);
+                else transactionMetas.forEach(TransactionMeta::commit);
             }
         }
 

@@ -14,7 +14,7 @@
 
     <groupId>top.cutexingluo.tools</groupId>
     <artifactId>xingtool</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <name>xingtool</name>
     <description>The XingTian-Tool you can get ! please use xingtool-spring-boot-starter in your project.
         see repo: https://gitee.com/SangonomiyaKokomi/xingtool
@@ -28,10 +28,11 @@
 
     <!--    所有version 5 个地方 2+3 都要改-->
     <properties>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <java.version>1.8</java.version>
+        <kotlin.version>1.8.0</kotlin.version>
         <projectUrl>https://gitee.com/SangonomiyaKokomi/xingtool.git</projectUrl>
         <serverId>ossrh</serverId><!-- 服务id 也就是setting.xml中的servers.server.id -->
         <releaseId>release</releaseId>

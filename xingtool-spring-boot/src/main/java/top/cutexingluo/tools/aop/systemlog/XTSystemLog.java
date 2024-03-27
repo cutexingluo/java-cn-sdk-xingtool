@@ -2,6 +2,7 @@ package top.cutexingluo.tools.aop.systemlog;
 
 import org.springframework.core.annotation.AliasFor;
 import top.cutexingluo.tools.aop.log.methodlog.MethodLog;
+import top.cutexingluo.tools.aop.log.xtlog.base.WebLog;
 
 import java.lang.annotation.*;
 
@@ -9,6 +10,7 @@ import java.lang.annotation.*;
  * 接口调用日志
  * <p>网络接口层面使用 @XTSystemLog -> {@link XTSystemLog} </p>
  * <p>方法调用层面使用 @MethodLog ->  {@link MethodLog}</p>
+ * <p><b>1.0.4 版本后推荐使用综合型注解 {@link WebLog}</b></p>
  *
  * @author XingTian
  * @version 1.0.0

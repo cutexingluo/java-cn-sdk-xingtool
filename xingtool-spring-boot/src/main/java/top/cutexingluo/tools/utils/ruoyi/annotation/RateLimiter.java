@@ -1,6 +1,8 @@
 package top.cutexingluo.tools.utils.ruoyi.annotation;
 
 
+import top.cutexingluo.tools.utils.ee.web.limit.submit.base.RequestLimit;
+import top.cutexingluo.tools.utils.ee.web.limit.submit.pkg.RequestLimitHandler;
 import top.cutexingluo.tools.utils.ruoyi.constraint.CacheConstants;
 import top.cutexingluo.tools.utils.ruoyi.enums.LimitType;
 
@@ -12,6 +14,8 @@ import java.lang.annotation.*;
  * <p>若选择这种方式(编程式)，则调用AccessLimitUtil方法</p>
  * <p>2.如果想自动拦截Aop, 则使用Limit注解 或者 ruoyi 的RateLimiter注解</p>
  * <p>若开启该aop则需要开启EnableXingToolsCloudServer，并开启相应配置</p>
+ *
+ * <p>1.0.4 及以后版本推荐使用 {@link RequestLimit} 注解 或 {@link RequestLimitHandler} 编程式工具</p></p>
  *
  * @author ruoyi
  */

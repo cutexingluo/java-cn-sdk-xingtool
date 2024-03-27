@@ -21,31 +21,31 @@ public class Sorts {
     /**
      * 交换位置
      */
-    public static <T> void swap(T[] a, int i, int j) {
+    public static <T> void swap(@NotNull T[] a, int i, int j) {
         T t = a[i];
         a[i] = a[j];
         a[j] = t;
     }
 
-    public static void swap(long[] a, int i, int j) {
+    public static void swap(@NotNull long[] a, int i, int j) {
         long t = a[i];
         a[i] = a[j];
         a[j] = t;
     }
 
-    public static void swap(int[] a, int i, int j) {
+    public static void swap(@NotNull int[] a, int i, int j) {
         int t = a[i];
         a[i] = a[j];
         a[j] = t;
     }
 
-    public static void swap(double[] a, int i, int j) {
+    public static void swap(@NotNull double[] a, int i, int j) {
         double t = a[i];
         a[i] = a[j];
         a[j] = t;
     }
 
-    public static void swap(float[] a, int i, int j) {
+    public static void swap(@NotNull float[] a, int i, int j) {
         float t = a[i];
         a[i] = a[j];
         a[j] = t;
@@ -82,7 +82,7 @@ public class Sorts {
      *
      * @param arr 数组
      */
-    public static <T> void selectSort(T[] arr, @NotNull Comparator<? super T> c) {
+    public static <T> void selectSort(@NotNull T[] arr, @NotNull Comparator<? super T> c) {
         int n = arr.length;
         for (int i = 0; i < n - 1; i++) {
             for (int j = i + 1; j < n; j++) {
@@ -124,7 +124,7 @@ public class Sorts {
      *
      * @param arr 数组
      */
-    public static <T> void bubbleSort(T[] arr, @NotNull Comparator<? super T> c) {
+    public static <T> void bubbleSort(@NotNull T[] arr, @NotNull Comparator<? super T> c) {
         int n = arr.length;
         boolean f;
         int pos = 0;
@@ -160,7 +160,7 @@ public class Sorts {
      *
      * @param arr 数组
      */
-    public static void bubbleSortOld(int[] arr) {
+    public static void bubbleSortOld(@NotNull int[] arr) {
         int n = arr.length;
         boolean f;
         for (int i = 0; i < n - 1; i++) {
@@ -205,7 +205,7 @@ public class Sorts {
      *
      * @param arr 数组
      */
-    public static <T> void insertSort(T[] arr, @NotNull Comparator<? super T> c) {
+    public static <T> void insertSort(@NotNull T[] arr, @NotNull Comparator<? super T> c) {
         int n = arr.length;
         for (int i = 1; i < n; i++) {
             T temp = arr[i];
@@ -224,7 +224,7 @@ public class Sorts {
      *
      * @param arr 数组
      */
-    public static void shellSort(int[] arr) {
+    public static void shellSort(@NotNull int[] arr) {
         int n = arr.length;
         // 设置增量序列，这里使用希尔增量
         for (int gap = n >> 1; gap > 0; gap >>= 1) {
@@ -252,7 +252,7 @@ public class Sorts {
      * @param arr   数组
      * @param maxId 数组最大的数
      */
-    public static void countSort(int[] arr, int maxId) {
+    public static void countSort(@NotNull int[] arr, int maxId) {
         int n = arr.length;
         int[] cnt = new int[maxId + 1];//记录索引数字出现的次数
         for (int k : arr) {
@@ -277,7 +277,7 @@ public class Sorts {
      *
      * @param arr 数组
      */
-    public static void radixSort(int[] arr) {
+    public static void radixSort(@NotNull int[] arr) {
         int n = arr.length;
         int max = arr[0];//最大值
         for (int val : arr) {
@@ -337,7 +337,7 @@ public class Sorts {
         }
     }
 
-    protected static int partition(int[] arr, int low, int high) {
+    protected static int partition(@NotNull int[] arr, int low, int high) {
         // 选择枢轴元素
         int mid = low + (high - low) / 2;
         int pivot = arr[mid];
@@ -474,7 +474,7 @@ public class Sorts {
     }
 
     // 采用三数取中法选择枢轴元素
-    protected static <T> int getPivotIndex(T[] arr, int low, int high, @NotNull Comparator<? super T> c) {
+    protected static <T> int getPivotIndex(@NotNull T[] arr, int low, int high, @NotNull Comparator<? super T> c) {
         int mid = (low + high) >> 1;
         if (c.compare(arr[low], arr[mid]) > 0) { // arr[low] > arr[mid]
             swap(arr, low, mid);
@@ -537,7 +537,7 @@ public class Sorts {
      *
      * @param arr 数组
      */
-    public static void bucketSort(int[] arr) {
+    public static void bucketSort(@NotNull int[] arr) {
         int n = arr.length;
         //桶代表一定范围,将数放入对应桶中,同时插入排序,最后按顺序遍历桶取出
         int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
@@ -573,7 +573,7 @@ public class Sorts {
      *
      * @param arr 数组
      */
-    public static void heapSort(int[] arr) {
+    public static void heapSort(@NotNull int[] arr) {
         int n = arr.length;
         //从最后一个节点的父节点开始,将整个数组调整为大堆
         for (int i = (n - 1 - 1) / 2; i >= 0; i--) {
@@ -617,7 +617,7 @@ public class Sorts {
      * @param arr 原数组数据
      * @return 原数组索引数组
      */
-    public static int[] originIndex(int[] arr) {
+    public static int[] originIndex(@NotNull int[] arr) {
         int n = arr.length;
         int[][] tuple = new int[n][2];
         for (int i = 0; i < n; i++) {
@@ -633,7 +633,7 @@ public class Sorts {
      *
      * @param arr 数组
      */
-    public static int[][] sortIndex(int[] arr) {
+    public static int[][] sortIndex(@NotNull int[] arr) {
         int n = arr.length;
         Set<Integer> s = new TreeSet<>();
         for (int i : arr) {

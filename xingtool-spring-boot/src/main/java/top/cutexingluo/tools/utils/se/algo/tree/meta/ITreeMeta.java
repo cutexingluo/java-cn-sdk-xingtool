@@ -1,6 +1,6 @@
 package top.cutexingluo.tools.utils.se.algo.tree.meta;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * 元数据接口，是否存在孩子节点
@@ -14,9 +14,9 @@ public interface ITreeMeta<T> {
     /**
      * 得到children
      *
-     * @return {@link List}<{@link T}>
+     * @return {@link Collection}<{@link T}>
      */
-    List<T> getChildren();
+    Collection<T> getChildren();
 
     /**
      * 是否存在children

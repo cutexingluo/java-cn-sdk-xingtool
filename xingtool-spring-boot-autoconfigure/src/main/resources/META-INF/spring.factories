@@ -1,5 +1,6 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+top.cutexingluo.tools.aop.log.xtlog.WebLogAuto,\
 top.cutexingluo.tools.aop.log.printlog.PrintLogAutoConfiguration,\
 top.cutexingluo.tools.aop.log.methodlog.MethodLogAutoConfigure,\
 top.cutexingluo.tools.aop.log.systemlog.XTSystemLogAutoConfiguration,\
@@ -14,6 +15,8 @@ top.cutexingluo.tools.utils.ee.redis.RedisConfig,\
 top.cutexingluo.tools.utils.ee.redis.RedisUtilAutoConfigure,\
 top.cutexingluo.tools.utils.distributed.redisson.RedissonConfig,\
 top.cutexingluo.tools.utils.distributed.redisson.aop.RedissonAutoConfig,\
+top.cutexingluo.tools.utils.ee.web.limit.RequestLimitAuto,\
+top.cutexingluo.tools.utils.ee.web.limit.RedisLimitStrategyAuto,\
 top.cutexingluo.tools.cloud.feign.dynamic.DynamicFeignClientFactory,\
 top.cutexingluo.tools.utils.spring.security.XTSpringSecurityConfig,\
 top.cutexingluo.tools.utils.spring.security.controller.TokenController

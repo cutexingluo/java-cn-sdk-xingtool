@@ -11,7 +11,7 @@ import top.cutexingluo.tools.utils.se.character.XTStrUtil;
  * @date 2023/10/20 19:20
  * @since 1.0.2
  */
-public class CPPString implements BaseCPPString, Comparable<String> {
+public class CPPString implements BaseCPPString, Comparable<String>, CharSequence {
     protected String string;
 
 
@@ -40,7 +40,18 @@ public class CPPString implements BaseCPPString, Comparable<String> {
         this.string = string;
     }
 
-    public CPPString(BaseString baseString) {
+    /**
+     * @param string           字符串
+     * @param nullDefaultValue 当 string 为 null 时，默认赋值
+     */
+    public CPPString(String string, String nullDefaultValue) {
+        if (string == null) {
+            string = nullDefaultValue;
+        }
+        this.string = string;
+    }
+
+    public CPPString(@NotNull BaseString baseString) {
         this.string = baseString.toString();
     }
 
@@ -50,12 +61,28 @@ public class CPPString implements BaseCPPString, Comparable<String> {
     }
 
     @Override
+    public char charAt(int index) {
+        return string.charAt(index);
+    }
+
+    @NotNull
+    @Override
+    public CharSequence subSequence(int start, int end) {
+        return string.subSequence(start, end);
+    }
+
+    @Override
     public String toString() {
         return string;
     }
 
     @Override
     public int getSize() {
+        return string.length();
+    }
+
+    @Override
+    public int length() {
         return string.length();
     }
 
@@ -71,7 +98,7 @@ public class CPPString implements BaseCPPString, Comparable<String> {
     }
 
     @Override
-    public void swap(BaseCPPString aString) {
+    public void swap(@NotNull BaseCPPString aString) {
         String newString = aString.getString();
         String origin = string;
         string = newString;
@@ -85,7 +112,7 @@ public class CPPString implements BaseCPPString, Comparable<String> {
     }
 
     @Override
-    public BaseCPPString assign(String str, int begIndex, int len) {
+    public BaseCPPString assign(@NotNull String str, int begIndex, int len) {
         this.string = str.substring(begIndex, begIndex + len);
         return this;
     }
@@ -117,7 +144,7 @@ public class CPPString implements BaseCPPString, Comparable<String> {
     }
 
     @Override
-    public BaseCPPString append(String str, int begIndex, int len) {
+    public BaseCPPString append(@NotNull String str, int begIndex, int len) {
         this.string += str.substring(begIndex, begIndex + len);
         return this;
     }
@@ -143,14 +170,14 @@ public class CPPString implements BaseCPPString, Comparable<String> {
     }
 
     @Override
-    public int compare(int beginIndex, int len, String str, int strBegIndex, int strLen) {
+    public int compare(int beginIndex, int len, @NotNull String str, int strBegIndex, int strLen) {
         String substring = string.substring(beginIndex, beginIndex + len);
         String target = str.substring(strBegIndex, strBegIndex + strLen);
         return substring.compareTo(target);
     }
 
     @Override
-    public int compare(int beginIndex, int len, String str, int strBegIndex) {
+    public int compare(int beginIndex, int len, @NotNull String str, int strBegIndex) {
         String substring = string.substring(beginIndex, beginIndex + len);
         String target = str.substring(strBegIndex, strBegIndex);
         return substring.compareTo(target);
@@ -235,7 +262,7 @@ public class CPPString implements BaseCPPString, Comparable<String> {
 
 
     @Override
-    public BaseCPPString replace(int beginIndex, int len, String str, int strBegIndex, int strLen) {
+    public BaseCPPString replace(int beginIndex, int len, @NotNull String str, int strBegIndex, int strLen) {
         StringBuilder builder = new StringBuilder(this.string);
         this.string = builder.replace(beginIndex, beginIndex + len,
                 str.substring(strBegIndex, strBegIndex + strLen)).toString();
@@ -243,7 +270,7 @@ public class CPPString implements BaseCPPString, Comparable<String> {
     }
 
     @Override
-    public BaseCPPString replace(int beginIndex, int len, String str, int strBegIndex) {
+    public BaseCPPString replace(int beginIndex, int len, @NotNull String str, int strBegIndex) {
         StringBuilder builder = new StringBuilder(this.string);
         this.string = builder.replace(beginIndex, beginIndex + len,
                 str.substring(strBegIndex)).toString();

@@ -1,12 +1,14 @@
 package top.cutexingluo.tools.utils.se.file;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.multipart.MultipartFile;
 import top.cutexingluo.tools.designtools.method.XTObjUtil;
+import top.cutexingluo.tools.utils.se.file.pkg.XTFile;
+import top.cutexingluo.tools.utils.se.file.pkg.XTFileSource;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -22,63 +24,62 @@ import java.util.List;
 /**
  * 文件IO工具类
  *
+ * <p>该类部分方法过时，仅做参考</p>
+ * <p>1.0.4 更新 , 未来可能重构, 现在详见 {@link XTFileHandler}</p>
+ *
  * @author XingTian
- * @version 1.0.0
+ * @version 1.1.0
  * @date 2023/2/3 15:21
+ * @update 2024/3/2 16:35
+ * @updateFrom 1.0.4
  */
 public class XTFileIO {
     public static final Charset UTF_8 = StandardCharsets.UTF_8;
+    public static final String separator = File.separator;
 
-    //需要设置请求地址
-//    @Value("http://${server.ip}:9090/file/")
-//    private static String RequestUrl;        //= "http://localhost:9090/file/"
 
-//    public static String getRequestUrl() {
-//        return RequestUrl;
-//    }
-//
-//    public static void setRequestUrl(String nowRequestUrl) {
-//        RequestUrl = nowRequestUrl;
-//    }
-
+    /**
+     * 前面加斜线
+     */
     public static String addNamePreSlash(String s) { //前面加斜线
-        if (s.charAt(0) != '/') s = "/" + s;
+        if (!s.startsWith(separator)) s = separator + s;
         return s;
     }
 
+    /**
+     * 后面加斜线
+     */
     public static String addUrlSlash(String s) {//后面加斜线
-        if (s.charAt(s.length() - 1) != '/') s += "/";
+        if (s.endsWith(separator)) s += separator;
         return s;
     }
 
     //*******************
 
     /**
+     * 建议使用构造函数
+     *
      * @param file 文件
      * @return XTFile 得到文件的信息包
      * @throws IOException 读写异常
      */
+    @NotNull
+    @Contract("_ -> new")
+    @Deprecated
     public static XTFile getXTFile(MultipartFile file) throws IOException {
-        //获取原文件数据
-        String originalFilename = file.getOriginalFilename();
-        //file.getContentType()
-        String type = FileUtil.extName(originalFilename);
-        long size = file.getSize() / 1024;//KB
-        String uuid = IdUtil.fastSimpleUUID(); // 定义文件唯一标识
-        //获取md5码
-        String md5 = SecureUtil.md5(file.getInputStream());
-        return new XTFile(originalFilename, uuid, type, size, md5, null);
+        return new XTFile(file);
     }
 
     /**
-     * 需要提前判定md5码是否冲突
+     * 存到磁盘
+     * <p>需要提前判定md5码是否冲突</p>
      *
      * @param file               上传的文件
      * @param xtFile             获取的xtFile整合包
      * @param fileUploadDiskPath 要上传的磁盘路径
      * @throws IOException 读写异常
      */
-    //存到磁盘
+    @Deprecated
     public static void uploadToDisk(MultipartFile file, XTFileSource xtFile, String fileUploadDiskPath) throws IOException {
         String urlSlash = addUrlSlash(fileUploadDiskPath);
         File uploadFile = new File(urlSlash + xtFile.getFileUUID());//含路径文件
@@ -90,13 +91,17 @@ public class XTFileIO {
     }
 
     /**
-     * @param filePath 文件路径
-     * @param fileUUID 文件名
+     * 根据文件路径返回文件
+     * <p>下载，输入 下载路径和下载文件名 以及 请求对象</p>
+     *
+     * @param filePath 文件父路径 /xx/xx
+     * @param fileUUID 文件名 abc.txt
      * @param response 请求
      * @throws IOException 读写异常
      */
-    //下载，输入 下载路径和下载文件名 以及 请求对象
+    //
     public static void download(String filePath, String fileUUID, HttpServletResponse response) throws IOException {
+        filePath = addUrlSlash(filePath);
         File file = new File(filePath + fileUUID);
         ServletOutputStream os = response.getOutputStream();
         response.addHeader("Content-Disposition", "attachment;filename=" +
@@ -112,7 +117,18 @@ public class XTFileIO {
     }
 
 
-    //获得md5码反射备用版
+    /**
+     * 获得md5码反射备用版
+     * <p>从数据库获取md5</p>
+     * <p>当前方法已过时，因为涉及数据库操作，未来将被移除</p>
+     *
+     * @param fileType   查询出来的实体类类型
+     * @param fileMapper mp mapper 对象，必须拥有selectList 方法
+     * @param md5ColName md5字段
+     * @param md5        md5 值
+     * @return 文件实体类对象
+     */
+    @Deprecated
     public static <T, TM> T getFileByMd5(Class<T> fileType, TM fileMapper, String md5ColName, String md5) throws InvocationTargetException, IllegalAccessException {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(md5ColName, md5);
@@ -122,11 +138,18 @@ public class XTFileIO {
         return filesList.size() == 0 ? null : filesList.get(0);
     }
 
+    /**
+     * 默认使用 md5 字段名获取文件实体类对象
+     */
+    @Deprecated
     public static <T, TM> T getFileByMd5(Class<T> fileType, TM fileMapper, String md5) throws InvocationTargetException, IllegalAccessException {
         return getFileByMd5(fileType, fileMapper, "md5", md5);
     }
 
     /**
+     * 存到数据库反射备用版
+     * <p>当前方法已过时，因为涉及数据库操作，未来将被移除</p>
+     *
      * @param DBFile     数据库的实体类
      * @param fileMapper 数据库的DAO层
      * @param fieldName  字段名数组,默认原始名，扩展名，大小, md5码
@@ -135,7 +158,7 @@ public class XTFileIO {
      * @param <T>        DBFile的类型
      * @param <TM>       数据库的DAO层Mapper类型
      */
-    //存到数据库反射备用版
+    @Deprecated
     public static <T, TM> void saveToDB(T DBFile, TM fileMapper, String[] fieldName, XTFile xtFile, String url) {
         ReflectUtil.setFieldValue(DBFile, "url", url);
         ReflectUtil.setFieldValue(DBFile, fieldName[0], xtFile.getOriginalFilename());
@@ -149,19 +172,18 @@ public class XTFileIO {
     /**
      * 字段名数组,默认原始名，扩展名，大小, md5码
      * 默认 "name","type","size","md5"
+     * <p>当前方法已过时，因为涉及数据库操作，未来将被移除</p>
      */
+    @Deprecated
     public static <T, TM> void saveToDB(T DBFile, TM fileMapper, XTFile xtFile, String url) {
         String[] fieldName = {"name", "type", "size", "md5"};
         saveToDB(DBFile, fileMapper, fieldName, xtFile, url);
     }
 
     /**
-     * @param file           上传文件
-     * @param fileType       DB文件类型
-     * @param fileMapper     DBMapper对象
-     * @param urlPrefix      url前缀
-     * @param fileUploadPath 磁盘父路径
-     * @return url
+     * <p>当前方法已过时，因为涉及数据库操作，未来将被移除</p>
+     *
+     * 上传反射备用版
      * <p>
      * 参数为 上传文件，DB文件类型，DBMapper对象,url前缀，磁盘父路径
      * 返回值为 url
@@ -171,11 +193,21 @@ public class XTFileIO {
      * "name","type","size","md5","url",
      * DB字段
      * "insert" ,"selectList"
+     *
+     * @param file           上传文件
+     * @param fileType       DB文件类型
+     * @param fileMapper     DBMapper对象
+     * @param urlPrefix      url前缀
+     * @param fileUploadPath 磁盘父路径
+     * @return url
      */
-    //上传反射备用版
+    @Deprecated
     public static <T, TM> String upload(MultipartFile file, Class<T> fileType, TM fileMapper, String urlPrefix, String fileUploadPath)
             throws IOException, InvocationTargetException, IllegalAccessException, NoSuchMethodException, InstantiationException {
         XTFile xtFile = getXTFile(file);
+        xtFile.genMd5(file); // 生成md5
+        xtFile.genUUID();
+        xtFile.genFileUUID();
 //        return xtFile.getFileUUID();
         T files = getFileByMd5(fileType, fileMapper, "md5", xtFile.getMd5());
 //        System.out.println(xtFile.getFileUUID());

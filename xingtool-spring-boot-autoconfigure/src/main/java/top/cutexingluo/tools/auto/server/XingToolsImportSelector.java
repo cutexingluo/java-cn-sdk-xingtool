@@ -34,7 +34,7 @@ public class XingToolsImportSelector implements ImportSelector {
 
     @Override
     public String[] selectImports(@NotNull AnnotationMetadata annotationMetadata) {
-        log.info("XingToolsServer 启动成功 - - -");
+        log.info("XingToolsServer 启动成功 !  请享受你的日常的乐趣 !");
         return new String[]{
                 XTLockAopAutoConfiguration.class.getName(),
 //                GlobalExceptionHandler.class.getName(),   // 不会在这里配置

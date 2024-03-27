@@ -13,9 +13,12 @@ import top.cutexingluo.tools.aop.thread.run.ThreadTimePolicy;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * Thread aop  factory  线程 aop 工厂
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2023/10/1 15:55
+ * @since 1.0.2
  */
 public class ThreadAopFactory {
 

@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
+import top.cutexingluo.tools.common.Constants;
 import top.cutexingluo.tools.exception.ServiceException;
 import top.cutexingluo.tools.utils.ruoyi.annotation.RateLimiter;
 import top.cutexingluo.tools.utils.ruoyi.enums.LimitType;
@@ -66,7 +67,7 @@ public class RateLimiterAspect {
         try {
             Long number = redisTemplate.execute(limitScript, keys, count, time);
             if (StringUtils.isNull(number) || number.intValue() > count) {
-                throw new ServiceException("访问过于频繁，请稍候再试");
+                throw new ServiceException(Constants.CODE_403, "访问过于频繁，请稍候再试");
             }
             log.info("限制请求'{}',当前请求'{}',缓存key'{}'", count, number.intValue(), combineKey);
         } catch (ServiceException e) {
