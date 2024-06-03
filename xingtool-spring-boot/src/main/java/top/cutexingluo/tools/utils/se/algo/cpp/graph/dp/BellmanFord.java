@@ -1,6 +1,7 @@
 package top.cutexingluo.tools.utils.se.algo.cpp.graph.dp;
 
 import top.cutexingluo.tools.utils.se.algo.cpp.common.AlgoUtil;
+import top.cutexingluo.tools.utils.se.algo.cpp.graph.GPreNode;
 import top.cutexingluo.tools.utils.se.algo.cpp.graph.base.GraphEdgeHandler;
 
 import java.util.Arrays;
@@ -98,10 +99,14 @@ public class BellmanFord extends GraphEdgeHandler {
             int u = q.pop(); //获取目标
 //            q.pop();
             inq[u] = false; //出队
-            for (int i = head[u]; i > 0; i = E[i].next())//对于每一条边
-            {
-                int v = E[i].to();
-                int w = (int) E[i].w();
+//            for (int i = head[u]; i > 0; i = E[i].next())//对于每一条边
+//            {
+//                int v = E[i].to();
+//                int w = (int) E[i].w();
+            for (Iterator it = new Iterator(u); it.hasNext(); ) {
+                GPreNode now = it.next();
+                int v = now.to();
+                int w = (int) now.w();
                 if (dis[v] > dis[u] + w)//当前路径登记的 大于 当前路径加边权 即当前最小就登记
                 {
                     dis[v] = dis[u] + w; //松弛

@@ -6,7 +6,7 @@
     <parent>
         <artifactId>xingtool</artifactId>
         <groupId>top.cutexingluo.tools</groupId>
-        <version>1.0.4-SNAPSHOT</version>
+        <version>1.0.5-SNAPSHOT</version>
         <!--        <relativePath/>&lt;!&ndash; 指向父项目的根目录 &ndash;&gt;-->
     </parent>
     <artifactId>xingtool-spring-boot</artifactId>
@@ -252,6 +252,16 @@
             <version>1.2.83</version>
             <optional>true</optional>
         </dependency>
+
+        <!-- hessian 解析器 -->
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+            <version>4.0.38</version>
+            <!--            <scope>compile</scope>-->
+            <optional>true</optional>
+        </dependency>
+
         <!-- JWT -->
         <dependency>
             <groupId>com.auth0</groupId>

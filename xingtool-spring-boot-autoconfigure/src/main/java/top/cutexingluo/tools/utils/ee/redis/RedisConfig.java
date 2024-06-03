@@ -2,12 +2,7 @@ package top.cutexingluo.tools.utils.ee.redis;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -24,6 +19,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import top.cutexingluo.tools.auto.server.XingToolsAutoConfiguration;
+import top.cutexingluo.tools.designtools.protocol.serializer.impl.json.JacksonSerializer;
 import top.cutexingluo.tools.utils.ee.fastjson.FastJsonRedisSerializer;
 
 import java.nio.charset.StandardCharsets;
@@ -83,16 +79,9 @@ public class RedisConfig {
         //配置序列化方式
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer =
                 new Jackson2JsonRedisSerializer<>(Object.class);
-        ObjectMapper obm = new ObjectMapper();
-        // 指定要序列化的域，field,get和set,以及修饰符范围，ANY是都有包括private和public
-        obm.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        // 指定序列化输入的类型，类必须是非final修饰的，final修饰的类，比如String,Integer等会跑出异常
-//        obm.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
-        obm.activateDefaultTyping(obm.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
 
-        // 解决jackson无法反序列化LocalDateTime的问题
-        obm.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        obm.registerModule(new JavaTimeModule());
+        // 1.0.5 封装进入
+        ObjectMapper obm = new JacksonSerializer().initRedis().getObjectMapper();
 
 
         jackson2JsonRedisSerializer.setObjectMapper(obm);

@@ -17,6 +17,13 @@ import java.util.Map;
 public class XTComparator<T> implements Comparator<T> {
 
     /**
+     * 均不为 null
+     *
+     * @since 1.0.5
+     */
+    public static final int BOTH_NOT_NULL = 2;
+
+    /**
      * 是否正序
      */
     private boolean isAsc = true;
@@ -59,7 +66,7 @@ public class XTComparator<T> implements Comparator<T> {
         } else if (o2 == null) {
             return -1;
         } else {
-            return 2;
+            return BOTH_NOT_NULL; // 1.0.5
         }
     }
 
@@ -85,21 +92,21 @@ public class XTComparator<T> implements Comparator<T> {
 
     public int compareString(@Nullable String o1, @Nullable String o2) {
         int ret = tryCompareNull(o1, o2);
-        if (ret != 2) return ret;
+        if (ret != BOTH_NOT_NULL) return ret;
         ret = o1.compareTo(o2);
         return isAsc ? ret : -ret;
     }
 
     public int compareComparable(@Nullable Comparable<T> o1, @Nullable Comparable<T> o2) {
         int ret = tryCompareNull(o1, o2);
-        if (ret != 2) return ret;
+        if (ret != BOTH_NOT_NULL) return ret;
         ret = o1.compareTo((T) o2);
         return isAsc ? ret : -ret;
     }
 
     public int compareEnd(@Nullable T o1, @Nullable T o2) {
         int ret = tryCompareNull(o1, o2);
-        if (ret != 2) return ret;
+        if (ret != BOTH_NOT_NULL) return ret;
         ret = o1.toString().compareTo(o2.toString());
         return isAsc ? ret : -ret;
     }

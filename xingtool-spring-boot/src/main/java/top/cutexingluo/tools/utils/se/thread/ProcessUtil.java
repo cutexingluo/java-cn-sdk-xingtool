@@ -82,8 +82,8 @@ public class ProcessUtil {
                 inputStream.setInputCloseExceptionConsumer(inputCloseExceptionConsumer);
             }
             if (executor != null) { // 使用线程池执行
-                XTAsync.runAsync(errorStream, executor);
-                XTAsync.runAsync(inputStream, executor);
+                XTAsync.runAsyncCheck(errorStream, executor); // v1.0.5 fix bug
+                XTAsync.runAsyncCheck(inputStream, executor);
             } else { // 创建俩线程
                 errorStream.start();
                 inputStream.start();

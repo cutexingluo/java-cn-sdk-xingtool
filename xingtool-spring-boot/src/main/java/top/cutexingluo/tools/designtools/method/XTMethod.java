@@ -1,10 +1,14 @@
 package top.cutexingluo.tools.designtools.method;
 
 
+import org.springframework.lang.NonNull;
 import top.cutexingluo.tools.designtools.builder.XTBuilder;
+import top.cutexingluo.tools.designtools.method.core.MethodInfo;
+import top.cutexingluo.tools.designtools.method.core.MethodObjBundle;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * XTMethod 方法类
@@ -45,7 +49,43 @@ public class XTMethod implements BaseMethod {
         method = null;
     }
 
+    /**
+     * @since 1.0.5
+     */
+    public <T> XTMethod(T item, MethodInfo methodInfo) throws NoSuchMethodException {
+        this(item, methodInfo.getMethodName(), methodInfo.getParameterTypes());
+    }
+
+
+    /**
+     * @since 1.0.5
+     */
+    public <T> XTMethod(Method method) throws NoSuchMethodException {
+        init(method);
+    }
+
+    /**
+     * @since 1.0.5
+     */
+    public <T> XTMethod(@NonNull MethodObjBundle methodObjBundle) throws NoSuchMethodException {
+        Objects.requireNonNull(methodObjBundle);
+        this.method = methodObjBundle.getMethod();
+        Objects.requireNonNull(method);
+        init(method);
+    }
+
     public <T> XTMethod(T item, String methodName, Class<?>... param) throws NoSuchMethodException {//对象，方法名，参数
+        init(item, methodName, param);
+    }
+
+    protected <T> void init(Method method) throws NoSuchMethodException {
+        this.methodName = method.getName();
+        this.params = method.getParameterTypes();
+        this.method = method;
+        method.setAccessible(true);
+    }
+
+    protected <T> void init(T item, String methodName, Class<?>... param) throws NoSuchMethodException {
         this.methodName = methodName;
         this.params = param;
         try {

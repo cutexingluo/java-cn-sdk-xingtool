@@ -1,5 +1,6 @@
 package top.cutexingluo.tools.utils.se.algo.cpp.graph.base;
 
+import lombok.Data;
 import top.cutexingluo.tools.utils.se.algo.cpp.graph.GPreNode;
 
 import java.util.Arrays;
@@ -66,5 +67,52 @@ public class GraphEdgeHandler extends GraphData {
         super.addEdge(u, v); // edge ++;
         E[edge] = new GPreNode(v, w, head[u]); // 赋值
         head[u] = edge;
+    }
+
+
+    /**
+     * 迭代器
+     *
+     * @author XingTian
+     * @date 2024/04/22 14:25
+     * @since 1.0.5
+     */
+    @Data
+    public class Iterator implements GraphIterator<GPreNode> {
+
+        /**
+         * u , from
+         */
+        protected int now;
+
+        protected int index = 0;
+
+
+        public Iterator(int now) {
+            this(now, true);
+        }
+
+        public Iterator(int now, boolean init) {
+            this.now = now;
+            if (init) init();
+        }
+
+        public Iterator init() {
+            index = head[now];
+            return this;
+        }
+
+
+        @Override
+        public boolean hasNext() {
+            return index > 0;
+        }
+
+        @Override
+        public GPreNode next() {
+            GPreNode now = E[index];
+            index = now.next();
+            return now;
+        }
     }
 }

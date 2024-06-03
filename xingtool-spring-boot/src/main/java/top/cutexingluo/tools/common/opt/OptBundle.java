@@ -14,6 +14,7 @@ import java.util.function.Function;
  * @author XingTian
  * @version 1.0.0
  * @date 2024/3/22 17:04
+ * @since 1.0.4
  */
 @Data
 public class OptBundle<T, Meta> implements IData<T> {

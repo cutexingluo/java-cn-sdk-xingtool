@@ -2,6 +2,7 @@ package top.cutexingluo.tools.utils.se.algo.cpp.graph.dp;
 
 import top.cutexingluo.tools.utils.se.algo.cpp.common.AlgoUtil;
 import top.cutexingluo.tools.utils.se.algo.cpp.graph.GEdge;
+import top.cutexingluo.tools.utils.se.algo.cpp.graph.GPreNode;
 import top.cutexingluo.tools.utils.se.algo.cpp.graph.base.DisjointSetUnion;
 import top.cutexingluo.tools.utils.se.algo.cpp.graph.base.GraphEdgeHandler;
 import top.cutexingluo.tools.utils.se.map.XTComparator;
@@ -132,8 +133,11 @@ public class MinSpanningTree extends GraphEdgeHandler implements DisjointSetUnio
         long ans = 0;
         while (++tot < n) {
             vis[now] = true;//add
-            for (int i = head[now]; i > 0; i = E[now].next()) {//update
-                int v = E[now].to(), w = (int) E[now].w();
+//            for (int i = head[now]; i > 0; i = E[now].next()) {//update
+//                int v = E[now].to(), w = (int) E[now].w();
+            for (Iterator it = new Iterator(now); it.hasNext(); ) {
+                GPreNode node = it.next();
+                int v = node.to(), w = (int) node.w();
                 if (!vis[v] && dis[v] > w) {//少了!vis[v]也能AC，只不过第一个p[1]!=-1
                     dis[v] = w;
                     p[v] = now;

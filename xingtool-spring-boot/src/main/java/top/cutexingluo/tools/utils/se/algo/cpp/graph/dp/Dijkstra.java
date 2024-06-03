@@ -2,6 +2,7 @@ package top.cutexingluo.tools.utils.se.algo.cpp.graph.dp;
 
 import top.cutexingluo.tools.common.data.Pair;
 import top.cutexingluo.tools.utils.se.algo.cpp.common.AlgoUtil;
+import top.cutexingluo.tools.utils.se.algo.cpp.graph.GPreNode;
 import top.cutexingluo.tools.utils.se.algo.cpp.graph.base.GraphEdgeHandler;
 
 import java.util.Arrays;
@@ -92,10 +93,13 @@ public class Dijkstra extends GraphEdgeHandler {
             if (vis[u])//如果标记
                 continue;
             vis[u] = true;
-            for (int i = head[u]; i > 0; i = E[i].next())//对于每一条边
-            {
-                int v = E[i].to();
-                int w = (int) E[i].w();
+//            for (int i = head[u]; i > 0; i = E[i].next())//对于每一条边
+            for (Iterator it = new Iterator(u); it.hasNext(); ) {
+                GPreNode now = it.next();
+//                int v = E[i].to();
+//                int w = (int) E[i].w();
+                int v = now.to();
+                int w = (int) now.w();
                 if (dis[v] > dis[u] + w)//当前路径登记的 大于 当前路径加边权 即当前最小就登记
                 {
                     dis[v] = dis[u] + w;

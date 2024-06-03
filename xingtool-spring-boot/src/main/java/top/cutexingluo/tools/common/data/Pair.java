@@ -32,7 +32,7 @@ public class Pair<K extends Comparable<K>, V extends Comparable<V>> extends cn.h
     @Override
     public int compareTo(@NotNull Pair<K, V> o) {
         int ret = XTComparator.tryCompareNull(this, o);
-        if (ret == 2) {
+        if (ret == XTComparator.BOTH_NOT_NULL) { //1.0.5
             int retKey = key.compareTo(o.key);
             if (retKey == 0) {
                 return value.compareTo(o.value);

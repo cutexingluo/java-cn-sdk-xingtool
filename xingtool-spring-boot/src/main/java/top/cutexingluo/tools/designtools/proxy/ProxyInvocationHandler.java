@@ -12,7 +12,7 @@ import java.lang.reflect.Proxy;
  * @date 2023/2/2 18:29
  */
 public abstract class ProxyInvocationHandler implements InvocationHandler {
-    private Object target;
+    protected Object target;
 
     public ProxyInvocationHandler setTarget(Object target) {
         this.target = target;

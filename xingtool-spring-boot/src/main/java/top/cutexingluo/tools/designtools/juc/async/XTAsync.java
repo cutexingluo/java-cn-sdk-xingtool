@@ -50,6 +50,17 @@ public class XTAsync<T> extends CompletableFuture<T> {
         return CompletableFuture.runAsync(runnable, executor);
     }
 
+    /**
+     * check 版本
+     *
+     * @since 1.0.5
+     */
+    @NotNull
+    public static CompletableFuture<Void> runAsyncCheck(Runnable runnable, Executor executor) {
+        if (executor == null) return CompletableFuture.runAsync(runnable);
+        return CompletableFuture.runAsync(runnable, executor);
+    }
+
     //回调使用
     //whenComplete((t,u)->{}).exceptionally((e)->{}).get()
     //whenApply, whenRun, whenComplete
@@ -58,6 +69,17 @@ public class XTAsync<T> extends CompletableFuture<T> {
     }
 
     public static <T> CompletableFuture<T> supplyAsync(Supplier<T> supplier, Executor executor) {
+        return CompletableFuture.supplyAsync(supplier, executor);
+    }
+
+    /**
+     * check 版本
+     *
+     * @since 1.0.5
+     */
+    @NotNull
+    public static <T> CompletableFuture<T> supplyAsyncCheck(Supplier<T> supplier, Executor executor) {
+        if (executor == null) return CompletableFuture.supplyAsync(supplier);
         return CompletableFuture.supplyAsync(supplier, executor);
     }
 

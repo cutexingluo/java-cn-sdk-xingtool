@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * @author XingTian
  * @version 1.0.0
  * @date 2024/3/22 17:05
+ * @since 1.0.4
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -40,6 +41,19 @@ public class OptData<T, Meta> extends OptRes<T> {
         this.meta = meta;
     }
 
+    /**
+     * 重写 toString 方法
+     *
+     * @since 1.0.5
+     */
+    @Override
+    public String toString() {
+        return "OptData{" +
+                "value=" + value +
+                ", clazz=" + clazz +
+                ", meta=" + meta +
+                '}';
+    }
 
     @NotNull
     @Contract("_ -> new")

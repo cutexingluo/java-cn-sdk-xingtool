@@ -9,6 +9,7 @@ import top.cutexingluo.tools.common.base.IData;
  * @author XingTian
  * @version 1.0.0
  * @date 2024/3/22 17:04
+ * @since 1.0.4
  */
 @Data
 public class OptRes<T> implements IData<T> {
@@ -19,7 +20,9 @@ public class OptRes<T> implements IData<T> {
 
     public OptRes(T value) {
         this.value = value;
-        this.clazz = (Class<T>) value.getClass();
+        if (value != null) {  // if null equals no params
+            this.clazz = (Class<T>) value.getClass();
+        }
     }
 
     public OptRes() {

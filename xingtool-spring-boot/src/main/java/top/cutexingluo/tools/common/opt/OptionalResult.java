@@ -13,6 +13,7 @@ import java.util.function.Supplier;
  * @author XingTian
  * @version 1.0.0
  * @date 2024/3/22 16:37
+ * @since 1.0.4
  */
 @Data
 public class OptionalResult<T> implements IData<T> {

@@ -1,6 +1,5 @@
 package top.cutexingluo.tools.utils.se.algo.cpp.geometry.convex;
 
-import org.apache.tomcat.jni.Time;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.lang.NonNull;
 import top.cutexingluo.tools.utils.se.algo.cpp.geometry.Point;
@@ -107,7 +106,7 @@ public class Convex implements Comparable<Convex> {
      */
     public int workRandomRC() {//旋转卡壳-随机化
         int vn = -1;
-        Random random = new Random(Time.now());
+        Random random = new Random(System.currentTimeMillis()); // 1.0.5
         for (int tm = 1; tm <= 200; tm++) {
             for (int p = random.nextInt() % n + 1, t = 1; t <= 5; t++) {
                 int md = -1, mp = 0;

@@ -1,6 +1,7 @@
 package top.cutexingluo.tools.utils.se.algo.cpp.graph.dp;
 
 import top.cutexingluo.tools.utils.se.algo.cpp.common.AlgoUtil;
+import top.cutexingluo.tools.utils.se.algo.cpp.graph.GPreNode;
 import top.cutexingluo.tools.utils.se.algo.cpp.graph.base.GraphEdgeHandler;
 
 import java.util.ArrayList;
@@ -116,8 +117,11 @@ public class Topology extends GraphEdgeHandler {
             int k = q.pop();
             cnt += 1;
             sorted.add(k);
-            for (int i = head[k]; i > 0; i = E[i].next()) {
-                int v = E[i].to();
+//            for (int i = head[k]; i > 0; i = E[i].next()) {
+//                int v = E[i].to();
+            for (Iterator it = new Iterator(k); it.hasNext(); ) {
+                GPreNode node = it.next();
+                int v = node.to();
                 in[v]--;
                 if (in[v] == 0)
                     q.push(v);
