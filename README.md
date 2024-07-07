@@ -1,10 +1,12 @@
 # XingTool 工具包
 
 ### 相关介绍
-XingTool sdk 工具包，v1.0.4正式版发布。( 依赖的版本不能低于 1.0.1 )
+XingTool sdk 工具包，v1.0.5正式版发布。( 依赖的版本不能低于 1.0.1 )
 星天制作的 Java 工具包，是基于springboot 2 制作的 ,  基于JDK1.8，它是一个整合各工具类的整合starter。
 
 里面包含多种工具，补丁，base接口，aop自动装配，注解，以及 acm型的一些基础算法。
+
+目前已更新使用文档 v1.0.5 [使用文档](使用文档.md)
 
 **它有以下特性**：
 
@@ -13,7 +15,7 @@ XingTool sdk 工具包，v1.0.4正式版发布。( 依赖的版本不能低于 1
 - 2.在autoconfigue包中，提供了一些aop和自动装配的类，一些可以通过配置文件开启（方便注入），也可以手动注入bean。
 
 - 3.有几个使用方式。
-  1). 可以通过Util.静态类的方式调出静态方法，一般由XT开头的类，例如XTObjUtil等，以便直接调出类名、方法，根据类名意思了解该功能，好处是暂时不用查文档（我暂时没写（滑稽）），并且和hutool互补，能够加快开发效率。
+  1). 可以通过Util.静态类的方式调出静态方法，一般由XT开头的类，例如XTObjUtil等，以便直接调出类名、方法，根据类名意思了解该功能，好处是暂时不用查文档，并且和hutool互补，能够加快开发效率。
   2). 可以通过new的方式获得非单例对象，也是常用的方式。
   3). 在启动类上加上@EnableXingToolsServer，开启自动注入，比如默认开启的两个注解aop(例如@Printlog注解，以及其他现版本默认未开启的各种日志异常拦截aop等),其他的配置或者aop需要在配置文件中开启，以xingtools开头即可点出，例如
 
@@ -47,6 +49,20 @@ xingtools.enabled.mybatis-plus-config=true
 
 > 使用 Maven 导入依赖
 
+Maven依赖 v1.0.5版本 （最优依赖）
+
+```xml
+<dependency>
+	<groupId>top.cutexingluo.tools</groupId>
+	<artifactId>xingtool-spring-boot-starter</artifactId>
+	<version>1.0.5</version>
+</dependency>
+```
+
+
+
+
+
 Maven 依赖 (无版本号)
 
 ```xml
@@ -54,16 +70,6 @@ Maven 依赖 (无版本号)
 	<groupId>top.cutexingluo.tools</groupId>
 	<artifactId>xingtool-spring-boot-starter</artifactId>
 	<version>x.x.x</version>
-</dependency>
-```
-
-Maven 最优依赖 v1.0.4版本
-
-```xml
-<dependency>
-	<groupId>top.cutexingluo.tools</groupId>
-	<artifactId>xingtool-spring-boot-starter</artifactId>
-	<version>1.0.4</version>
 </dependency>
 ```
 
@@ -90,7 +96,7 @@ Maven 最低依赖 v1.0.1版本：
 
 #### 使用样例
 
-以下是1.0.4版本的使用样例，可以加快你的开发
+以下是最新版本的使用样例，可以加快你的开发
 
 ##### 1. 数据封装类，Controller 层
 
@@ -335,9 +341,26 @@ public class TestService {
 
 未完待续...
 
-
+具体内容详见使用文档。
 
 ### 更新公告
+
+**2024-7-7  v1.0.5**
+
+```txt
+更改部分
+1.允许 OptData 直接接受 null 值
+2. RedisLockUtil 更改包名为 redis
+
+新增部分
+1.添加 Method Proxy 系列方法
+2.新增 Serializer 序列化接口，及其子类 多种序列化类
+3.新增 model 包，模型含有状态机等多种结构
+4.扩展 OptBundle 系列方法
+
+支持部分 SpringBoot3
+新增使用文档
+```
 
 **2024-3-27  v1.0.4**
 
@@ -366,17 +389,15 @@ bug修复
 
 **2023-12-25 v1.0.3**
 
+```txt
 bug修复
-
 1. 修复了 AccessLimitUtil.limitIP 加载 Ipdb 错误 的bug
 
 更改部分
-
 1. 修改了XTCompletionService实现，以及ThreadLocalHelper文件位置
 2. 所有web 拦截类 从 Result 改为返回 IResult 接口，并且添加 GlobalResultFactory 接口用于全局返回结果，使用时需要注册到容器。
 
 新增部分
-
 1. 新增top.cutexingluo.tools.utils.se.algo.cpp包，里面包含各种算法（有些未测试），例如数论，几何，数据结构，图论，字符串等
 2. 新增 BoolUtil  用于使 java 适配 c++性质。
 3. 新增XTArrayUtil一些方法，用于移动数组元素，新增 XTSetUtil 的 Set 工具类。
@@ -385,15 +406,17 @@ bug修复
 6. 新增红黑树 RBTree，迭代器默认中序遍历，即默认升序排序。属性全为protected，方便子类继承。常规推荐使用 TreeMap
 7. 新增各种迭代器用于适配多种情况。可自行继承使用。
 8. 新增启用 server 的 banner 和 cloud server 的 banner
+```
 
 **2023-10-21 v1.0.2**
 
+```txt
 1. 添加了 Supplier 接口,。与之对应各种适配类的调整。
 2. 添加多线程注解AOP @MainThread @SonThread
 3. 调整 XTAsync 类 , 并且添加 ThreadHelper接口，更快速使用。
 4. 添加 XTString 工具类，可以通过 C++ 方法名称的方式使用。
 5. 重构代码（位置和代码）。以下为 v1.0.2 重构更新日志：
-```txt
+
 1.移除 XTExceptionAop 两个静态方法
 2.添加 BaseAspectAroundHandler 接口默认方法
 3.规范类的命名，例如ThreadLocal的工具类，规范了各工具类的用法注释
@@ -409,10 +432,9 @@ bug修复
 **2023-9-26 v1.0.1**
 正式版发布，中央仓库 ,  依赖最低版本不能低于 v1.0.1
 
+```txt
 1. 含有基础日志、事务、线程、异常等AOP，需要通过配置文件开启。
-
 2. 包含基础包 Callable , Runnable 等系列封装的函数式接口及其实现类，如 XTRunCallUtil 工具类。
-
 3. 含有系列注解，如 StrStatus,  IntStatus 等注解，可以对类属性进行验证。
 4. 含有MVC 封装返回值的封装接口及其四个实现类，可以应对任何 code , msg , data 三件套的情况。
 5. 含有传统设计方法封装工具类，包含 XTBuilder, 反射, 多线程, 锁等工具类。
@@ -423,6 +445,7 @@ bug修复
 10. 对一些其他语言的扩展工具类支持，例如 JS 系列的方法名称,, 以及其他语言的操作，生成。
 11. 对加密解密的各种封装，以及对token解析的封装，但还是建议使用 hutool工具。
 12. 对许多工具类的扩展，包含字符，文件，IO，map等，以及各种基本类的对应工具类。
+```
 
 在 properties/yml 配置文件输入 xingtools 即可查看相关自动配置。
 

@@ -1,14 +1,14 @@
 
 @Author XingTian
-@Version v1.0.3-SNAPSHOT
+@Version v1.0.5-SNAPSHOT
 @Since 2023-9-26
-@Update 2024-3-27
+@Update 2024-7-7
 
 
 
 更新公告
 
-2024-4-8 v1.0.5
+2024-4-8 ~ 2024-7-7  v1.0.5
 更改部分
 1.允许 OptData 直接接受 null 值
 2. RedisLockUtil 更改包名为 redis
