@@ -155,44 +155,44 @@
             </plugin>
             <!-- Javadoc 文档生成插件-->
             <!--            上传时再开 -->
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-javadoc-plugin</artifactId>-->
-            <!--                <version>3.4.0</version>-->
-            <!--                <configuration>-->
-            <!--                    &lt;!&ndash; 忽略生成文档中的错误 &ndash;&gt;-->
-            <!--                    <additionalOptions>-Xdoclint:none</additionalOptions>-->
-            <!--                    &lt;!&ndash;                    <additionalparam>-Xdoclint:none</additionalparam>&ndash;&gt;-->
-            <!--                    &lt;!&ndash;                    <aggregate>true</aggregate>&ndash;&gt;-->
-            <!--                    <charset>UTF-8</charset>&lt;!&ndash; utf-8读取文件 &ndash;&gt;-->
-            <!--                    <encoding>UTF-8</encoding>&lt;!&ndash; utf-8进行编码代码 &ndash;&gt;-->
-            <!--                    <docencoding>UTF-8</docencoding>&lt;!&ndash; utf-8进行编码文档 &ndash;&gt;-->
-            <!--                </configuration>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>attach-javadocs</id>-->
-            <!--                        <goals>-->
-            <!--                            <goal>jar</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <!-- 忽略生成文档中的错误 -->
+                    <additionalOptions>-Xdoclint:none</additionalOptions>
+                    <!--                    <additionalparam>-Xdoclint:none</additionalparam>-->
+                    <!--                    <aggregate>true</aggregate>-->
+                    <charset>UTF-8</charset><!-- utf-8读取文件 -->
+                    <encoding>UTF-8</encoding><!-- utf-8进行编码代码 -->
+                    <docencoding>UTF-8</docencoding><!-- utf-8进行编码文档 -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!--公钥私钥插件，也就是上传需要进行验证用户名和密码过程中需要用到的插件-->
             <!--            上传时再开 -->
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-gpg-plugin</artifactId>-->
-            <!--                <version>1.5</version>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>sign-artifacts</id>-->
-            <!--                        <phase>verify</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>sign</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!--          下面两个选其一  -->
             <!--阶段性部署插件 -->
             <!--            <plugin>-->
@@ -208,17 +208,17 @@
             <!--            </plugin>-->
 
             <!--正式版部署插件 -->
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-release-plugin</artifactId>-->
-            <!--                <version>2.5.3</version>-->
-            <!--                <configuration>-->
-            <!--                    <autoVersionSubmodules>true</autoVersionSubmodules>-->
-            <!--                    <useReleaseProfile>false</useReleaseProfile>-->
-            <!--                    <releaseProfiles>${releaseId}</releaseProfiles>-->
-            <!--                    <goals>deploy</goals>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>${releaseId}</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
