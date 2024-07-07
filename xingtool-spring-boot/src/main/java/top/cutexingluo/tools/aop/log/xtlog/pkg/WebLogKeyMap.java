@@ -22,6 +22,8 @@ import java.util.function.Supplier;
  *
  * <p>SpEL 里面的 key为 =“msgMap”</p>
  *
+ * <p>内部均为全局属性，无需并发处理</p>
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2024/1/11 18:07

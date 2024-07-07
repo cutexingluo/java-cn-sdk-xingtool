@@ -14,7 +14,7 @@ import java.util.Map;
  * @date 2023/10/26 21:45
  * @since 1.0.3
  */
-public class Pair<K extends Comparable<K>, V extends Comparable<V>> extends cn.hutool.core.lang.Pair<K, V> implements Comparable<Pair<K, V>> {
+public class Pair<K extends Comparable<K>, V extends Comparable<V>> extends cn.hutool.core.lang.Pair<K, V> implements Comparable<Pair<K, V>>, PairEntry<K, V> {
     /**
      * 构造
      *
@@ -41,4 +41,5 @@ public class Pair<K extends Comparable<K>, V extends Comparable<V>> extends cn.h
         }
         return ret;
     }
+
 }

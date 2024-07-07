@@ -3,6 +3,7 @@ package top.cutexingluo.tools.common;
 import cn.hutool.core.bean.BeanUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import top.cutexingluo.tools.common.base.IResult;
@@ -21,6 +22,7 @@ import java.util.Map;
  * @version 1.1.1
  * @date 2023/7/13 23:14
  */
+@EqualsAndHashCode(callSuper = true) // 1.0.5 fixed
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

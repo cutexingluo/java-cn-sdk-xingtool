@@ -13,6 +13,14 @@ public class PairRunnable implements BasePairRunnable, Runnable {
     private Runnable now;
     private Runnable after;
 
+    public PairRunnable(Runnable now, Runnable after) {
+        this.now = now;
+        this.after = after;
+    }
+
+    public PairRunnable() {
+    }
+
     @Override
     public void run(Runnable before, Runnable after) {
         if (before != null) before.run();

@@ -1,7 +1,7 @@
 package top.cutexingluo.tools.utils.se.file;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
+import cn.hutool.core.io.file.FileNameUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.web.multipart.MultipartFile;
 import top.cutexingluo.tools.utils.se.file.media.MimeTypeUtils;
 
@@ -23,8 +23,8 @@ public class XTMultipartFileUtil {
      * @return 后缀名
      */
     public static String getExtension(MultipartFile file) {
-        String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-        if (StringUtils.isEmpty(extension)) {
+        String extension = FileNameUtil.extName(file.getOriginalFilename());
+        if (StrUtil.isEmpty(extension)) {
             extension = MimeTypeUtils.getExtension(Objects.requireNonNull(file.getContentType()));
         }
         return extension;

@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 @FunctionalInterface
 public interface SupplierHandler extends BaseSupplierHandler<Supplier> {
     /**
-     * 对 Callable 进行操作
+     * 对 Supplier 进行操作
      */
     @Override
     <T> Supplier<T> decorate(Supplier<T> supplier);

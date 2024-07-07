@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
  * </p>
  * <ul>
  *     <li>
- *         <code>new XTCall(PrintClass, "print", String.class).call(target,"hello world");</code>
+ *         <code>new XTCall(PrintClass.class, "print", String.class).call(target,"hello world");</code>
  *     </li>
  * </ul>
  *

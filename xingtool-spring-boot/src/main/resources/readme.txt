@@ -11,10 +11,16 @@
 2024-4-8 v1.0.5
 更改部分
 1.允许 OptData 直接接受 null 值
+2. RedisLockUtil 更改包名为 redis
 
 新增部分
 1.添加 Method Proxy 系列方法
 2.新增 Serializer 序列化接口，及其子类 多种序列化类
+3.新增 model 包，模型含有状态机等多种结构
+4.扩展 OptBundle 系列方法
+
+支持部分 SpringBoot3
+新增使用文档
 
 2023-12-29 ~ 2024-3-27  v1.0.4
 

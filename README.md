@@ -100,7 +100,7 @@ Maven 最低依赖 v1.0.1版本：
 public class AdminController {
     
     @RequestLimit // 限流注解
-    @WebLog(match = "ip:uri:method+s+tab+ip", level = "info", reference = "log1") // 打印日志注解
+    @WebLog(match = "ip:uri:method+s+tab+ip", levelStr = "info", referer = "log1") // 打印日志注解
     @GetMapping("/user/getAll")
     public Result getAll() { // Result 对象 推荐使用
         //ResultUtil.selectResult 动态解析返回值 (false和null得到获取失败) 也可以直接使用 Result.success()

@@ -8,7 +8,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 /**
- * RSA 公钥私钥接口
+ * RSA 公钥私钥抽象类
  *
  * @author XingTian
  * @version 1.0.0

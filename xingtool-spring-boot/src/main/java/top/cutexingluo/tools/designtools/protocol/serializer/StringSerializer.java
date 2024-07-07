@@ -10,6 +10,7 @@ import java.io.IOException;
  * @author XingTian
  * @version 1.0.0
  * @date 2024/4/25 20:14
+ * @since 1.0.5
  */
 public interface StringSerializer {
 

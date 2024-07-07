@@ -1,4 +1,4 @@
-package top.cutexingluo.tools.designtools.distributed.redisson;
+package top.cutexingluo.tools.designtools.distributed.redis;
 
 
 import org.redisson.api.RLock;

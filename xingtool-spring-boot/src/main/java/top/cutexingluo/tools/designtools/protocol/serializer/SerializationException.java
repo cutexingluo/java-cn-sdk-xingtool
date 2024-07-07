@@ -6,6 +6,7 @@ package top.cutexingluo.tools.designtools.protocol.serializer;
  * @author XingTian
  * @version 1.0.0
  * @date 2024/4/25 14:46
+ * @since 1.0.5
  */
 public class SerializationException extends RuntimeException {
 

@@ -25,8 +25,9 @@ import java.util.function.Consumer;
  * <p>示例如下</p>
  * <pre>{@code
  * new SpELObject().builder() // builder 构建上下文
- * .setRootObject(new TestService())  // 方法所在的实体类
+ * .setRootObject(new TestService())  // 方法所在的实体类对象
  * .springBeanFactory()  // 加载springBeanFactory的bean
+ * .setVariable("variable", "value") // 设置变量
  * .build()
  * .parseExpression("check(@testBean, #variable, 'hello world')") // 调用方法 , @testBean 代表容器里面的bean , #variable 代表设置的变量
  * // 其中 check方法必须是 TestService 里面的 public 方法

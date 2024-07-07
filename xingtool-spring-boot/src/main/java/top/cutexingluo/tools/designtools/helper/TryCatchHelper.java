@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 
 /**
  * try-catch 工具 helper 类
- * <p>1. 通过实现该接口即可使用里面的方法/p>
+ * <p>1. 通过实现该接口即可使用里面的方法
  * <p>2. 封装try-catch语句，使之结构化</p>
  *
  * @author XingTian

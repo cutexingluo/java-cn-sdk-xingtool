@@ -1,7 +1,7 @@
 package top.cutexingluo.tools.designtools.builder.builderimpl;
 
 
-import org.apache.logging.log4j.util.TriConsumer;
+import top.cutexingluo.tools.basepackage.function.TriConsumer;
 import top.cutexingluo.tools.designtools.builder.XTBuilder;
 
 import java.util.ArrayList;

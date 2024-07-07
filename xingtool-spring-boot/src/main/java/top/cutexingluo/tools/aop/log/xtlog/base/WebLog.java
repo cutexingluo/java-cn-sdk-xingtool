@@ -19,7 +19,7 @@ import java.lang.annotation.*;
  * <p><b>WebLog 注解</b> 提供了策略型打印功能</p>
  * <p>提供自定义功能，能够提高灵活性</p>
  * <p>推荐使用该注解或者 {@link WebLogHandler}</p>
- * <p>方法上注解会覆盖类上的注解</p>
+ * <p>默认方法上注解会被类上的注解覆盖</p>
  *
  * @author XingTian
  * @version 1.0.0

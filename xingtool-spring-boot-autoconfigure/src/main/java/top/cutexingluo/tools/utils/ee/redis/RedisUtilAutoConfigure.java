@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import top.cutexingluo.tools.auto.server.XingToolsAutoConfiguration;
-import top.cutexingluo.tools.designtools.distributed.RedisLockUtil;
+import top.cutexingluo.tools.designtools.distributed.redis.RedisLockUtil;
 import top.cutexingluo.tools.designtools.log.LogInfoAuto;
 
 import javax.annotation.PostConstruct;

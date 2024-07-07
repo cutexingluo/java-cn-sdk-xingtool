@@ -5,6 +5,8 @@ import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.*;
 
 /**
+ * 用在参数或者字段属性上，供其他RequestLimit配置解释
+ *
  * @author XingTian
  * @version 1.0.0
  * @date 2024/1/5 16:19

@@ -42,6 +42,20 @@ public class OptData<T, Meta> extends OptRes<T> {
     }
 
     /**
+     * 组装值
+     *
+     * @param value 值
+     * @param meta  Meta
+     * @since 1.0.5
+     */
+    @NotNull
+    public static <T, Meta> OptData<T, Meta> of(T value, Meta meta) {
+        OptData<T, Meta> data = new OptData<>(value);
+        data.setMeta(meta);
+        return data;
+    }
+
+    /**
      * 重写 toString 方法
      *
      * @since 1.0.5

@@ -33,21 +33,32 @@ public class HttpContextUtil {
     }
 
 
+    /**
+     * fix v1.0.5
+     *
+     * @return HttpServletRequest
+     */
     @Nullable
     public static HttpServletRequest getHttpServletRequest() {
-        if (Objects.isNull(getServletRequestAttributes())) {
+        ServletRequestAttributes requestAttributes = getServletRequestAttributes();
+        if (Objects.isNull(requestAttributes)) {
             return null;
         }
-        return getServletRequestAttributes().getRequest();
+        return requestAttributes.getRequest();
     }
 
-
+    /**
+     * fix v1.0.5
+     *
+     * @return HttpServletResponse
+     */
     @Nullable
     public static HttpServletResponse getHttpServletResponse() {
-        if (Objects.isNull(getServletRequestAttributes())) {
+        ServletRequestAttributes requestAttributes = getServletRequestAttributes();
+        if (Objects.isNull(requestAttributes)) {
             return null;
         } else {
-            return getServletRequestAttributes().getResponse();
+            return requestAttributes.getResponse();
         }
     }
 
